@@ -1,0 +1,27 @@
+{
+  "name": "league-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dayo-Akinsola/League-App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dayo-Akinsola/League-App/issues"
+  },
+  "homepage": "https://github.com/Dayo-Akinsola/League-App#readme",
+  "devDependencies": {
+    "css-loader": "^6.4.0",
+    "style-loader": "^3.3.0",
+    "webpack": "^5.58.2",
+    "webpack-cli": "^4.9.1"
+  }
+}
