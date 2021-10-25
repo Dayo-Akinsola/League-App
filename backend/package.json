@@ -1,0 +1,30 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dayo-Akinsola/League-App.git"
+  },
+  "author": "Dayo Akinsola",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dayo-Akinsola/League-App/issues"
+  },
+  "homepage": "https://github.com/Dayo-Akinsola/League-App#readme",
+  "dependencies": {
+    "axios": "^0.23.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "node-cache": "^5.1.2",
+    "throttled-queue": "^1.0.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}
