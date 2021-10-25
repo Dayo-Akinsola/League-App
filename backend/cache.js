@@ -7,6 +7,7 @@ module.exports = class Cache {
 
   get = async (key, storeFunction) => {
     const storedResponse = this.cache.get(key);
+    console.log(storedResponse);
     if (storedResponse) {
       console.log('Retriving from cache');
       return storedResponse;
@@ -15,6 +16,7 @@ module.exports = class Cache {
     console.log('Making request');
     const result = await storeFunction();
     this.cache.set(key, result);
+    console.log(this.cache);
     return result;
   }
 
