@@ -1,10 +1,6 @@
 const axios = require('axios');
 const dotenv = require('dotenv');
 dotenv.config();
-const Cache = require('./cache');
-
-const ttl = 60 * 60 * 1;
-const cache = new Cache(ttl);
 
 const ApiCalls = (tier, division) => {
 
@@ -23,13 +19,14 @@ const ApiCalls = (tier, division) => {
 
     const requestUrl = `https://euw1.api.riotgames.com/lol/summoner/v4/summoners/${summonerId}?api_key=${process.env.API_KEY}`;
     const key = `getUniqueId_${summonerId}`;
-    const response = await cache.get(key, async () => await axios.get(requestUrl));
+    const response = await axios.get(requestUrl);
     const playerInfo = response.data;
     const uniqueId = playerInfo.puuid;
 
     return uniqueId;
   }
 
+  //Retrives match ids for a player
   const getPlayerMatchIds = async (uniqueId) => {
     const response = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${uniqueId}/ids?start=0&count=20&api_key=${process.env.API_KEY}`);
     const matchIds = response.data;
@@ -37,16 +34,19 @@ const ApiCalls = (tier, division) => {
     return matchIds;
   }
   
-  const getMatchInfo = async (matchId) => {
+  // Uses the match ids to get data about a given match
+  const getMatchData = async (matchId) => {
     const response = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${process.env.API_KEY}`);
-    const matchInfo = response.data;
+    const matchData = response.data;
+
+    return matchData;
   }
 
   return {
     getSummonerIds,
     getUniqueId,
     getPlayerMatchIds,
-    getMatchInfo,
+    getMatchData,
   }
 };
 
