@@ -21,6 +21,7 @@
     "axios": "^0.23.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "mongoose": "^6.0.12",
     "node-cache": "^5.1.2",
     "throttled-queue": "^1.0.7"
   },
