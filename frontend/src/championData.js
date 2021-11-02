@@ -42,6 +42,7 @@ const getChampionSpells = (championDetails) => {
   spellsData.forEach((spell) => {
     const spellObject = {
       name: spell.name,
+      id: spell.id,
       description: spell.description,
       costBurn: spell.costBurn,
       costType: spell.costType,
@@ -58,21 +59,27 @@ const getChampionData = async (championId) => {
   const championDetails = await fetchChampionDetails(championId);
   const championImages = getChampionImages(championDetails);
   const championPassive = getChampionPassives(championDetails);
-  const championSpells = getChampionSpells(championDetails);
+  const spells = getChampionSpells(championDetails);
 
   // Make first letter of the champion title a capital letter.
   // eslint-disable-next-line max-len
   const championTitle = championDetails.title.replace(championDetails.title[0], championDetails.title[0].toUpperCase());
 
+  if (championDetails.partype === 'None') {
+    championDetails.partype = 'Manaless';
+  }
+
   return {
     name: championDetails.name,
+    id: championDetails.id,
     title: championTitle,
     lore: championDetails.lore,
-    role: championDetails.tags[0],
+    roles: championDetails.tags,
+    resource: championDetails.partype,
     passive: championPassive,
     profileImg: championImages.profileImgUrl,
     skinImgs: championImages.skinImgUrls,
-    championSpells,
+    spells,
     tips: championDetails.allytips,
   };
 };
