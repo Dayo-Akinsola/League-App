@@ -41,6 +41,8 @@ module.exports = class ChampionStats {
     this.statsAgainstEnemyChampions = {};
   }
 
+  getChampionName = () => this.championName;
+
   getAllChampionMatches = async () => {
     const championMatches = await Match.find({'matchData.info.participants.championName': this.championName});
     return championMatches;
@@ -207,7 +209,7 @@ module.exports = class ChampionStats {
       }
     }
     catch(e) {
-      console.log(e.message);
+      console.log('Enemy Champion Not Specified');
     }
     
   }
@@ -220,7 +222,6 @@ module.exports = class ChampionStats {
       const winRate = (winsAgainst / matches) * 100;
       this.statsAgainstEnemyChampions[enemyChampion]['winRateAgainst'] = winRate;
     }
-    console.log(this.statsAgainstEnemyChampions);
   }
 
   // Gets champions who this champion wins and losses the most to.
@@ -231,7 +232,7 @@ module.exports = class ChampionStats {
 
     // Remove matchups with too low a sample size
     const filteredMatchUps = matchUpsArray.filter(matchUp => {
-      if (matchUp[1].matches >= 10) {
+      if (matchUp[1].matches >= 3) {
         return matchUp
       }
     })
@@ -263,6 +264,7 @@ module.exports = class ChampionStats {
       this.recordStatsAgainstEnemyChampion(match, championStats);
     }
 
+    const championName = this.getChampionName();
     const winRate = this.calculateWinRate();
     const pickRate = await this.calculatePickRate();
     const kdaRatio = this.calculateChampionKdaRatio();
@@ -272,6 +274,7 @@ module.exports = class ChampionStats {
     const matchUps = this.getBestAndWorstMatchUps();
     
     return {
+      championName,
       winRate,
       pickRate,
       kdaRatio,
