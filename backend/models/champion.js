@@ -10,10 +10,32 @@ mongoose.connect(dbUrl)
     console.log('failed to connect to mongoDB', error.message);
   });
 
+const kdaSchema = new mongoose.Schema({
+  kills: String,
+  deaths: String,
+  assists: String,
+})
+
+const damageSchema = new mongoose.Schema({
+  physicalDamage: Number,
+  magicDamage: Number,
+  trueDamage: Number,
+  totalDamage: Number,
+})
+
 const championSchema = new mongoose.Schema({
-  name: String,
-  wins: Number,
-  loses: Number,
+  championName: String,
+  winRate: Number,
+  pickRate: Number,
+  kdaRatio: kdaSchema,
+  damagePerMatch: damageSchema,
+  lane: String,
+  itemChoices: [
+    [String],
+    [String],
+    [String],
+  ],
+  matchUps: mongoose.Schema.Types.Mixed,
 })
 
 championSchema.set('toJSON', {
