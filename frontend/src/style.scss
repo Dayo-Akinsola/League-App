@@ -42,6 +42,24 @@
   margin-bottom: 1em;
 }
 
+@mixin modalContentContainer {
+  position: relative;
+  margin: auto;
+  padding: 0;
+  max-width: 75%;
+  min-height: 49rem;
+  margin-top: 0;
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+  border: 1px solid #888;
+  background: no-repeat url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Poppy_0.jpg");
+  background-size: cover;
+}
+
 body {
   font-family: "Inter", Arial, Helvetica, sans-serif;
 }
@@ -59,23 +77,9 @@ body {
   background-color: rgb(0, 0, 0);
   background-color: rgb(0, 0, 0, 0.1);
   
-  .champion-details-container {
-    position: relative;
-    margin: auto;
-    padding: 0;
-    max-width: 75%;
-    min-height: 49rem;
-    margin-top: 0;
-    background: rgba(0, 0, 0, 0.1);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    -webkit-animation-name: animatetop;
-    -webkit-animation-duration: 0.4s;
-    animation-name: animatetop;
-    animation-duration: 0.4s;
-    border: 1px solid #888;
-    background: no-repeat url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Poppy_0.jpg");
-    background-size: cover;
-    
+  #main-container {
+    @include modalContentContainer();
+    display: none;
   }
 
   .modal-header {
@@ -120,7 +124,7 @@ body {
 
   .champion-title {
     color: #927543;
-    font-size: 16px;
+    font-size: 20px;
   }
 
   .champion-roles {
@@ -174,7 +178,7 @@ body {
    @include containerBackground();
   }
 
-  .lore-heading {
+  .subheading {
     @include subHeadingStyle();
   }
 
@@ -184,7 +188,6 @@ body {
   }
 
   .abilities-heading {
-    @include subHeadingStyle();
     text-align: center;
   }
 
@@ -229,11 +232,6 @@ body {
     border-width: 4px;
   }
 
-  .tips-heading {
-    @include subHeadingStyle();
-  
-  }
-
   .champion-tips {
     @include containerBackground();
     display: flex;
@@ -247,4 +245,82 @@ body {
     margin-bottom: 1em;
   }
 
+  #stats-container {
+    @include modalContentContainer();
+    display: block;
+  }
+
+  .champion-stats-overview {
+    display: flex;
+    justify-content: space-evenly;
+    width: 18rem;
+    font-size: 24px;
+  }
+
+  .win-rate {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pick-rate {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .label {
+    color: #927543;
+    font-size: 20px;
+  }
+
+  .champion-damage-container {
+    @include containerBackground();
+  }
+
+  .damage-heading {
+    text-align: center;
+  }
+
+  .circular-chart {
+    display: block;
+    margin: 10px auto;
+    max-width: 80%;
+    max-height: 250px;
+  }
+
+  .circle {
+    fill: none;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    animation: progress 1s ease-out forwards;
+  }
+
+  #magic-damage-stroke {
+    stroke: #35A7FF;
+  }
+
+  #physical-damage-stroke {
+    stroke: #ff5964
+  }
+
+  #true-damage-stroke {
+    stroke: #FFE74C
+  }
+
+  @keyframes progress {
+    0% {
+      stroke-dasharray: 0 100;
+    }
+  }
+
+  .total-damage-text {
+    font-size: 5px;
+    text-anchor: middle;
+    fill: white;
+  }
+
+  .total-damge-label {
+    font-size: 3px;
+    text-anchor: middle;
+    fill: #927543;
+  }
 }
