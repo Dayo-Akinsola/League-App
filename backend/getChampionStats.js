@@ -1,4 +1,4 @@
-const Champion = require('./models/champion');
+//const Champion = require('./models/champion');
 const Match = require('./models/match');
 
 // Note: Champions are the characters you can play in a League of Legends match.
@@ -20,10 +20,22 @@ module.exports = class ChampionStats {
     };
 
     this.championDamage = {
-      physicalDamage: 0,
-      magicDamage: 0, 
-      trueDamage: 0,
-      totalDamage: 0,
+      physicalDamage: {
+        value: 0,
+        percentage: 0,
+      },
+      magicDamage: {
+        value: 0,
+        percentage: 0,
+      },
+      trueDamage: {
+        value: 0,
+        percentage: 0,
+      },
+      totalDamage: {
+        value: 0,
+        percentage: 0,
+      },
     };
 
     // Where on the map the champion is mostly played
@@ -97,10 +109,10 @@ module.exports = class ChampionStats {
   }
 
   recordMatchDamage = (championStats) => {
-    this.championDamage.physicalDamage += championStats.physicalDamageDealtToChampions;
-    this.championDamage.magicDamage += championStats.magicDamageDealtToChampions;
-    this.championDamage.trueDamage += championStats.trueDamageDealtToChampions;
-    this.championDamage.totalDamage += championStats.totalDamageDealtToChampions;
+    this.championDamage.physicalDamage.value += championStats.physicalDamageDealtToChampions;
+    this.championDamage.magicDamage.value += championStats.magicDamageDealtToChampions;
+    this.championDamage.trueDamage.value += championStats.trueDamageDealtToChampions;
+    this.championDamage.totalDamage.value += championStats.totalDamageDealtToChampions;
   }
 
   calculateAverageMatchDamage = (championMatches) => {
@@ -108,7 +120,11 @@ module.exports = class ChampionStats {
     const championDamageArray = Object.keys(this.championDamage);
 
     championDamageArray.forEach(key => {
-      this.championDamage[key] = this.championDamage[key] / championMatchCount;
+      this.championDamage[key].value = this.championDamage[key].value / championMatchCount;
+    })
+
+    championDamageArray.forEach(key => {
+      this.championDamage[key].percentage = this.championDamage[key].value / this.championDamage.totalDamage.value * 100;
     })
 
     return this.championDamage;
