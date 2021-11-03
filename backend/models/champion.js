@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const dbUrl = process.env.MONGODB_URI;
 
@@ -17,10 +19,22 @@ const kdaSchema = new mongoose.Schema({
 })
 
 const damageSchema = new mongoose.Schema({
-  physicalDamage: Number,
-  magicDamage: Number,
-  trueDamage: Number,
-  totalDamage: Number,
+  physicalDamage: {
+    value: Number,
+    percentage: Number,
+  },
+  magicDamage: {
+    value: Number,
+    percentage: Number,
+  },
+  trueDamage: {
+    value: Number,
+    percentage: Number,
+  },
+  totalDamage: {
+    value: Number,
+    percentage: Number,
+  }
 })
 
 const championSchema = new mongoose.Schema({
@@ -39,6 +53,20 @@ const championSchema = new mongoose.Schema({
 })
 
 championSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    delete returnedObject.__v;
+    delete returnedObject._id;
+  }
+});
+
+kdaSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    delete returnedObject.__v;
+    delete returnedObject._id;
+  }
+});
+
+damageSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     delete returnedObject.__v;
     delete returnedObject._id;
