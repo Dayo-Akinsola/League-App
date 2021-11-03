@@ -17,14 +17,31 @@ const ChampionModalController = () => {
     activeAbility.className = 'ability-info active';
   };
 
-  const modalChangeListeners = () => {
-    const championDetailsContainer = document.querySelector('.champion-details-container');
+  const changeModalTemplate = (clickedModalNavLink) => {
+    const templates = document.querySelectorAll('.modal-template');
+    templates.forEach((template) => {
+      if (template.id.substring(0, template.id.indexOf('-')) === clickedModalNavLink.id) {
+        const chosenTemplate = template;
+        chosenTemplate.style.display = 'block';
+      } else {
+        const hiddenTemplate = template;
+        hiddenTemplate.style.display = 'none';
+      }
+    });
+  };
 
-    championDetailsContainer.addEventListener('click', (event) => {
+  const modalChangeListeners = () => {
+    const modal = document.querySelector('.modal');
+
+    modal.addEventListener('click', (event) => {
       if (event.target.className === 'spell-img') {
         const dashIndex = event.target.id.indexOf('-');
         const abilityId = event.target.id.slice(0, dashIndex);
         toggleActiveAbility(abilityId);
+      }
+
+      if (event.target.className === 'modal-nav-link') {
+        changeModalTemplate(event.target);
       }
     });
   };
