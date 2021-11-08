@@ -7,10 +7,7 @@ module.exports = class Throttle {
 
   getRequestResponse =  async (apiCall) => {
     this.throttle( async () => {
-      const response = await apiCall();
-    });
-    
-
-    return response;
+      return await apiCall();
+    });     
   }
 }

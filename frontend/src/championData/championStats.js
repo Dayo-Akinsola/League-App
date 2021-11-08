@@ -7,7 +7,6 @@ const fetchChampionStats = async (championId) => {
 
 const getChampionStats = async (championId) => {
   const championStats = await fetchChampionStats(championId);
-  console.log(championStats);
 
   const winRate = championStats.winRate.toFixed(2);
   const pickRate = championStats.pickRate.toFixed(2);
@@ -17,7 +16,7 @@ const getChampionStats = async (championId) => {
     championId,
     kda: championStats.kdaRatio,
     damagePerMatch: championStats.damagePerMatch,
-    itemChoices: championStats.itemChoices,
+    itemSets: championStats.itemChoices.slice(1),
     bestMatchUps: championStats.matchUps.bestMatchUps,
     worstMatchUps: championStats.matchUps.worstMatchUps,
     winRate,

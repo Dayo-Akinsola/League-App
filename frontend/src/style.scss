@@ -1,3 +1,7 @@
+* {
+  margin: 0;
+}
+
 @mixin containerBackground {
   background-color: #181a20bf;
   padding: 1em;
@@ -15,7 +19,8 @@
   margin: auto;
   margin-bottom: 0.4em;
   font-size: 24px;
-  color: #927543;
+  color: #c7ab6e;
+  text-align: center;
 } 
 
 @mixin iconSize {
@@ -123,7 +128,7 @@ body {
   }
 
   .champion-title {
-    color: #927543;
+    color: #c7ab6e;
     font-size: 20px;
   }
 
@@ -253,7 +258,7 @@ body {
   .champion-stats-overview {
     display: flex;
     justify-content: space-evenly;
-    width: 18rem;
+    width: 25rem;
     font-size: 24px;
   }
 
@@ -267,13 +272,31 @@ body {
     flex-direction: column;
   }
 
+  .lane-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pick-rate-value {
+    margin-top: 0.4em;
+    color: #c7ab6e;
+  }
+
+  .win-rate-value {
+    margin-top: 0.4em;
+    color: #c7ab6e;
+  }
+
   .label {
-    color: #927543;
     font-size: 20px;
   }
 
   .champion-damage-container {
     @include containerBackground();
+    width: 38%;
+    max-width: 38%;
+    height: 17.5rem;
   }
 
   .damage-heading {
@@ -282,7 +305,7 @@ body {
 
   .circular-chart {
     display: block;
-    margin: 10px auto;
+    margin: auto;
     max-width: 80%;
     max-height: 250px;
   }
@@ -313,14 +336,214 @@ body {
   }
 
   .total-damage-text {
-    font-size: 5px;
+    font-size: 4px;
     text-anchor: middle;
     fill: white;
   }
 
-  .total-damge-label {
+  .total-damage-label {
     font-size: 3px;
     text-anchor: middle;
     fill: #927543;
+  }
+
+  .champion-main-stats {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .champion-item-builds {
+    @include containerBackground();
+    max-width: 38%;
+    width: 38%;
+    height: 17.5rem;
+  }
+
+  .damage-stats-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .damage-info {
+    display: flex;
+    margin-bottom: 1000em;
+  }
+
+  .damage-type-container {
+    display: flex;
+    flex-direction: column;
+    font-size: 1em;
+  }
+
+  .damage-stats {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+
+  #physical-damage-label {
+    color: #ff5964;
+  }
+
+  #magic-damage-label {
+    color: #35A7FF
+  }
+
+  #true-damage-label {
+    color: #FFE74C
+  }
+
+  .item-details-container {
+    @include containerBackground();
+    font-size: 14px;
+    display: none;
+    position: absolute;
+    background-color:#181a20;
+    margin-right: 2rem;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 40%;
+    right: 1em;
+  }
+
+  .item-name {
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .cost-label {
+    color: #c7ab6e;
+    font-size: 16px;
+  }
+
+  .component-item-name {
+    font-size: 16px;
+  }
+
+  .cost-amount {
+    font-size: 16px;
+  }
+
+  .component-item-cost-label {
+    color: #c7ab6e;
+    font-size: 16px;
+  }
+
+  .component-item-amount {
+    font-size: 16px;
+  }
+
+  .component-item-details-container {
+    @include containerBackground();
+    font-size: 14px;
+    display: none;
+    position: absolute;
+    background-color:#181a20;
+    flex-direction: column;
+  }
+
+  .item-sets-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 90%;
+  }
+
+  .item-set-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #927543;
+    border-radius: 1em;
+  }  
+
+  .main-component-container {
+    @include containerBackground();
+    background-color: #06040083;
+    padding: 1em;
+    border-radius: 1em;
+    color: white;
+    margin-bottom: 0em;
+    font-weight: 600;
+    font-size: 16px;
+    border-style: none;
+    padding: 0;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0.6em;
+    border-width: 1px;
+    margin-left: 1em;
+  }
+
+  .item-img {
+    width: 2.7em;
+    height: 2.7em;
+    border-radius: 1em;
+  }
+
+  .component-item-img {
+    width: 1.8em;
+    height: 1.8em;
+  }
+
+  .champion-matchups {
+    @include containerBackground();
+    height: 11.2rem;
+    max-height: 11.2rem;
+    margin-bottom: 0;
+    border-radius: 0 0 0 0;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .matchups {
+    display: flex;
+    justify-content: space-around;
+    width: 24rem;
+  }
+
+  .matchup-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #17161a;
+    padding: 0.5em;
+    border-radius: 1em;
+  }
+
+  .matchup-info:hover {
+    background-color: #17161ac9;
+  }
+
+  .matchup-stats {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    font-family: "Helvetica Neue",Helvetica,"Apple SD Gothic Neo",AppleGothic,Dotum,Arial,Tahoma;
+  }
+
+  .enemy-champion-img {
+    border-radius: 50%;
+    height: 3em;
+    width: 3em;
+    margin-bottom: 0.5em;
+  }
+
+  .winrate-against-percentage.blue {
+    color: #35A7FF;
+  }
+
+  .winrate-against-percentage.red {
+    color: #ff5964;
   }
 }

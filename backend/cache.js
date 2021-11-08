@@ -16,7 +16,6 @@ module.exports = class Cache {
     console.log('Making request');
     const result = await storeFunction();
     this.cache.set(key, result);
-    console.log(this.cache);
     return result;
   }
 

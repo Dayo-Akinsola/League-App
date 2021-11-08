@@ -30,6 +30,16 @@ const ChampionModalController = () => {
     });
   };
 
+  const dispayItemDetails = (hoveredItemImage) => {
+    const itemDetails = hoveredItemImage.nextElementSibling;
+    itemDetails.style.display = 'flex';
+  };
+
+  const hideItemDetails = (unhoveredItemImage) => {
+    const itemDetails = unhoveredItemImage.nextElementSibling;
+    itemDetails.style.display = 'none';
+  };
+
   const modalChangeListeners = () => {
     const modal = document.querySelector('.modal');
 
@@ -42,6 +52,20 @@ const ChampionModalController = () => {
 
       if (event.target.className === 'modal-nav-link') {
         changeModalTemplate(event.target);
+      }
+    });
+
+    modal.addEventListener('mouseover', (event) => {
+      if (event.target.className === 'item-img'
+      || event.target.className === 'component-item-img') {
+        dispayItemDetails(event.target);
+      }
+    });
+
+    modal.addEventListener('mouseout', (event) => {
+      if (event.target.className === 'item-img'
+      || event.target.className === 'component-item-img') {
+        hideItemDetails(event.target);
       }
     });
   };

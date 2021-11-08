@@ -9,6 +9,7 @@ const fetchChampionDetails = async (championId) => {
 const getChampionImages = (championDetails) => {
   const profileImgNumber = championDetails.skins[0].num;
   const profileImgUrl = (`https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championDetails.id}_${profileImgNumber}.jpg`);
+  const smallImgUrl = `http://ddragon.leagueoflegends.com/cdn/11.22.1/img/champion/${championDetails.id}.png`;
   const skinImgs = championDetails.skins.slice(1);
   const skinImgUrls = [];
   skinImgs.forEach((img) => {
@@ -18,6 +19,7 @@ const getChampionImages = (championDetails) => {
   return {
     profileImgUrl,
     skinImgUrls,
+    smallImgUrl,
   };
 };
 
@@ -79,8 +81,10 @@ const getChampionDetails = async (championId) => {
     passive: championPassive,
     profileImg: championImages.profileImgUrl,
     skinImgs: championImages.skinImgUrls,
+    smallImg: championImages.smallImgUrl,
     spells,
     tips: championDetails.allytips,
+    difficulty: championDetails.info.difficulty,
   };
 };
 

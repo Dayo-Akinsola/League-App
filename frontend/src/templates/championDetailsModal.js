@@ -1,13 +1,5 @@
 import { getChampionDetails } from '../championData/championDetails';
-import { renderHeaderDetails } from './renderHelpers';
-
-const importAll = (r) => {
-  const images = {};
-  r.keys().forEach((item) => { images[item.replace('./', '')] = r(item); });
-  return images;
-};
-
-const images = importAll(require.context('../images', false, /\.(png|jpe?g|svg)$/));
+import { renderHeaderDetails, images } from './renderHelpers';
 
 const championDetailsModal = async (championId) => {
   const championData = await getChampionDetails(championId);
@@ -32,7 +24,7 @@ const championDetailsModal = async (championId) => {
     championRole.appendChild(championRoleName); championRole.appendChild(championRoleImage);
     championRoles.appendChild(championRole);
   });
-  // The type of energy that a champion uses e.g. mana, energy etc
+  // The type of resource that a champion uses e.g. mana, emergy etc
   const championResource = document.createElement('div');
   const { resource } = championData;
   championResource.className = 'champion-resource';
@@ -65,7 +57,7 @@ const championDetailsModal = async (championId) => {
   championData.spells.forEach((spell) => {
     const spellImg = document.createElement('img');
     spellImg.className = 'spell-img';
-    // Grabs letter Q, W, E or R which unique identifies a champions abilities
+    // Grabs letter Q, W, E or R which uniquely identifies a champions abilities
     spellImg.id = `${imgLabel[index]}-img`;
     spellImg.src = spell.imgUrl;
     spellImg.alt = `${spell.name}.png`;
@@ -104,12 +96,13 @@ const championDetailsModal = async (championId) => {
   }
 
   const championTips = document.querySelector('.champion-tips');
-  championData.tips.forEach((tip) => {
+
+  for (let i = 0; i < 2 && i < championData.tips.length; i += 1) {
     const championTip = document.createElement('span');
     championTip.className = 'champion-tip';
-    championTip.textContent = `${tip}`;
+    championTip.textContent = `${championData.tips[i]}`;
     championTips.appendChild(championTip);
-  });
+  }
 };
 
 // eslint-disable-next-line import/prefer-default-export
