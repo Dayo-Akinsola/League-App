@@ -61,8 +61,7 @@
   animation-name: animatetop;
   animation-duration: 0.4s;
   border: 1px solid #888;
-  background: no-repeat url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Poppy_0.jpg");
-  background-size: cover;
+  
 }
 
 body {
@@ -73,7 +72,7 @@ body {
   display: block;
   position: absolute;
   z-index: 1;
-  padding-top: 4rem;
+  padding: 4rem;
   left: 0;
   top: 0;
   width: 100%;
@@ -84,7 +83,7 @@ body {
   
   #main-container {
     @include modalContentContainer();
-    display: none;
+    display: block;
   }
 
   .modal-header {
@@ -187,7 +186,7 @@ body {
 
   .abilities-container {
     @include containerBackground();
-    max-width: 34rem;
+    width: 20em;
   }
 
   .abilities-heading {
@@ -227,6 +226,9 @@ body {
 
   .spell-img {
     cursor: pointer;
+    margin: 0 0.5rem;
+    height: 3.3rem;
+    width: 3.3rem;
   }
 
   .spell-img.clicked {
@@ -250,7 +252,7 @@ body {
 
   #stats-container {
     @include modalContentContainer();
-    display: block;
+    display: none;
   }
 
   .champion-stats-overview {
@@ -572,6 +574,20 @@ body {
       max-height: 2.2rem;
       max-width: 2.2rem;
     }
+
+    .champion-details {
+      flex-direction: column-reverse;
+    }
+
+    .abilities-container {
+      text-align: center;
+      width: auto;
+      max-width: 20rem;
+    }
+
+    .lore-container {
+      text-align: center;
+    }
   }
 
   @media (max-width: 700px) {
@@ -589,6 +605,14 @@ body {
 
     .matchup-info {
       margin: 0.5em auto;
+    }
+
+    #main-container {
+      max-width: 100%;
+    }
+
+    #stats-container {
+      max-width: 100%;
     }
   }
 
@@ -647,6 +671,26 @@ body {
     .damage-stats-container {
       flex-direction: column;
     }
+
+    .champion-role {
+      margin-left: 0.5em;
+      margin-right: 0.5em;
+    }
+
+    .champion-resource {
+      margin-left: 0.5em;
+      margin-right: 0.5em;
+    }
+
+    .champion-roles {
+      font-size: 20px;
+    }
+
+    .spell-img {
+      height: 2.8em;
+      width: 2.8em;
+      margin: auto;
+    }
   }
 
   @media (max-width: 414px) {
@@ -656,7 +700,7 @@ body {
     }
 
     .champion-name {
-      font-size: 18px;
+      font-size: 2rem;
     }
   }
 }
