@@ -24,7 +24,7 @@ const championDetailsModal = async (championId) => {
     championRole.appendChild(championRoleName); championRole.appendChild(championRoleImage);
     championRoles.appendChild(championRole);
   });
-  // The type of resource that a champion uses e.g. mana, emergy etc
+  // The type of resource that a champion uses e.g. mana, energy etc
   const championResource = document.createElement('div');
   const { resource } = championData;
   championResource.className = 'champion-resource';
