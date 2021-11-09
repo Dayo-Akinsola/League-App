@@ -70,6 +70,7 @@ const championStatsModal = async (championId) => {
         itemSetContainer.appendChild(mainComponentContainer);
 
         const mainItem = ElementCreation.createChildElementWithClass('div', 'main-item', mainComponentContainer);
+
         ElementCreation.createChildImageElementWithClass('item-img', mainItem, itemInfo.imageUrl, `${itemId}.png`);
 
         const itemDetailsContainer = ElementCreation.createChildElementWithClass('div', 'item-details-container', mainItem);
@@ -89,10 +90,12 @@ const championStatsModal = async (championId) => {
         const componentItemsContainer = ElementCreation.createChildElementWithClass('div', 'component-items-container', mainComponentContainer);
 
         componentItems.forEach((componentItem) => {
+          const componentItemElement = ElementCreation.createChildElementWithClass('div', 'component-item', componentItemsContainer);
           ElementCreation.createChildImageElementWithClass('component-item-img',
-            componentItemsContainer, componentItem.imageUrl, `${componentItem.name}.png`);
+            componentItemElement, componentItem.imageUrl, `${componentItem.name}`);
 
-          const componentItemDetailsContainer = ElementCreation.createChildElementWithClass('div', 'component-item-details-container', componentItemsContainer);
+          const componentItemDetailsContainer = ElementCreation.createChildElementWithClass('div', 'component-item-details-container', componentItemElement);
+
           const componentItemName = ElementCreation.createChildElementWithClass('span', 'component-item-name', componentItemDetailsContainer);
           componentItemName.textContent = componentItem.name;
           const componentItemCost = ElementCreation.createChildElementWithClass('div', 'component-item-cost', componentItemDetailsContainer);

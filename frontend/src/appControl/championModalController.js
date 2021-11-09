@@ -55,17 +55,33 @@ const ChampionModalController = () => {
       }
     });
 
+    let currElement = null;
     modal.addEventListener('mouseover', (event) => {
       if (event.target.className === 'item-img'
       || event.target.className === 'component-item-img') {
-        dispayItemDetails(event.target);
+        if (currElement) return;
+        // console.log('in');
+        currElement = event.target;
+        dispayItemDetails(currElement);
       }
     });
 
     modal.addEventListener('mouseout', (event) => {
       if (event.target.className === 'item-img'
       || event.target.className === 'component-item-img') {
-        hideItemDetails(event.target);
+        if (!currElement) return;
+
+        let { relatedTarget } = event;
+
+        while (relatedTarget) {
+          if (relatedTarget === currElement) return;
+          console.log(relatedTarget);
+          relatedTarget = relatedTarget.parentNode;
+        }
+        // console.log('out');
+
+        hideItemDetails(currElement);
+        currElement = null;
       }
     });
   };

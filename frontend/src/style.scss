@@ -18,7 +18,7 @@
 @mixin subHeadingStyle {
   margin: auto;
   margin-bottom: 0.4em;
-  font-size: 24px;
+  // font-size: 24px;
   color: #c7ab6e;
   text-align: center;
 } 
@@ -43,8 +43,8 @@
 }
 
 @mixin smallMargin {
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 @mixin modalContentContainer {
@@ -71,7 +71,7 @@ body {
 
 .modal {
   display: block;
-  position: fixed;
+  position: absolute;
   z-index: 1;
   padding-top: 4rem;
   left: 0;
@@ -93,17 +93,15 @@ body {
     border-radius: 0;
     display: flex;
     align-items: center;
+    flex-direction: column;
   }
 
   .modal-nav-links {
     display: flex;
-    flex-direction: column;
-    align-content: space-between;
-    height: 100%;
+    justify-content: space-evenly;
+    width: 100%;
     font-size: 22px;
-    background-color: black;
-    padding-left: 1em;
-    padding-right: 1em;    
+    background-color: black;   
   }
 
   .modal-nav-link {
@@ -120,7 +118,6 @@ body {
     text-align: center;
     font-size: 20px;
     color: white;
-    padding-right: 6em;
   }
 
   .champion-name {
@@ -130,6 +127,7 @@ body {
   .champion-title {
     color: #c7ab6e;
     font-size: 20px;
+    @include smallMargin();
   }
 
   .champion-roles {
@@ -258,7 +256,9 @@ body {
   .champion-stats-overview {
     display: flex;
     justify-content: space-evenly;
-    width: 25rem;
+    @include smallMargin();
+    max-width: 25rem;
+    min-width: 20rem;
     font-size: 24px;
   }
 
@@ -294,9 +294,7 @@ body {
 
   .champion-damage-container {
     @include containerBackground();
-    width: 38%;
-    max-width: 38%;
-    height: 17.5rem;
+    max-height: 17.5rem;
   }
 
   .damage-heading {
@@ -354,9 +352,7 @@ body {
 
   .champion-item-builds {
     @include containerBackground();
-    max-width: 38%;
-    width: 38%;
-    height: 17.5rem;
+    max-height: 17.5rem;
   }
 
   .damage-stats-container {
@@ -368,7 +364,8 @@ body {
 
   .damage-info {
     display: flex;
-    margin-bottom: 1000em;
+    max-height: 92%;
+    height: 92%;
   }
 
   .damage-type-container {
@@ -407,6 +404,7 @@ body {
     justify-content: space-evenly;
     width: 40%;
     right: 1em;
+    margin-bottom: 3.5em;
   }
 
   .item-name {
@@ -414,9 +412,18 @@ body {
     font-size: 16px;
   }
 
+  .main-item {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
   .cost-label {
     color: #c7ab6e;
     font-size: 16px;
+  }
+
+  .component-items-container {
+    display: flex;
   }
 
   .component-item-name {
@@ -450,54 +457,52 @@ body {
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    height: 90%;
+    max-height: 90%;
   }
 
   .item-set-container {
     display: flex;
     justify-content: center;
-    width: 100%;
-    border-style: solid;
+    max-width: 100%;
+    border-style: none;
     border-width: 2px;
-    border-color: #927543;
-    border-radius: 1em;
+    padding: 0.4em;
   }  
 
   .main-component-container {
     @include containerBackground();
     background-color: #06040083;
-    padding: 1em;
     border-radius: 1em;
     color: white;
-    margin-bottom: 0em;
+    margin: 0em;
     font-weight: 600;
     font-size: 16px;
-    border-style: none;
+    border-style: solid;
     padding: 0;
     border-radius: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 0.6em;
     border-width: 1px;
-    margin-left: 1em;
+ 
   }
 
   .item-img {
-    width: 2.7em;
-    height: 2.7em;
+    max-width: 2.7em;
+    max-height: 2.7em;
     border-radius: 1em;
+    //padding: 1em;
+    padding-bottom: 0;
   }
 
   .component-item-img {
-    width: 1.8em;
-    height: 1.8em;
+    max-width: 1.8em;
+    max-height: 1.8em;
   }
 
   .champion-matchups {
     @include containerBackground();
-    height: 11.2rem;
-    max-height: 11.2rem;
+    max-height: 25.2rem;
     margin-bottom: 0;
     border-radius: 0 0 0 0;
     display: flex;
@@ -507,7 +512,7 @@ body {
   .matchups {
     display: flex;
     justify-content: space-around;
-    width: 24rem;
+    max-width: 24rem;
   }
 
   .matchup-info {
@@ -518,6 +523,7 @@ body {
     text-align: center;
     background-color: #17161a;
     padding: 0.5em;
+    margin: auto 0.5em;
     border-radius: 1em;
   }
 
@@ -534,8 +540,8 @@ body {
 
   .enemy-champion-img {
     border-radius: 50%;
-    height: 3em;
-    width: 3em;
+    max-height: 3em;
+    max-width: 3em;
     margin-bottom: 0.5em;
   }
 
@@ -545,5 +551,112 @@ body {
 
   .winrate-against-percentage.red {
     color: #ff5964;
+  }
+
+  @media (max-width: 1120px) {
+    .component-item-img {
+      display: none;
+    }
+
+    .item-sets-container {
+      min-height: 80%;
+    }
+
+    .item-details-container {
+      min-width: 70%;
+    }
+  }
+
+  @media (max-width: 867px) {
+    .item-img {
+      max-height: 2.2rem;
+      max-width: 2.2rem;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .item-sets-container {
+      flex-direction: row;
+    }
+
+    .item-set-container {
+      flex-direction: column;
+    }
+
+    .matchups {
+      flex-direction: column;
+    }
+
+    .matchup-info {
+      margin: 0.5em auto;
+    }
+  }
+
+  @media (max-width: 840px) {
+    .damage-info {
+      flex-direction: column-reverse;
+      justify-content: space-between;
+      font-size: 15px;
+    }
+
+    .games-played-against {
+      display: none;
+    }
+
+    .damage-stats-container {
+      flex-direction: row;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .champion-main-stats {
+      flex-direction: column;
+    }
+
+    .item-set-container {
+      flex-direction: row;
+    }
+
+    .item-sets-container {
+      flex-direction: column;
+    }
+
+    .champion-damage-container {
+      max-width: 100%;
+      align-items: center;
+    }
+
+    .damage-stats-info {
+      flex-direction: column;
+    }
+
+    .damage-info {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+
+    .damage-type-container {
+      margin: 0.2em auto;
+    }
+
+    .circular-chart {
+      max-height: 195px;
+      max-width: 80%;
+    }
+
+    .damage-stats-container {
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 414px) {
+    .champion-stats-overview {
+      font-size: 20px;
+      min-width: 17rem;
+    }
+
+    .champion-name {
+      font-size: 18px;
+    }
   }
 }
