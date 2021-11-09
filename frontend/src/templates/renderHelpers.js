@@ -12,7 +12,7 @@ const images = importAll(require.context('../images', false, /\.(png|jpe?g|svg)$
 
 const renderHeaderDetails = (championData, modalContainer) => {
   const container = document.querySelector(`#${modalContainer}-container`);
-  container.style.background = `no-repeat url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championData.id}_0.jpg)`;
+  container.style.background = `no-repeat url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championData.id}_0.jpg) 70% 80%`;
   container.style.backgroundSize = 'cover';
 
   const championTitle = container.querySelector('.champion-title');
