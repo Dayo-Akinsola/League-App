@@ -1,5 +1,3 @@
-import { getChampionDetails } from '../championData/championDetails';
-import getChampionStats from '../championData/championStats';
 import ItemInfo from '../championData/itemInfo';
 import {
   renderHeaderDetails,
@@ -10,10 +8,7 @@ import {
 } from './renderHelpers';
 import ElementCreation from '../helpers/elementCreation';
 
-const championStatsModal = async (championId) => {
-  const championData = await getChampionDetails(championId);
-  const championStats = await getChampionStats(championId);
-
+const championStatsModal = async (championData, championStats) => {
   renderHeaderDetails(championData, 'stats');
 
   const statsOverview = document.querySelector('.champion-stats-overview');

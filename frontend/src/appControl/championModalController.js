@@ -40,6 +40,30 @@ const ChampionModalController = () => {
     itemDetails.style.display = 'none';
   };
 
+  const toggleSkinImages = (arrowClassList) => {
+    const skinImagesContainer = document.querySelector('.skin-images-container');
+    const currentShownImage = document.querySelector('.skin-image-container.shown');
+    const skinName = document.querySelector('.skin-name');
+
+    currentShownImage.className = 'skin-image-container';
+    const firstImage = skinImagesContainer.firstElementChild;
+    const lastImage = skinImagesContainer.lastElementChild;
+
+    if (firstImage === currentShownImage && arrowClassList.includes('left-arrow')) {
+      lastImage.className = 'skin-image-container shown';
+      skinName.textContent = lastImage.id;
+    } else if (lastImage === currentShownImage && arrowClassList.includes('right-arrow')) {
+      firstImage.className = 'skin-image-container shown';
+      skinName.textContent = firstImage.id;
+    } else if (arrowClassList.includes('right-arrow')) {
+      currentShownImage.nextElementSibling.className = 'skin-image-container shown';
+      skinName.textContent = currentShownImage.nextElementSibling.id;
+    } else {
+      currentShownImage.previousElementSibling.className = 'skin-image-container shown';
+      skinName.textContent = currentShownImage.previousElementSibling.id;
+    }
+  };
+
   const modalChangeListeners = () => {
     const modal = document.querySelector('.modal');
 
@@ -53,6 +77,10 @@ const ChampionModalController = () => {
       if (event.target.className === 'modal-nav-link') {
         changeModalTemplate(event.target);
       }
+
+      if (Array.from(event.target.classList).includes('img-scroll-arrow')) {
+        toggleSkinImages(Array.from(event.target.classList));
+      }
     });
 
     let currElement = null;
@@ -60,7 +88,6 @@ const ChampionModalController = () => {
       if (event.target.className === 'item-img'
       || event.target.className === 'component-item-img') {
         if (currElement) return;
-        // console.log('in');
         currElement = event.target;
         dispayItemDetails(currElement);
       }

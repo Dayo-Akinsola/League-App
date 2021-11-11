@@ -1,9 +1,6 @@
-import { getChampionDetails } from '../championData/championDetails';
 import { renderHeaderDetails, images } from './renderHelpers';
 
-const championDetailsModal = async (championId) => {
-  const championData = await getChampionDetails(championId);
-
+const championDetailsModal = async (championData) => {
   renderHeaderDetails(championData, 'main');
 
   const championRoles = document.querySelector('.champion-roles');

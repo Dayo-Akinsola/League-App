@@ -2,6 +2,11 @@
   margin: 0;
 }
 
+:root {
+  --dark-gold: #927543;
+  --light-gold: #c7ab6e;
+}
+
 @mixin containerBackground {
   background-color: #181a20bf;
   padding: 1em;
@@ -11,17 +16,16 @@
   line-height: 1.4;
   font-weight: 600;
   font-size: 16px;
-  border-color: #927543;
+  border-color: var(--dark-gold);
   border-style: solid;
 }
 
 @mixin subHeadingStyle {
   margin: auto;
   margin-bottom: 0.4em;
-  // font-size: 24px;
-  color: #c7ab6e;
+  color: var(--light-gold);
   text-align: center;
-} 
+}
 
 @mixin iconSize {
   height: 3.5rem;
@@ -61,7 +65,6 @@
   animation-name: animatetop;
   animation-duration: 0.4s;
   border: 1px solid #888;
-  
 }
 
 body {
@@ -69,10 +72,10 @@ body {
 }
 
 .modal {
-  display: block;
+  display: none;
   position: absolute;
   z-index: 1;
-  padding: 4rem;
+  padding: 2rem 0;
   left: 0;
   top: 0;
   width: 100%;
@@ -80,7 +83,7 @@ body {
   overflow: auto;
   background-color: rgb(0, 0, 0);
   background-color: rgb(0, 0, 0, 0.1);
-  
+
   #main-container {
     @include modalContentContainer();
     display: block;
@@ -100,7 +103,7 @@ body {
     justify-content: space-evenly;
     width: 100%;
     font-size: 22px;
-    background-color: black;   
+    background-color: black;
   }
 
   .modal-nav-link {
@@ -109,7 +112,7 @@ body {
   }
 
   .modal-nav-link:hover {
-    color: #927543;
+    color: var(--dark-gold);
   }
 
   .champion-heading {
@@ -124,7 +127,7 @@ body {
   }
 
   .champion-title {
-    color: #c7ab6e;
+    color: var(--light-gold);
     font-size: 20px;
     @include smallMargin();
   }
@@ -163,21 +166,33 @@ body {
     max-width: 34rem;
     display: flex;
     flex-direction: column;
-    justify-content:last baseline;    
+    justify-content: last baseline;
   }
 
   @-webkit-keyframes animatetop {
-    from {top: -300px; opacity:0}
-    to {top:0; opacity: 1;}
+    from {
+      top: -300px;
+      opacity: 0;
+    }
+    to {
+      top: 0;
+      opacity: 1;
+    }
   }
 
   @keyframes animatetop {
-    from {top: -300px; opacity:0}
-    to {top:0; opacity: 1;}
+    from {
+      top: -300px;
+      opacity: 0;
+    }
+    to {
+      top: 0;
+      opacity: 1;
+    }
   }
 
   .lore-container {
-   @include containerBackground();
+    @include containerBackground();
   }
 
   .subheading {
@@ -214,7 +229,7 @@ body {
     display: flex;
     flex-direction: column;
   }
-  
+
   .ability-info {
     display: none;
   }
@@ -233,7 +248,7 @@ body {
 
   .spell-img.clicked {
     border-style: solid;
-    border-color: #927543;
+    border-color: var(--dark-gold);
     border-width: 4px;
   }
 
@@ -282,12 +297,12 @@ body {
 
   .pick-rate-value {
     margin-top: 0.4em;
-    color: #c7ab6e;
+    color: var(--light-gold);
   }
 
   .win-rate-value {
     margin-top: 0.4em;
-    color: #c7ab6e;
+    color: var(--light-gold);
   }
 
   .label {
@@ -318,15 +333,15 @@ body {
   }
 
   #magic-damage-stroke {
-    stroke: #35A7FF;
+    stroke: #35a7ff;
   }
 
   #physical-damage-stroke {
-    stroke: #ff5964
+    stroke: #ff5964;
   }
 
   #true-damage-stroke {
-    stroke: #FFE74C
+    stroke: #ffe74c;
   }
 
   @keyframes progress {
@@ -344,7 +359,7 @@ body {
   .total-damage-label {
     font-size: 3px;
     text-anchor: middle;
-    fill: #927543;
+    fill: var(--dark-gold);
   }
 
   .champion-main-stats {
@@ -388,11 +403,11 @@ body {
   }
 
   #magic-damage-label {
-    color: #35A7FF
+    color: #35a7ff;
   }
 
   #true-damage-label {
-    color: #FFE74C
+    color: #ffe74c;
   }
 
   .item-details-container {
@@ -400,7 +415,7 @@ body {
     font-size: 14px;
     display: none;
     position: absolute;
-    background-color:#181a20;
+    background-color: #181a20;
     margin-right: 2rem;
     flex-direction: column;
     justify-content: space-evenly;
@@ -420,7 +435,7 @@ body {
   }
 
   .cost-label {
-    color: #c7ab6e;
+    color: var(--light-gold);
     font-size: 16px;
   }
 
@@ -437,7 +452,7 @@ body {
   }
 
   .component-item-cost-label {
-    color: #c7ab6e;
+    color: var(--light-gold);
     font-size: 16px;
   }
 
@@ -450,7 +465,7 @@ body {
     font-size: 14px;
     display: none;
     position: absolute;
-    background-color:#181a20;
+    background-color: #181a20;
     flex-direction: column;
   }
 
@@ -469,7 +484,7 @@ body {
     border-style: none;
     border-width: 2px;
     padding: 0.4em;
-  }  
+  }
 
   .main-component-container {
     @include containerBackground();
@@ -486,7 +501,6 @@ body {
     flex-direction: column;
     align-items: center;
     border-width: 1px;
- 
   }
 
   .item-img {
@@ -537,7 +551,8 @@ body {
     display: flex;
     flex-direction: column;
     font-size: 14px;
-    font-family: "Helvetica Neue",Helvetica,"Apple SD Gothic Neo",AppleGothic,Dotum,Arial,Tahoma;
+    font-family: "Helvetica Neue", Helvetica, "Apple SD Gothic Neo", AppleGothic,
+      Dotum, Arial, Tahoma;
   }
 
   .enemy-champion-img {
@@ -548,11 +563,61 @@ body {
   }
 
   .winrate-against-percentage.blue {
-    color: #35A7FF;
+    color: #35a7ff;
   }
 
   .winrate-against-percentage.red {
     color: #ff5964;
+  }
+
+  #skins-container {
+    @include modalContentContainer();
+    display:none;
+    position: absolute;
+    min-height: 0;
+    margin: 0 auto;
+    max-width: 99%;
+    width: 99%;
+  }
+
+  #skins-container .modal-header {
+    margin-bottom: 0;
+  }
+
+  .skin-image-container {
+    box-sizing: border-box;
+    max-width: 100%;
+    display: none;
+  }
+
+  .skin-image-container.shown {
+    display: block;
+  }
+
+  .skin-image {
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .skin-name {
+    font-size: 1em;
+  }
+
+  #skins-container .champion-heading {
+    display: flex;
+    justify-content: space-evenly;
+    width: 40%;
+    align-items: center;
+  }
+
+  .img-scroll-arrow {
+    cursor: pointer;
+    font-size: 1.5em;
+  }
+
+  .img-scroll-arrow:hover {
+    color: var(--dark-gold);
   }
 
   @media (max-width: 1120px) {
@@ -701,6 +766,20 @@ body {
 
     .champion-name {
       font-size: 2rem;
+    }
+  }
+
+  @media (min-width: 1300px) {
+    #skins-container {
+      position: relative;
+      max-width: 70%;
+      min-height: auto;
+    }
+  }
+
+  @media (min-width: 1950px) {
+    #skins-container {
+      max-width: 50%;
     }
   }
 }

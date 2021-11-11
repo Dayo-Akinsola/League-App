@@ -2,12 +2,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>    
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@1,500&display=swap" rel="stylesheet">
     <title>League App</title>
 </head>
 <body>
     <script src="main.js"></script>
+    <div id="front-page">
+        <header class="front-page-header">
+            <div class="app-name-container">
+                <h2 class="app-name">Champions</h2>
+            </div>
+            <div class="search-container">
+                <input type="text" placeholder="Search Champions" class="search">
+            </div>
+        </header>
+        <div class="splash-section">
+            <div class="discover-btn-container">
+                <form action="champions.html" method="POST">
+                    <input type="submit" class="discover-btn front-page-btn" value="Discover Your Champion Here" />
+                </form>
+            </div>
+            <div class="slogan-container">
+                <span class="slogan-1">All the info you need to</span>
+                <span class="slogan-2">Discover Your Champions</span>               
+            </div>
+            <figure class="backdrop">
+                <img src="http://lol-stats.net/uploads/IOvjXgeD981A1a6JR2OXbixUSJBW5M6g6P2ASZ76.jpeg" alt="champions" class="backdrop-img">
+            </figure>
+        </div>
+        <div class="navigation-section">
+            <div class="mobile-discover-btn-container">
+                <button type="button"  onclick="window.location.href='index.html'" class="mobile-discover-btn front-page-btn">Discover Your Champions Here</button>
+            </div>
+            <div class="mobile-search-container">
+                <input type="text" placeholder="Search Champions" class="mobile-search">
+            </div>
+        </div>
+        <footer class="legal-boilerplate">Champions isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
+        </footer>
+    </div>
     <div class="modal">
         <div id="main-container" class="modal-template">
             <div class="modal-header">
@@ -110,6 +145,20 @@
                 </div>
                 <div class="worst-matchups-section matchups-section">
                     <h3 class="worst-matchups-heading subheading">Worst Matchups</h3>
+                </div>
+            </div>
+        </div>
+        <div id="skins-container" class="modal-template">
+            <div class="modal-header">
+                <div class="modal-nav-links">
+                    <span id="main" class ="modal-nav-link">Main</span>
+                    <span id="stats" class="modal-nav-link">Stats</span>
+                    <span id="skins" class="modal-nav-link">Skins</span>
+                </div>
+                <div class="champion-heading">
+                    <span class="left-arrow img-scroll-arrow">&#10229;</span>
+                    <h1 class="skin-name"></h1>
+                    <span class="right-arrow img-scroll-arrow">&#10230;</span>
                 </div>
             </div>
         </div>

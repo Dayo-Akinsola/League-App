@@ -6,23 +6,6 @@ const fetchChampionDetails = async (championId) => {
   return championDetails;
 };
 
-const getChampionImages = (championDetails) => {
-  const profileImgNumber = championDetails.skins[0].num;
-  const profileImgUrl = (`https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championDetails.id}_${profileImgNumber}.jpg`);
-  const smallImgUrl = `http://ddragon.leagueoflegends.com/cdn/11.22.1/img/champion/${championDetails.id}.png`;
-  const skinImgs = championDetails.skins.slice(1);
-  const skinImgUrls = [];
-  skinImgs.forEach((img) => {
-    skinImgUrls.push(`https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championDetails.id}_${img.num}.jpg`);
-  });
-
-  return {
-    profileImgUrl,
-    skinImgUrls,
-    smallImgUrl,
-  };
-};
-
 const getChampionPassives = (championDetails) => {
   const passiveData = championDetails.passive;
   const passiveName = passiveData.name;
@@ -59,7 +42,6 @@ const getChampionSpells = (championDetails) => {
 
 const getChampionDetails = async (championId) => {
   const championDetails = await fetchChampionDetails(championId);
-  const championImages = getChampionImages(championDetails);
   const championPassive = getChampionPassives(championDetails);
   const spells = getChampionSpells(championDetails);
 
@@ -77,18 +59,13 @@ const getChampionDetails = async (championId) => {
     title: championTitle,
     lore: championDetails.lore,
     roles: championDetails.tags,
+    skins: championDetails.skins,
     resource: championDetails.partype,
     passive: championPassive,
-    profileImg: championImages.profileImgUrl,
-    skinImgs: championImages.skinImgUrls,
-    smallImg: championImages.smallImgUrl,
     spells,
     tips: championDetails.allytips,
     difficulty: championDetails.info.difficulty,
   };
 };
 
-export {
-  // eslint-disable-next-line import/prefer-default-export
-  getChampionDetails,
-};
+export default getChampionDetails;
