@@ -19,7 +19,7 @@
   width: 100%;
   z-index: -4;
 
-  .front-page-header {
+  .page-header {
     display: flex;
     justify-content: space-evenly;
     color: white;
@@ -161,6 +161,7 @@
     background-color: var(--dark-gold);
     font-size: 1.2em;
     border-radius: 75% 10% / 0% 75%;
+    text-decoration: none;
   }
 
   .discover-btn:hover {

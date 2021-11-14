@@ -1,0 +1,204 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+  --rasin-black: #1d1e2c;
+  --transparent-rasin-black: #1d1e2cc7;
+  --dark-gold: #927543;
+  --light-gold: #c7ab6e;
+}
+
+#champions-page {
+  background-color: var(--rasin-black);
+  min-height: 100%;
+  position: absolute;
+  width: 100%;
+  z-index: -4;
+
+  .page-header {
+    display: flex;
+    justify-content: space-evenly;
+    color: white;
+    background-color: var(--rasin-black);
+    max-width: 100%;
+    padding: 1em 0;
+    border-style: solid;
+    border-color: var(--dark-gold);
+    border-width: 0 0 2px 0;
+    align-items: center;
+  }
+
+  .search-container {
+    display: flex;
+  }
+  
+  .search {
+    padding: 0.5em;
+    min-width: 18em;
+    background: #e2e4e9;
+    outline: none;
+    border-style: none;
+    color: var(--rasin-black);
+    font-weight: 600;
+    border-radius: 0.5em 0.5em;
+    min-height: 2.6em;
+    font-size: 1em;
+  }
+
+  .champions-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: auto;
+    grid-column-gap: 1em;
+    max-width: 80%;
+    margin: auto;
+    margin-top: 2em;
+  }
+
+  .champion-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    cursor: pointer;
+    max-width: 9rem;
+    position: relative;
+    margin-top: 1.5em
+  }
+
+  .champion-img {
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 8%;
+  }
+
+  .champion-name-wrapper {
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: -3.2em;
+    background-color: var(--transparent-rasin-black);
+    width: 100%;
+    height: 100%;
+    padding: 0.2em 0 0.2em;
+  }
+
+  .champion-name {
+    color: white;
+    font-size: 1.2em;
+    font-weight: 600;
+  }
+  
+  .filter-sort-section {
+    display: grid;
+    width: 96%;
+    flex-direction: column;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 0.5em;
+    margin-right: 0.4em;
+    grid-row-gap: 0.4em;
+    margin-top: 1em;
+    margin-bottom: 3em;
+  }
+
+  .dropdown {
+   margin: 0 0.4em 0.4em 0.4em;
+   max-width: 100%;
+   position: relative;
+
+  }
+
+  .dropdown-btn {
+    display: flex;
+    border-style: none;
+    justify-content: space-between;
+    background-color: #dfdfe1;
+    color: #2f1d1d;
+    font-weight: 600;
+    padding: 0.5em;
+    font-size: 1em;
+    width: 100%;
+    border-bottom: 2px solid;
+  }
+
+  .dropdown-btn::after {
+    content: "\27A4";
+    display: inline-block;
+    transform: rotate(90deg);
+  }
+
+  .dropdown-options {
+    flex-direction: column;
+    display: none; 
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+  }
+  
+  .dropdown-option {
+    color: var(--rasin-black); 
+    font-weight: 600;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    padding: 0.5em;
+    color: white;
+    color: var(--rasin-black);
+    border-bottom: 2px solid #f8f8f8;
+  }
+
+  .dropdown-option:hover {
+    background-color: var(--light-gold);
+  }
+
+  @media (min-width: 850px) {
+    .champions-section {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .champion-container {
+      max-width: 10rem;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .filter-sort-section {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .champions-section {
+      grid-column-gap: 0;
+    }
+
+    .champion-name-wrapper {
+      margin-top: -3.6em;
+    }
+
+    .champion-name {
+      font-size: 1.4em;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .champions-section {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  @media (min-width: 1500px) {
+    .champions-section {
+      grid-template-columns: repeat(6, 1fr);
+    }
+
+    .champion-container {
+      max-width: 12rem;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .champions-section {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}

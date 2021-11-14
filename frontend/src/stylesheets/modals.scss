@@ -3,6 +3,7 @@
 }
 
 :root {
+  --rasin-black: #1d1e2c;
   --dark-gold: #927543;
   --light-gold: #c7ab6e;
 }
@@ -73,7 +74,7 @@ body {
 
 .modal {
   display: none;
-  position: absolute;
+  position: fixed;
   z-index: 1;
   padding: 2rem 0;
   left: 0;
@@ -82,7 +83,7 @@ body {
   height: 100%;
   overflow: auto;
   background-color: rgb(0, 0, 0);
-  background-color: rgb(0, 0, 0, 0.1);
+  background-color: rgb(0, 0, 0, 0.4);
 
   #main-container {
     @include modalContentContainer();
@@ -98,12 +99,33 @@ body {
     flex-direction: column;
   }
 
+  .navigation-bar {
+    display: flex;
+    background-color: var(--rasin-black);
+    width: 100%;
+    align-items: center;
+  }
+
+  .close-modal-btn-wrapper {
+    position: absolute;
+    left: 1.2em;
+  }
+
+  .close-modal-btn {
+    cursor: pointer;
+    font-weight: 900;
+    font-size: 1.6em;
+  }  
+
+  .close-modal-btn:hover {
+    color: var(--light-gold);
+  }
+
   .modal-nav-links {
     display: flex;
     justify-content: space-evenly;
-    width: 100%;
     font-size: 22px;
-    background-color: black;
+    width: 100%;
   }
 
   .modal-nav-link {
@@ -208,7 +230,7 @@ body {
     text-align: center;
   }
 
-  .ability-pictures {
+  .ability-imgs {
     margin-bottom: 1em;
     display: flex;
     justify-content: space-evenly;
@@ -252,13 +274,16 @@ body {
     border-width: 4px;
   }
 
-  .champion-tips {
+  .champion-tips-section {
     @include containerBackground();
-    display: flex;
-    flex-direction: column;
     margin-bottom: auto;
     max-width: 34rem;
     text-align: center;
+  }
+
+  .champion-tips {
+    display: flex;
+    flex-direction: column;
   }
 
   .champion-tip {
@@ -578,6 +603,10 @@ body {
     margin: 0 auto;
     max-width: 99%;
     width: 99%;
+
+    .navigation-bar {
+      border-bottom: solid 3px var(--dark-gold);
+    }
   }
 
   #skins-container .modal-header {
@@ -606,8 +635,9 @@ body {
 
   #skins-container .champion-heading {
     display: flex;
+    background-color: var(--rasin-black);
     justify-content: space-evenly;
-    width: 40%;
+    width: 100%;
     align-items: center;
   }
 
@@ -766,6 +796,18 @@ body {
 
     .champion-name {
       font-size: 2rem;
+    }
+
+    .modal-nav-links {
+      font-size: 18px;
+    }
+
+    .close-modal-btn-wrapper {
+      left: 0.7em;
+    }
+
+    .close-modal-btn {
+      font-size: 1.2em;
     }
   }
 
