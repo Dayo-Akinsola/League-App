@@ -47,14 +47,10 @@ const championStatsModal = async (championData, championStats) => {
   const { itemSets } = championStats;
   const allItems = await ItemInfo.getAllItems();
   const championItemBuilds = document.querySelector('.champion-item-builds');
-  const itemSetsContainer = document.createElement('div');
-  itemSetsContainer.className = 'item-sets-container';
-  championItemBuilds.appendChild(itemSetsContainer);
+  const itemSetsContainer = ElementCreation.createChildElementWithClass('div', 'item-sets-container', championItemBuilds);
 
   itemSets.forEach((itemSet) => {
-    const itemSetContainer = document.createElement('div');
-    itemSetContainer.className = 'item-set-container';
-    itemSetsContainer.appendChild(itemSetContainer);
+    const itemSetContainer = ElementCreation.createChildElementWithClass('div', 'item-set-container', itemSetsContainer);
 
     itemSet.forEach((itemId) => {
       const item = new ItemInfo(itemId);
@@ -86,8 +82,9 @@ const championStatsModal = async (championData, championStats) => {
 
         componentItems.forEach((componentItem) => {
           const componentItemElement = ElementCreation.createChildElementWithClass('div', 'component-item', componentItemsContainer);
-          ElementCreation.createChildImageElementWithClass('component-item-img',
-            componentItemElement, componentItem.imageUrl, `${componentItem.name}`);
+          ElementCreation.createChildImageElementWithClass(
+            'component-item-img', componentItemElement, componentItem.imageUrl, `${componentItem.name}`,
+          );
 
           const componentItemDetailsContainer = ElementCreation.createChildElementWithClass('div', 'component-item-details-container', componentItemElement);
 

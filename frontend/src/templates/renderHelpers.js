@@ -60,17 +60,12 @@ const renderChampionLane = (statsOverview, lane) => {
 const renderDamageStats = (damageType, damageValue, damagePercentage) => {
   const damageContainer = document.querySelector(`#${damageType}-damage-container`);
 
-  const damageStats = document.createElement('div');
-  damageStats.className = 'damage-stats';
+  const damageStats = ElementCreation.createChildElementWithClass('div', 'damage-stats', damageContainer);
 
-  const damageValueElement = document.createElement('span');
-  const damagePercentageElement = document.createElement('span');
-  damageValueElement.id = `${damageType}-value`; damagePercentageElement.id = `${damageType}-percentage`;
+  const damageValueElement = ElementCreation.createChildElementWithId('span', `${damageType}-value`, damageStats);
+  const damagePercentageElement = ElementCreation.createChildElementWithId('span', `${damageType}-percentage`, damageStats);
   damageValueElement.textContent = `${damageValue}`;
   damagePercentageElement.textContent = `${damagePercentage}%`;
-
-  damageStats.appendChild(damageValueElement); damageStats.appendChild(damagePercentageElement);
-  damageContainer.appendChild(damageStats);
 };
 
 const renderMatchupsInfo = (matchupsElement, matchupsData) => {

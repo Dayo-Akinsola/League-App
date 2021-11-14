@@ -1,4 +1,5 @@
 import { renderHeaderDetails, images } from './renderHelpers';
+import ElementCreation from '../helpers/elementCreation';
 
 const championDetailsModal = async (championData) => {
   renderHeaderDetails(championData, 'main');
@@ -6,70 +7,48 @@ const championDetailsModal = async (championData) => {
   const championRoles = document.querySelector('.champion-roles');
   const { roles } = championData;
   roles.forEach((role) => {
-    const championRole = document.createElement('div');
-    const championRoleName = document.createElement('span');
-    const championRoleImage = document.createElement('img');
-
-    championRole.className = 'champion-role';
-    championRoleName.className = 'champion-role-name';
-    championRoleImage.className = 'champion-role-image';
-
+    const championRole = ElementCreation.createChildElementWithClass('div', 'champion-role', championRoles);
+    const championRoleName = ElementCreation.createChildElementWithClass('span', 'champion-role-name', championRole);
     championRoleName.textContent = role;
-    championRoleImage.src = `${images[`${role}.png`]}`;
-    championRoleImage.alt = `${role}.png`;
-
-    championRole.appendChild(championRoleName); championRole.appendChild(championRoleImage);
-    championRoles.appendChild(championRole);
+    ElementCreation.createChildImageElementWithClass('champion-role-image', championRole, `${images[`${role}.png`]}`, role);
   });
-  // The type of resource that a champion uses e.g. mana, energy etc
-  const championResource = document.createElement('div');
+  /* The type of resource that a champion uses e.g. mana, energy etc */
+  const championResource = ElementCreation.createChildElementWithClass('div', 'champion-resource', championRoles);
   const { resource } = championData;
-  championResource.className = 'champion-resource';
-  const championResourceName = document.createElement('span');
-  const championResourceImage = document.createElement('img');
-  championResourceName.className = 'champion-resource-name';
-  championResourceImage.className = 'champion-resource-image';
+  const championResourceName = ElementCreation.createChildElementWithClass('span', 'champion-resource-name', championResource);
   championResourceName.textContent = resource;
-  championResourceImage.src = `${images[`${resource}.png`]}`; championResourceImage.alt = `${resource}.png`;
+  ElementCreation.createChildImageElementWithClass('champion-resource-image', championResource, `${images[`${resource}.png`]}`, resource);
 
-  championResource.appendChild(championResourceName);
-  championResource.appendChild(championResourceImage);
-  championRoles.appendChild(championResource);
-
-  const championLore = document.querySelector('.champion-lore');
+  /* Creates the main content of the main modal */
+  const loreContainer = document.querySelector('.lore-container');
+  const championLore = ElementCreation.createChildElementWithClass('span', 'champion-lore', loreContainer);
   championLore.textContent = championData.lore;
 
-  const abilityPictures = document.querySelector('.ability-pictures');
-
-  const passiveImg = document.createElement('img');
-  passiveImg.className = 'spell-img clicked';
+  const abilitiesContainer = document.querySelector('.abilities-container');
+  const abilityDetails = ElementCreation.createChildElementWithClass('div', 'ability-details', abilitiesContainer);
+  const abilityImgs = ElementCreation.createChildElementWithClass('div', 'ability-imgs', abilityDetails);
+  const passiveImg = ElementCreation.createChildImageElementWithClass(
+    'spell-img clicked', abilityImgs, championData.passive.passiveImgUrl, championData.passive.passiveName,
+  );
   passiveImg.id = 'passive-img';
-  passiveImg.src = championData.passive.passiveImgUrl;
-  passiveImg.alt = `${championData.passive.passiveName}.png`;
-  abilityPictures.appendChild(passiveImg);
 
   const imgLabel = ['Q', 'W', 'E', 'R'];
   let index = 0;
 
   championData.spells.forEach((spell) => {
-    const spellImg = document.createElement('img');
-    spellImg.className = 'spell-img';
+    const spellImg = ElementCreation.createChildImageElementWithClass(
+      'spell-img', abilityImgs, spell.imgUrl, spell.name,
+    );
     // Grabs letter Q, W, E or R which uniquely identifies a champions abilities
     spellImg.id = `${imgLabel[index]}-img`;
-    spellImg.src = spell.imgUrl;
-    spellImg.alt = `${spell.name}.png`;
-    abilityPictures.appendChild(spellImg);
     index += 1;
   });
 
-  const abilitiesContainer = document.querySelector('.abilities-container');
-  // loops through champion's passive and 4 abilities
+  /* loops through champion's passive and 4 abilities */
   for (let i = 0; i < 5; i += 1) {
     const abilityInfo = document.createElement('div');
-    const abilityName = document.createElement('span');
-    const abilityDescription = document.createElement('span');
-    abilityName.className = 'ability-name'; abilityDescription.className = 'ability-description';
-    abilityInfo.appendChild(abilityName); abilityInfo.appendChild(abilityDescription);
+    const abilityName = ElementCreation.createChildElementWithClass('span', 'ability-name', abilityInfo);
+    const abilityDescription = ElementCreation.createChildElementWithClass('span', 'ability-description', abilityInfo);
     const abilityLabel = ['Passive', 'Q', 'W', 'E', 'R'];
 
     if (i === 0) {
@@ -89,18 +68,16 @@ const championDetailsModal = async (championData) => {
       abilityDescription.innerHTML = championData.spells[i - 1].description;
     }
 
-    abilitiesContainer.appendChild(abilityInfo);
+    abilityDetails.appendChild(abilityInfo);
   }
 
-  const championTips = document.querySelector('.champion-tips');
+  const championTipsSection = document.querySelector('.champion-tips-section');
+  const championTips = ElementCreation.createChildElementWithClass('div', 'champion-tips', championTipsSection);
 
   for (let i = 0; i < 2 && i < championData.tips.length; i += 1) {
-    const championTip = document.createElement('span');
-    championTip.className = 'champion-tip';
+    const championTip = ElementCreation.createChildElementWithClass('span', 'champion-tip', championTips);
     championTip.textContent = `${championData.tips[i]}`;
-    championTips.appendChild(championTip);
   }
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export { championDetailsModal };
+export default championDetailsModal;
