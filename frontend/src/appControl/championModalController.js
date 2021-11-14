@@ -1,4 +1,4 @@
-const ChampionModalController = () => {
+const ChampionModalController = (() => {
   const toggleActiveAbility = (clickedAbilityId) => {
     const abilityImages = document.querySelectorAll('.spell-img');
     const abilityInfos = document.querySelectorAll('.ability-info');
@@ -64,59 +64,131 @@ const ChampionModalController = () => {
     }
   };
 
+  const clearMainModal = () => {
+    const mainContainer = document.querySelector('#main-container');
+    const championName = mainContainer.querySelector('.champion-name');
+    const championTitle = mainContainer.querySelector('.champion-title');
+    const championRoles = mainContainer.querySelector('.champion-roles');
+    const championLore = mainContainer.querySelector('.champion-lore');
+    const abilityDetails = mainContainer.querySelector('.ability-details');
+    const championTips = mainContainer.querySelector('.champion-tips');
+
+    const mainModalHeader = [championName, championTitle, championRoles];
+    mainModalHeader.forEach((element) => {
+      const currentElement = element;
+      currentElement.textContent = '';
+    });
+
+    championLore.remove();
+    abilityDetails.remove();
+    championTips.remove();
+  };
+
+  const clearStatsModal = () => {
+    const statsContainer = document.querySelector('#stats-container');
+    const championName = statsContainer.querySelector('.champion-name');
+    const championTitle = statsContainer.querySelector('.champion-title');
+    const championStatsOverview = statsContainer.querySelector('.champion-stats-overview');
+    const alldamageStats = statsContainer.querySelectorAll('.damage-stats');
+    const itemSetsContainer = statsContainer.querySelector('.item-sets-container');
+    const bestMatchups = statsContainer.querySelector('.best-matchups');
+    const worstMatchups = statsContainer.querySelector('.worst-matchups');
+
+    const statsModalHeader = [championName, championTitle, championStatsOverview];
+    statsModalHeader.forEach((element) => {
+      const currentElement = element;
+      currentElement.textContent = '';
+    });
+    alldamageStats.forEach((damageStat) => {
+      const damageStatElement = damageStat;
+      damageStatElement.remove();
+    });
+    const statsModalContent = [itemSetsContainer, bestMatchups, worstMatchups];
+    statsModalContent.forEach((content) => {
+      const contentElement = content;
+      contentElement.remove();
+    });
+  };
+
+  const clearSkinsModal = () => {
+    const skinImagesContainer = document.querySelector('.skin-images-container');
+    skinImagesContainer.remove();
+  };
+
+  const closeChampionModal = () => {
+    const modal = document.querySelector('.modal');
+    const mainContainer = document.querySelector('#main-container');
+    const statsContainer = document.querySelector('#stats-container');
+    const skinsContainer = document.querySelector('#skins-container');
+
+    modal.style.display = 'none';
+    mainContainer.style.display = 'block';
+    statsContainer.style.display = 'none';
+    skinsContainer.style.display = 'none';
+  };
+
+  const modalClickEvents = (event) => {
+    const modal = document.querySelector('.modal');
+
+    if (event.target.className === 'spell-img') {
+      const dashIndex = event.target.id.indexOf('-');
+      const abilityId = event.target.id.slice(0, dashIndex);
+      toggleActiveAbility(abilityId);
+    }
+
+    if (event.target.className === 'modal-nav-link') {
+      changeModalTemplate(event.target);
+    }
+
+    if (Array.from(event.target.classList).includes('img-scroll-arrow')) {
+      toggleSkinImages(Array.from(event.target.classList));
+    }
+
+    if (event.target.className === 'close-modal-btn') {
+      modal.removeEventListener('click', modalClickEvents);
+      closeChampionModal();
+      clearMainModal();
+      clearStatsModal();
+      clearSkinsModal();
+    }
+  };
+
+  const modalMouseoverEvents = (event) => {
+    if (event.target.className === 'item-img'
+      || event.target.className === 'component-item-img') {
+      dispayItemDetails(event.target);
+    }
+  };
+
+  const modalMouseoutEvents = (event) => {
+    if (event.target.className === 'item-img'
+    || event.target.className === 'component-item-img') {
+      if (!event.target) return;
+
+      let { relatedTarget } = event;
+
+      while (relatedTarget) {
+        if (relatedTarget === event.target) return;
+        relatedTarget = relatedTarget.parentNode;
+      }
+
+      hideItemDetails(event.target);
+    }
+  };
+
   const modalChangeListeners = () => {
     const modal = document.querySelector('.modal');
 
-    modal.addEventListener('click', (event) => {
-      if (event.target.className === 'spell-img') {
-        const dashIndex = event.target.id.indexOf('-');
-        const abilityId = event.target.id.slice(0, dashIndex);
-        toggleActiveAbility(abilityId);
-      }
+    modal.addEventListener('click', modalClickEvents);
 
-      if (event.target.className === 'modal-nav-link') {
-        changeModalTemplate(event.target);
-      }
+    modal.addEventListener('mouseover', modalMouseoverEvents);
 
-      if (Array.from(event.target.classList).includes('img-scroll-arrow')) {
-        toggleSkinImages(Array.from(event.target.classList));
-      }
-    });
-
-    let currElement = null;
-    modal.addEventListener('mouseover', (event) => {
-      if (event.target.className === 'item-img'
-      || event.target.className === 'component-item-img') {
-        if (currElement) return;
-        currElement = event.target;
-        dispayItemDetails(currElement);
-      }
-    });
-
-    modal.addEventListener('mouseout', (event) => {
-      if (event.target.className === 'item-img'
-      || event.target.className === 'component-item-img') {
-        if (!currElement) return;
-
-        let { relatedTarget } = event;
-
-        while (relatedTarget) {
-          if (relatedTarget === currElement) return;
-          console.log(relatedTarget);
-          relatedTarget = relatedTarget.parentNode;
-        }
-        // console.log('out');
-
-        hideItemDetails(currElement);
-        currElement = null;
-      }
-    });
+    modal.addEventListener('mouseout', modalMouseoutEvents);
   };
 
   return {
     modalChangeListeners,
   };
-};
+})();
 
-// eslint-disable-next-line import/prefer-default-export
-export { ChampionModalController };
+export default ChampionModalController;
