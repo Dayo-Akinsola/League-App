@@ -223,7 +223,7 @@ body {
 
   .abilities-container {
     @include containerBackground();
-    width: 20em;
+    width: 28em;
   }
 
   .abilities-heading {
@@ -347,7 +347,7 @@ body {
     display: block;
     margin: auto;
     max-width: 80%;
-    max-height: 250px;
+    max-height: 14em;
   }
 
   .circle {
@@ -664,7 +664,7 @@ body {
     }
   }
 
-  @media (max-width: 867px) {
+  @media (max-width: 1250px) {
     .item-img {
       max-height: 2.2rem;
       max-width: 2.2rem;
@@ -677,11 +677,15 @@ body {
     .abilities-container {
       text-align: center;
       width: auto;
-      max-width: 20rem;
+      max-width: 31rem;
     }
 
     .lore-container {
       text-align: center;
+    }
+
+    #main-container {
+      height: 76rem;
     }
   }
 
@@ -698,6 +702,10 @@ body {
       flex-direction: column;
     }
 
+    .champion-matchups {
+      max-height: 28.2rem;
+    }
+
     .matchup-info {
       margin: 0.5em auto;
     }
@@ -708,6 +716,7 @@ body {
 
     #stats-container {
       max-width: 100%;
+      min-height: 63rem;
     }
   }
 
