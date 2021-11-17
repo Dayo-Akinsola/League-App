@@ -5,6 +5,8 @@ import championStatsModal from '../templates/championStatsModal';
 import championSkinsModal from '../templates/championSkinsModal';
 import ChampionModalController from './championModalController';
 import ChampionFilter from './filterChampions';
+import SortChampions from './sortChampions';
+import Pubsub from './pubsub';
 
 const ChampionsPageController = (() => {
   const displayDropdownOptions = (dropdownOptions) => {
@@ -65,6 +67,16 @@ const ChampionsPageController = (() => {
     ChampionFilter.filterByLane(laneName);
   };
 
+  const sortChampions = (sortingOption) => {
+    if (Array.from(sortingOption.classList).includes('winrate')) {
+      SortChampions.sortChampionsByWinrate();
+    } else if (Array.from(sortingOption.classList).includes('pickrate')) {
+      SortChampions.sortChampionsByPickrate();
+    } else {
+      SortChampions.sortChampionsByDamageDone();
+    }
+  };
+
   const selectMultiDropdownOption = (dropdownOption) => {
     dropdownOption.classList.add('active');
   };
@@ -85,14 +97,17 @@ const ChampionsPageController = (() => {
     const activeDropdownOption = document.querySelector('.single-select.active');
     if (activeDropdownOption === null) {
       dropdownOption.classList.add('active');
+      sortChampions(dropdownOption);
       return;
     }
     if (activeDropdownOption === dropdownOption) {
       deselectDropdownOption(dropdownOption);
+      SortChampions.sortByDefaultOrder();
       return;
     }
     activeDropdownOption.classList.remove('active');
     dropdownOption.classList.add('active');
+    sortChampions(dropdownOption);
   };
 
   const championsPageClickEvents = (event) => {
@@ -120,6 +135,8 @@ const ChampionsPageController = (() => {
       selectLaneFilterOption(event.target);
     }
   };
+
+  Pubsub.subscribe('sortOptionClicked');
 
   const championsPageListeners = () => {
     const championsPage = document.querySelector('#champions-page');
