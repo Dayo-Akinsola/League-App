@@ -38,7 +38,8 @@ const damageSchema = new mongoose.Schema({
 })
 
 const championSchema = new mongoose.Schema({
-  championName: String,
+  name: String,
+  id: String,
   winRate: Number,
   pickRate: Number,
   kdaRatio: kdaSchema,
