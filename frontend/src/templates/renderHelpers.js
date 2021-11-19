@@ -91,6 +91,20 @@ const renderMatchupsInfo = (matchupsElement, matchupsData) => {
   });
 };
 
+const createChampionContainer = (champion, championsSection) => {
+  const championContainer = ElementCreation.createChildElementWithClass('div', 'champion-container shown', championsSection);
+  const championId = champion.id ? champion.id : champion.championName;
+  championContainer.dataset.id = championId;
+  const championImgUrl = `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${championId}_0.jpg`;
+  ElementCreation.createChildImageElementWithClass(
+    'champion-img', championContainer, championImgUrl, championId,
+  );
+
+  const championNameWrapper = ElementCreation.createChildElementWithClass('div', 'champion-name-wrapper', championContainer);
+  const championName = ElementCreation.createChildElementWithClass('span', 'champion-name', championNameWrapper);
+  championName.textContent = champion.name;
+};
+
 export {
   renderHeaderDetails,
   renderStatOverview,
@@ -98,4 +112,5 @@ export {
   renderDamageStats,
   images,
   renderMatchupsInfo,
+  createChampionContainer,
 };
