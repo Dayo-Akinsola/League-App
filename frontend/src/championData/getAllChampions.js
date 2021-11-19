@@ -1,4 +1,4 @@
-const fetchAllChampions = async () => {
+const getAllChampionDetails = async () => {
   const versionsResponse = await fetch('https://ddragon.leagueoflegends.com/api/versions.json');
   const versions = await versionsResponse.json();
   const latestVersion = versions[0];
@@ -8,4 +8,14 @@ const fetchAllChampions = async () => {
   return allChampions.data;
 };
 
-export default fetchAllChampions;
+const getAllChampionStats = async () => {
+  const response = await fetch('http://localhost:3001/champions', { mode: 'cors' });
+  const allChampionStats = await response.json();
+
+  return allChampionStats;
+};
+
+export {
+  getAllChampionDetails,
+  getAllChampionStats,
+};
