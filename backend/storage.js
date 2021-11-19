@@ -80,18 +80,24 @@ const saveChampionsToDb = async () => {
   const latestVersion = versionsResponse.data[0];
   const allChampionsResponse = await axios.get(`http://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/champion.json`);
   const allChampions = allChampionsResponse.data.data;
-  for (let championName in allChampions){
-    if (championName === 'Fiddlesticks') championName = 'FiddleSticks';
-    const championInstance = new ChampionStats(championName);
+  for (let championId in allChampions){
+    let championInstance;
+    if (championId === 'Fiddlesticks') {
+      championInstance = new ChampionStats('FiddleSticks');
+    } 
+    else {
+      championInstance = new ChampionStats(championId);
+    }
     const championStats = await championInstance.getChampionStats();
 
-    const isChampionInDb = await Champion.exists({championName: championName});
+    const isChampionInDb = await Champion.exists({id: championId});
     if (!isChampionInDb) {
       const champion = new Champion({
-      championName: championStats.championName,
+      id: championId,
+      name: allChampions[championId].name,
       winRate: championStats.winRate,
       pickRate: championStats.pickRate,
-      damage: championStats.damagePerMatch,
+      damagePerMatch: championStats.damagePerMatch,
       kdaRatio: championStats.kdaRatio,
       lane: championStats.lane,
       itemChoices: championStats.itemChoices,
@@ -99,10 +105,10 @@ const saveChampionsToDb = async () => {
     })
   
       await champion.save();
-      console.log(`${championName} has been saved to the database`);
+      console.log(`${championId} has been saved to the database`);
     }
     else {
-      console.log(`${championName} is already in the database`);
+      console.log(`${championId} is already in the database`);
     }
   }
 }
@@ -128,4 +134,16 @@ const updateDb = async () => {
   }
 }
 
-module.exports = updateDb;
+const changeFiddleSticksName = async () => {
+  try {
+    const fiddle = await Champion.findOne({championName: 'FiddleSticks'});
+    await fiddle.updateOne({$set: {championName: 'Fiddlesticks'}}) 
+  }
+  catch {
+    return;
+  }
+  
+}
+
+
+module.exports = saveChampionsToDb;
