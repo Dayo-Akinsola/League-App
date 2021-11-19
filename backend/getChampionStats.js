@@ -1,11 +1,12 @@
 //const Champion = require('./models/champion');
 const Match = require('./models/match');
+const { default: axios } = require('axios');
 
 // Note: Champions are the characters you can play in a League of Legends match.
 // Role of this class is to take data from the matches db and analyse it so it can be used in the champions db.
 module.exports = class ChampionStats {
-  constructor(championName) {
-    this.championName = championName;
+  constructor(championId) {
+    this.championId = championId;
     this.matchResults = {
       win: 0,
       loss: 0,
@@ -53,16 +54,16 @@ module.exports = class ChampionStats {
     this.statsAgainstEnemyChampions = {};
   }
 
-  getChampionName = () => this.championName;
+  getChampionId = () => this.championId;
 
   getAllChampionMatches = async () => {
-    const championMatches = await Match.find({'matchData.info.participants.championName': this.championName});
+    const championMatches = await Match.find({'matchData.info.participants.championName': this.championId});
     return championMatches;
   }
 
   getChampionSingleMatchStats = (match) => {
     const matchParticipants = match.matchData.info.participants;
-    const championStats = matchParticipants.filter(participant => participant.championName === this.championName);
+    const championStats = matchParticipants.filter(participant => participant.championName === this.championId);
 
     return championStats[0];
   }
@@ -190,19 +191,19 @@ module.exports = class ChampionStats {
     return popularItemChoices;
   }
 
-  recordStatsAgainstEnemyChampion = (match, championStats) => {
+  recordStatsAgainstEnemyChampion = async (match, championStats, allChampionDetails) => {
     const championPosition = championStats.teamPosition;
     const matchWon = championStats.win;
     const matchParticipants = match.matchData.info.participants;
 
     const enemyChampion = matchParticipants.filter(champion => {
-      if (champion.teamPosition === championPosition && champion.championName !== this.championName) {
+      if (champion.teamPosition === championPosition && champion.championName !== this.championId) {
         return champion;
       }
     });
     
     if (enemyChampion === undefined) {
-      throw 'Enemy Champion not specified';
+      throw 'Enemy Champion not found';
     }
 
     try {
@@ -214,7 +215,9 @@ module.exports = class ChampionStats {
         else matchUpStats.lossesAgainst += 1;
       }
       else {
+        const name = allChampionDetails[enemyChampion[0].championName].name;
         const matchUpStats = this.statsAgainstEnemyChampions[enemyChampion[0].championName] = {
+          name,
           winsAgainst: 0,
           lossesAgainst: 0, 
           matches: 1,
@@ -227,6 +230,7 @@ module.exports = class ChampionStats {
     catch(e) {
       console.log('Enemy Champion Not Specified');
     }
+    
     
   }
 
@@ -269,6 +273,8 @@ module.exports = class ChampionStats {
 
   getChampionStats = async () => {
     const championMatches = await this.getAllChampionMatches();
+    const response = await axios.get('http://ddragon.leagueoflegends.com/cdn/11.22.1/data/en_US/champion.json');
+    const allChampionDetails = response.data.data;
 
     for (const match of championMatches) {
       const championStats = await this.getChampionSingleMatchStats(match);
@@ -277,10 +283,10 @@ module.exports = class ChampionStats {
       this.recordMatchDamage(championStats);
       this.recordLaneChoice(championStats);
       this.recordItemSetChoice(championStats);
-      this.recordStatsAgainstEnemyChampion(match, championStats);
+      this.recordStatsAgainstEnemyChampion(match, championStats, allChampionDetails);
     }
 
-    const championName = this.getChampionName();
+    const championId = this.getChampionId();
     const winRate = this.calculateWinRate();
     const pickRate = await this.calculatePickRate();
     const kdaRatio = this.calculateChampionKdaRatio();
@@ -290,7 +296,7 @@ module.exports = class ChampionStats {
     const matchUps = this.getBestAndWorstMatchUps();
     
     return {
-      championName,
+      championId,
       winRate,
       pickRate,
       kdaRatio,
