@@ -1,6 +1,7 @@
 import DropdownSection from '../helpers/dropdownSection';
-import fetchAllChampions from '../championData/getAllChampions';
+import { getAllChampionDetails } from '../championData/getAllChampions';
 import ElementCreation from '../helpers/elementCreation';
+import { createChampionContainer } from './renderHelpers';
 
 export default async () => {
   /* Creates the filter and sorting section below the header */
@@ -13,10 +14,10 @@ export default async () => {
   const roleOptions = {
     role: ['tank', 'assassin', 'fighter', 'mage', 'marksman', 'support'],
   };
-  const resourceOptions = {
-    resource: ['mana', 'energy', 'rage', 'none', 'courage', 'shield', 'fury', 'ferocity', 'grit'],
+  const difficultyOptions = {
+    difficulty: ['low', 'medium', 'high'],
   };
-  const multiOptionArrays = [roleOptions, resourceOptions];
+  const multiOptionArrays = [roleOptions, difficultyOptions];
 
   const sortDropdown = new DropdownSection('sort', sortOptions.sort);
   sortDropdown.renderDropdown(filterSortSection, 'single-select');
@@ -30,19 +31,31 @@ export default async () => {
 
   /* Load all champions and render them to the champions page */
   const championsPage = document.querySelector('#champions-page');
+  ElementCreation.createChildElementWithClass('div', 'loader', championsPage);
   const championsSection = ElementCreation.createChildElementWithClass('div', 'champions-section', championsPage);
-  const allChampions = await fetchAllChampions();
+  const allChampions = await getAllChampionDetails();
   const allChampionsArray = Object.values(allChampions);
   allChampionsArray.forEach((champion) => {
-    const championContainer = ElementCreation.createChildElementWithClass('div', 'champion-container shown', championsSection);
-    championContainer.dataset.id = champion.id;
-    const championImgUrl = `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.id}_0.jpg`;
-    ElementCreation.createChildImageElementWithClass(
-      'champion-img', championContainer, championImgUrl, champion.id,
-    );
+    createChampionContainer(champion, championsSection);
+  });
 
-    const championNameWrapper = ElementCreation.createChildElementWithClass('div', 'champion-name-wrapper', championContainer);
-    const championName = ElementCreation.createChildElementWithClass('span', 'champion-name', championNameWrapper);
-    championName.textContent = champion.name;
+  /* Creates autocomplete div for the search bar */
+  const searchContainer = document.querySelector('.search-container');
+  const autoCompleteNames = ElementCreation.createChildElementWithClass(
+    'div', 'auto-complete-names', searchContainer,
+  );
+  allChampionsArray.forEach((champion) => {
+    const championName = champion.name;
+    const championId = champion.id;
+    const autoCompleteNameWrapper = ElementCreation.createChildElementWithClass(
+      'div', 'auto-complete-name-wrapper', autoCompleteNames,
+    );
+    autoCompleteNameWrapper.tabIndex = '-1';
+    const autoCompleteName = ElementCreation.createChildElementWithClass(
+      'span', 'auto-complete-name', autoCompleteNameWrapper,
+    );
+    autoCompleteName.textContent = championName;
+    autoCompleteName.dataset.championId = championId;
+    autoCompleteName.id = championName;
   });
 };
