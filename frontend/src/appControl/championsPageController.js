@@ -6,7 +6,7 @@ import championSkinsModal from '../templates/championSkinsModal';
 import ChampionModalController from './championModalController';
 import ChampionFilter from './filterChampions';
 import SortChampions from './sortChampions';
-import Pubsub from './pubsub';
+import { getAllChampionDetails, getAllChampionStats } from '../championData/getAllChampions';
 
 const ChampionsPageController = (() => {
   const displayDropdownOptions = (dropdownOptions) => {
@@ -58,23 +58,58 @@ const ChampionsPageController = (() => {
   const selectLaneFilterOption = (clickedLaneOption) => {
     const championsSection = document.querySelector('.champions-section');
     const activeLaneOption = document.querySelector('.header-option.active');
-    if (clickedLaneOption === activeLaneOption || championsSection.style.display === 'none') {
-      return;
+    if (clickedLaneOption === activeLaneOption || championsSection.style.visibility === 'hidden') {
+      return false;
     }
     activeLaneOption.classList.remove('active');
     clickedLaneOption.classList.add('active');
-    const laneName = clickedLaneOption.classList[0];
-    ChampionFilter.filterByLane(laneName);
+
+    return true;
   };
 
-  const sortChampions = (sortingOption) => {
-    if (Array.from(sortingOption.classList).includes('winrate')) {
-      SortChampions.sortChampionsByWinrate();
-    } else if (Array.from(sortingOption.classList).includes('pickrate')) {
-      SortChampions.sortChampionsByPickrate();
-    } else {
-      SortChampions.sortChampionsByDamageDone();
+  const checkLaneFilterOption = async (allChampionStats) => {
+    const activeLaneOption = document.querySelector('.header-option.active');
+    const laneName = activeLaneOption.classList[0];
+    await ChampionFilter.filterByLane(laneName, allChampionStats);
+  };
+
+  const checkSortingOption = (allChampionStats) => {
+    const activeSortingOption = document.querySelector('.sort.active');
+    if (activeSortingOption === null) {
+      SortChampions.sortByDefaultOrder(allChampionStats);
+    } else if (Array.from(activeSortingOption.classList).includes('winrate')) {
+      SortChampions.sortChampionsByWinrate(allChampionStats);
+    } else if (Array.from(activeSortingOption.classList).includes('pickrate')) {
+      SortChampions.sortChampionsByPickrate(allChampionStats);
+    } else if (Array.from(activeSortingOption.classList).includes('damage')) {
+      SortChampions.sortChampionsByDamageDone(allChampionStats);
     }
+  };
+
+  const checkActiveRoleOptions = (allChampionDetails) => {
+    const activeRoleOptions = document.querySelectorAll('.role.active');
+    if (activeRoleOptions.length === 0) {
+      return false;
+    }
+    const activeRoles = Array.from(activeRoleOptions).map((activeRoleOption) => {
+      const activeRole = activeRoleOption.classList[0];
+      return activeRole;
+    });
+    ChampionFilter.filterByRole(activeRoles, allChampionDetails);
+    return true;
+  };
+
+  const checkActiveDifficultyOptions = (allChampionDetails) => {
+    const activeDifficultyOptions = document.querySelectorAll('.difficulty.active');
+    if (activeDifficultyOptions.length === 0) {
+      return false;
+    }
+    const activeDifficulties = Array.from(activeDifficultyOptions).map((activeDifficultyOption) => {
+      const activeDifficulty = activeDifficultyOption.classList[0];
+      return activeDifficulty;
+    });
+    ChampionFilter.filterByDifficulty(activeDifficulties, allChampionDetails);
+    return true;
   };
 
   const selectMultiDropdownOption = (dropdownOption) => {
@@ -97,20 +132,70 @@ const ChampionsPageController = (() => {
     const activeDropdownOption = document.querySelector('.single-select.active');
     if (activeDropdownOption === null) {
       dropdownOption.classList.add('active');
-      sortChampions(dropdownOption);
       return;
     }
     if (activeDropdownOption === dropdownOption) {
       deselectDropdownOption(dropdownOption);
-      SortChampions.sortByDefaultOrder();
       return;
     }
     activeDropdownOption.classList.remove('active');
     dropdownOption.classList.add('active');
-    sortChampions(dropdownOption);
   };
 
-  const championsPageClickEvents = (event) => {
+  const championsPageClickEvents = async (event) => {
+    /* Helper functions for click events */
+    const checkOptions = async () => {
+      const allChampionStats = await getAllChampionStats();
+      const allChampionDetails = await getAllChampionDetails();
+      await checkLaneFilterOption(allChampionStats);
+      checkSortingOption(allChampionStats);
+      checkActiveRoleOptions(allChampionDetails);
+      checkActiveDifficultyOptions(allChampionDetails);
+    };
+
+    const hideChampionsSection = () => {
+      const championsSection = document.querySelector('.champions-section');
+      championsSection.style.visibility = 'hidden';
+    };
+
+    const showChampionsSection = () => {
+      const championsSection = document.querySelector('.champions-section');
+      championsSection.style.visibility = 'visible';
+    };
+
+    const removeChampionsPageListener = () => {
+      const championsPage = document.querySelector('#champions-page');
+      championsPage.removeEventListener('click', championsPageClickEvents);
+    };
+
+    const addChampionsPageListener = () => {
+      const championsPage = document.querySelector('#champions-page');
+      championsPage.addEventListener('click', championsPageClickEvents);
+    };
+
+    const showLoader = () => {
+      const loader = document.querySelector('.loader');
+      loader.style.display = 'block';
+    };
+
+    const hideLoader = () => {
+      const loader = document.querySelector('.loader');
+      loader.style.display = 'none';
+    };
+
+    const filterAndSortChampionsSection = async (waitTime) => {
+      hideChampionsSection();
+      showLoader();
+      removeChampionsPageListener();
+      await checkOptions();
+      setTimeout(() => {
+        showChampionsSection();
+        hideLoader();
+      }, waitTime);
+      addChampionsPageListener();
+    };
+
+    /* click event responses */
     if (Array.from(event.target.classList).includes('dropdown-btn')) {
       dropdownOptionsToggle(event.target);
     }
@@ -125,18 +210,32 @@ const ChampionsPageController = (() => {
 
     if (Array.from(event.target.classList).includes('multi-select')) {
       toggleDropdownOption(event.target);
+      filterAndSortChampionsSection(600);
     }
 
     if (Array.from(event.target.classList).includes('single-select')) {
       selectSingleDropdownOption(event.target);
+      filterAndSortChampionsSection(1000);
     }
 
     if (Array.from(event.target.classList).includes('header-option')) {
       selectLaneFilterOption(event.target);
+      filterAndSortChampionsSection(600);
+    }
+
+    if (event.target.className === 'auto-complete-name-wrapper') {
+      const autoCompleteName = event.target.firstChild;
+      displayChampionModal(autoCompleteName.dataset.championId);
+      const autoCompleteNames = document.querySelector('.auto-complete-names');
+      autoCompleteNames.style.display = 'none';
+    }
+
+    if (event.target.className === 'auto-complete-name') {
+      displayChampionModal(event.target.dataset.championId);
+      const autoCompleteNames = document.querySelector('.auto-complete-names');
+      autoCompleteNames.style.display = 'none';
     }
   };
-
-  Pubsub.subscribe('sortOptionClicked');
 
   const championsPageListeners = () => {
     const championsPage = document.querySelector('#champions-page');
@@ -145,6 +244,7 @@ const ChampionsPageController = (() => {
 
   return {
     championsPageListeners,
+    displayChampionModal,
   };
 })();
 
