@@ -72,7 +72,7 @@ const renderMatchupsInfo = (matchupsElement, matchupsData) => {
   matchupsData.forEach((matchup) => {
     const matchupInfo = ElementCreation.createChildElementWithClass('div', 'matchup-info', matchupsElement);
     const enemyChampionName = matchup[0];
-    const enemyChampionImgUrl = `http://ddragon.leagueoflegends.com/cdn/11.22.1/img/champion/${enemyChampionName}.png`;
+    const enemyChampionImgUrl = `https://ddragon.leagueoflegends.com/cdn/11.22.1/img/champion/${enemyChampionName}.png`;
     ElementCreation.createChildImageElementWithClass(
       'enemy-champion-img', matchupInfo, enemyChampionImgUrl, `small-${enemyChampionName}.png`,
     );
@@ -95,7 +95,7 @@ const createChampionContainer = (champion, championsSection) => {
   const championContainer = ElementCreation.createChildElementWithClass('div', 'champion-container shown', championsSection);
   const championId = champion.id ? champion.id : champion.championName;
   championContainer.dataset.id = championId;
-  const championImgUrl = `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${championId}_0.jpg`;
+  const championImgUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${championId}_0.jpg`;
   ElementCreation.createChildImageElementWithClass(
     'champion-img', championContainer, championImgUrl, championId,
   );

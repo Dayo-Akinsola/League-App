@@ -3,7 +3,7 @@ const fetchAllItems = async () => {
   const versionResponse = await fetch('https://ddragon.leagueoflegends.com/api/versions.json', { mode: 'cors' });
   const versions = await versionResponse.json();
   const latestVersion = versions[0];
-  const response = await fetch(`http://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/item.json`);
+  const response = await fetch(`https://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/item.json`);
   const allItems = await response.json();
 
   return allItems.data;
@@ -27,7 +27,7 @@ class ItemInfo {
   getItemImage(allItems) {
     const itemDetails = this.getItemDetails(allItems);
     const itemImageId = itemDetails.image.full;
-    const imageUrl = `http://ddragon.leagueoflegends.com/cdn/11.22.1/img/item/${itemImageId}`;
+    const imageUrl = `https://ddragon.leagueoflegends.com/cdn/11.22.1/img/item/${itemImageId}`;
     return imageUrl;
   }
 
@@ -40,7 +40,7 @@ class ItemInfo {
     }
     const componentItemDetails = componentItemIds.map((itemId) => ({
       name: allItems[itemId].name,
-      imageUrl: `http://ddragon.leagueoflegends.com/cdn/11.22.1/img/item/${itemId}.png`,
+      imageUrl: `https://ddragon.leagueoflegends.com/cdn/11.22.1/img/item/${itemId}.png`,
       cost: allItems[itemId].gold.total,
     }));
     return componentItemDetails;

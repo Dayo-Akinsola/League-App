@@ -12,11 +12,11 @@ const championSkinsModal = async (championDetails) => {
         'div', 'skin-image-container shown', `Default ${championDetails.name}`, skinImagesContainer,
       );
       skinName.textContent = `Default ${championDetails.name}`;
-      const shownImageUrl = `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championDetails.id}_${skin.num}.jpg`;
+      const shownImageUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championDetails.id}_${skin.num}.jpg`;
       ElementCreation.createChildImageElementWithClass('skin-image', shownImageContainer, shownImageUrl, 'default skin');
     } else {
       const imageContainer = ElementCreation.createChildElementWithClassAndId('div', 'skin-image-container', skin.name, skinImagesContainer);
-      const imageUrl = `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championDetails.id}_${skin.num}.jpg`;
+      const imageUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championDetails.id}_${skin.num}.jpg`;
       ElementCreation.createChildImageElementWithClass('skin-image', imageContainer, imageUrl, skin.name);
     }
   });

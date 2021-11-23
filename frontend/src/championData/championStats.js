@@ -1,5 +1,5 @@
 const fetchChampionStats = async (championId) => {
-  const response = await fetch(`http://localhost:3001/${championId}`, { mode: 'cors' });
+  const response = await fetch(`https://localhost:3001/${championId}`, { mode: 'cors' });
   const championStats = await response.json();
 
   return championStats;

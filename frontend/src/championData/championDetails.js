@@ -1,5 +1,5 @@
 const fetchChampionDetails = async (championId) => {
-  const response = await fetch(`http://ddragon.leagueoflegends.com/cdn/11.20.1/data/en_US/champion/${championId}.json`, { mode: 'cors' });
+  const response = await fetch(`https://ddragon.leagueoflegends.com/cdn/11.20.1/data/en_US/champion/${championId}.json`, { mode: 'cors' });
   const champions = await response.json();
   const championDetails = champions.data[championId];
 
