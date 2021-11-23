@@ -22,7 +22,7 @@ const championDetailsModal = async (championData) => {
   /* Creates the main content of the main modal */
   const loreContainer = document.querySelector('.lore-container');
   const championLore = ElementCreation.createChildElementWithClass('span', 'champion-lore', loreContainer);
-  championLore.textContent = championData.lore;
+  championLore.innerHTML = championData.lore;
 
   const abilitiesContainer = document.querySelector('.abilities-container');
   const abilityDetails = ElementCreation.createChildElementWithClass('div', 'ability-details', abilitiesContainer);

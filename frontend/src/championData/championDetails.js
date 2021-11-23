@@ -46,11 +46,20 @@ const getChampionDetails = async (championId) => {
   const spells = getChampionSpells(championDetails);
 
   // Make first letter of the champion title a capital letter.
-  // eslint-disable-next-line max-len
-  const championTitle = championDetails.title.replace(championDetails.title[0], championDetails.title[0].toUpperCase());
+  const championTitle = championDetails.title.replace(
+    championDetails.title[0], championDetails.title[0].toUpperCase(),
+  );
 
   if (championDetails.partype === 'None') {
     championDetails.partype = 'Manaless';
+  }
+
+  if (championDetails.id === 'Akshan') {
+    championDetails.allytips[0] = 'You can’t use consumables like potions during your Comeuppance, make sure to use them before channeling.';
+  }
+
+  if (championDetails.id === 'Vex') {
+    championDetails.allytips.push('Vex is great at diving into the backline, but her escape potential is low so timing is key.');
   }
 
   return {
@@ -64,7 +73,6 @@ const getChampionDetails = async (championId) => {
     passive: championPassive,
     spells,
     tips: championDetails.allytips,
-    difficulty: championDetails.info.difficulty,
   };
 };
 

@@ -28,6 +28,8 @@ const ElementCreation = (() => {
     const imageElement = createChildElementWithClass('img', className, parentElement);
     imageElement.src = src;
     imageElement.alt = alt;
+
+    return imageElement;
   };
 
   return {

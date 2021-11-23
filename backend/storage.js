@@ -14,7 +14,7 @@ const platIVApiCalls = ApiCalls('PLATINUM', 'IV');
 
 // Stores players inside of a database
 const storePlayersInDb = async () => {
-  const summonerIds = await platIVApiCalls.getSummonerIds();
+  const summonerIds = await fetchAndRetryIfNecessary(() => platIVApiCalls.getSummonerIds());
   for ( let i = 0; i < summonerIds.length; i++) {
     const isPlayerinDb = await Player.exists({summonerId: summonerIds[i]});
     
@@ -63,7 +63,7 @@ const storeMatchesInDb = async () => {
             console.log('match saved'); 
           }
           catch(e) {
-            console.log(e);
+            console.log(e.message);
           }
           
         })
@@ -134,16 +134,7 @@ const updateDb = async () => {
   }
 }
 
-const changeFiddleSticksName = async () => {
-  try {
-    const fiddle = await Champion.findOne({championName: 'FiddleSticks'});
-    await fiddle.updateOne({$set: {championName: 'Fiddlesticks'}}) 
-  }
-  catch {
-    return;
-  }
   
-}
 
 
 module.exports = saveChampionsToDb;

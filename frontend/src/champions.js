@@ -8,13 +8,17 @@ import './stylesheets/champions.scss';
 // import getChampionStats from './championData/championStats';
 import championsPage from './templates/championsPage';
 import ChampionsPageController from './appControl/championsPageController';
+import SearchbarController from './appControl/searchbarController';
 
 const test = async () => {
   const response = await fetch('http://ddragon.leagueoflegends.com/cdn/11.22.1/data/en_US/champion.json');
   const allChampions = await response.json();
+
   // const values = Object.values(allChampions.data);
   // values.forEach((value) => console.log(value.info.difficulty));
-  championsPage();
+  await championsPage();
   ChampionsPageController.championsPageListeners();
+  SearchbarController.searchContainerListeners();
+  // window.history.pushState('champions', '', '/champions');
 };
 test();
