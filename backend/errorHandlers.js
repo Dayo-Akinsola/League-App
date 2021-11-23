@@ -21,6 +21,10 @@ const fetchAndRetryIfNecessary = async (apiCall) => {
     throw 'Match does not exist';
   }
 
+  else {
+    throw 'API Rejection';
+  }
+
   return response;
 }
 
