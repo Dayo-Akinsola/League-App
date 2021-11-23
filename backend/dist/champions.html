@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="champions.js"></script>
+  <title>Champions</title>
+</head>
+<body>
+  <div id="champions-page">
+    <header class="page-header">
+      <div class="app-name-container">
+          <h2 class="app-name">Champions</h2>
+      </div>
+      <div class="search-container">
+          <input type="text" placeholder="Search Champions" class="search">
+      </div>
+    </header>
+    <div class="lane-filter-header">
+        <span class="all header-option active">All</span>
+        <span class="bottom header-option">Bottom</span>
+        <span class="middle header-option">Middle</span>
+        <span class="utility header-option">Utility</span>
+        <span class="jungle header-option">Jungle</span>
+        <span class="top header-option">Top</span>
+    </div>
+  </div>
+  <div class="modal">
+    <div id="main-container" class="modal-template">
+        <div class="modal-header">
+            <div class="navigation-bar">
+                <div class="close-modal-btn-wrapper">
+                    <span class="close-modal-btn">&#88;</span>
+                </div>
+                <div class="modal-nav-links">
+                    <span id="main" class="modal-nav-link">Main</span>
+                    <span id="stats" class="modal-nav-link">Stats</span>
+                    <span id="skins" class="modal-nav-link">Skins</span>
+                </div>
+            </div>
+            <div class="champion-heading">
+                <h1 class="champion-name"></h1>
+                <h4 class="champion-title"></h4>
+                <div class="champion-roles"></div>
+            </div>
+        </div>
+        <div class="champion-details">
+            <div class="champion-main-info">
+                <div class="lore-container">
+                    <h3 class="lore-heading subheading">Lore</h3>
+                </div>
+                <div class="champion-tips-section">
+                    <h4 class="tips-heading subheading">Tips</h4>
+                </div>
+            </div>
+            <div class="champion-extra-info">
+                <div class="abilities-container">
+                    <h4 class="abilities-heading subheading">Abilities</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="stats-container" class="modal-template">
+        <div class="modal-header">
+            <div class="navigation-bar">
+                <div class="close-modal-btn-wrapper">
+                    <span class="close-modal-btn">&#88;</span>
+                </div>
+                <div class="modal-nav-links">
+                    <span id="main" class="modal-nav-link">Main</span>
+                    <span id="stats" class="modal-nav-link">Stats</span>
+                    <span id="skins" class="modal-nav-link">Skins</span>
+                </div>
+            </div>
+            <div class="champion-heading">
+                <h1 class="champion-name"></h1>
+                <h4 class="champion-title"></h4>
+                <div class="champion-stats-overview"></div>
+            </div>
+        </div>
+        <div class="champion-main-stats">
+            <div class="champion-damage-container">
+                <h3 class="damage-heading subheading">Damage</h3>
+                <div class="damage-info">
+                    <div class="damage-stats-container">
+                        <div class="damage-type-container" id="physical-damage-container">
+                            <span id="physical-damage-label">Physical</span>
+                        </div>
+                        <div class="damage-type-container" id="magic-damage-container">
+                            <span id="magic-damage-label">Magic</span>
+                        </div>
+                        <div class="damage-type-container" id="true-damage-container">
+                            <span id="true-damage-label">True</span>
+                        </div>
+                    </div>
+                    <svg viewBox="0 0 36 36" class="circular-chart">
+                        <path class="circle" id="magic-damage-stroke"
+                        d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                        fill="none"
+                        strokeDashoffset="100"
+                        stroke-dasharray="100 100"
+                        strokeWidth="2.2"
+                        />
+                        <path class="circle" id="physical-damage-stroke"
+                        stroke-dasharray="60 100"
+                        d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                        fill="none"
+                        strokeWidth="2.2"
+                        />
+                        <path class="circle" id="true-damage-stroke"
+                        stroke-dasharray="20 100"
+                        d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831"
+                        fill="none"
+                        strokeWidth="2.2"
+                        />
+                        <text x="18" y="14.35" class="total-damage-label">Total Damage</text>
+                        <text x="18" y="22.35" class="total-damage-text"></text>
+                    </svg>
+                </div>
+            </div>
+            <div class="champion-item-builds">
+                <h3 class="item-choice-heading subheading">Popular Builds</h3>
+            </div>
+        </div>
+        <div class="champion-matchups">
+            <div class="best-matchups-section matchups-section">
+                <h3 class="best-matchups-heading subheading">Best Matchups</h3>
+            </div>
+            <div class="worst-matchups-section matchups-section">
+                <h3 class="worst-matchups-heading subheading">Worst Matchups</h3>
+            </div>
+        </div>
+    </div>
+    <div id="skins-container" class="modal-template">
+        <div class="modal-header">
+            <div class="navigation-bar">
+                <div class="close-modal-btn-wrapper">
+                    <span class="close-modal-btn">&#88;</span>
+                </div>
+                <div class="modal-nav-links">
+                    <span id="main" class="modal-nav-link">Main</span>
+                    <span id="stats" class="modal-nav-link">Stats</span>
+                    <span id="skins" class="modal-nav-link">Skins</span>
+                </div>
+            </div>
+            <div class="champion-heading">
+                <span class="left-arrow img-scroll-arrow">&#10229;</span>
+                <h1 class="skin-name"></h1>
+                <span class="right-arrow img-scroll-arrow">&#10230;</span>
+            </div>
+        </div>
+    </div>
+  </div> 
+</body>
+</html>
