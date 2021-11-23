@@ -273,7 +273,7 @@ module.exports = class ChampionStats {
 
   getChampionStats = async () => {
     const championMatches = await this.getAllChampionMatches();
-    const response = await axios.get('http://ddragon.leagueoflegends.com/cdn/11.22.1/data/en_US/champion.json');
+    const response = await axios.get('https://ddragon.leagueoflegends.com/cdn/11.22.1/data/en_US/champion.json');
     const allChampionDetails = response.data.data;
 
     for (const match of championMatches) {

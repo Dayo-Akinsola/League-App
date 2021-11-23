@@ -78,7 +78,7 @@ const storeMatchesInDb = async () => {
 const saveChampionsToDb = async () => {
   const versionsResponse = await axios.get('https://ddragon.leagueoflegends.com/api/versions.json');
   const latestVersion = versionsResponse.data[0];
-  const allChampionsResponse = await axios.get(`http://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/champion.json`);
+  const allChampionsResponse = await axios.get(`https://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/champion.json`);
   const allChampions = allChampionsResponse.data.data;
   for (let championId in allChampions){
     let championInstance;
@@ -116,7 +116,7 @@ const saveChampionsToDb = async () => {
 const updateDb = async () => {
   const versionsResponse = await axios.get('https://ddragon.leagueoflegends.com/api/versions.json');
   const latestVersion = versionsResponse.data[0];
-  const allChampionsResponse = await axios.get(`http://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/champion.json`);
+  const allChampionsResponse = await axios.get(`https://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/champion.json`);
   const allChampions = allChampionsResponse.data.data;
 
   

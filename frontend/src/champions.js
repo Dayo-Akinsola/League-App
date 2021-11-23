@@ -11,7 +11,7 @@ import ChampionsPageController from './appControl/championsPageController';
 import SearchbarController from './appControl/searchbarController';
 
 const test = async () => {
-  const response = await fetch('http://ddragon.leagueoflegends.com/cdn/11.22.1/data/en_US/champion.json');
+  const response = await fetch('https://ddragon.leagueoflegends.com/cdn/11.22.1/data/en_US/champion.json');
   const allChampions = await response.json();
 
   // const values = Object.values(allChampions.data);
