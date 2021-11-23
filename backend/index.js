@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const Champion = require('./models/champion');
 const Match = require('./models/match');
+app.use(express.static('dist'));
 // const saveChampionsToDb = require('./storage');
 
 
