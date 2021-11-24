@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config();
-
 const dbUrl = process.env.MONGODB_URI;
 
-mongoose.connect(dbUrl)
+const mongoose = require('mongoose');
+
+mongoose.connect(dbUrl, {useNewUrlParser: "true", useUnifiedTopology: "true"})
   .then(result => {
     console.log('connected to match mongoDB');
   })
