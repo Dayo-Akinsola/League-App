@@ -9,7 +9,8 @@ const getAllChampionDetails = async () => {
 };
 
 const getAllChampionStats = async () => {
-  const response = await fetch('http://localhost:3001/champions', { mode: 'cors' });
+  const baseUrl = '/';
+  const response = await fetch(`${baseUrl}/champions`, { mode: 'cors' });
   const allChampionStats = await response.json();
 
   return allChampionStats;
