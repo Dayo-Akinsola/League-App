@@ -9,8 +9,10 @@ const getAllChampionDetails = async () => {
 };
 
 const getAllChampionStats = async () => {
-  const baseUrl = '/';
-  const response = await fetch(`${baseUrl}/champions`, { mode: 'cors' });
+  const devUrl = 'http://127.0.0.1:5500/frontend/dist/champions.html';
+  const response = window.location.href === devUrl
+    ? await fetch('http://localhost:3001/champions', { mode: 'cors' })
+    : await fetch('champions', { mode: 'cors' });
   const allChampionStats = await response.json();
 
   return allChampionStats;

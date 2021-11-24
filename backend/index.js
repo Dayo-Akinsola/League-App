@@ -7,8 +7,6 @@ app.use(express.static('dist'));
 
 
 app.get('/champions', async (request, response) => {
-  console.log(request.protocol);
-  console.log(request.get('host'));
   response.setHeader('Access-Control-Allow-Origin', '*');
   const allChampions = await Champion.find({});
   response.json(allChampions);
