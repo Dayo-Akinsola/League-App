@@ -9,20 +9,16 @@ const getSecondsToSleep = (retryAfter) => {
 
 const fetchAndRetryIfNecessary = async (apiCall) => {
   const response = await apiCall();
-
   if (response.status === 429) {
+    console.log(response.status);
     const retryAfter = response.headers['retry-after'];
     const secondsToSleep = getSecondsToSleep(retryAfter);
     await sleep(secondsToSleep);
     return fetchAndRetryIfNecessary(apiCall);
   }
 
-  if (response.status === 404) {
+  else if (response.status === 404) {
     throw 'Match does not exist';
-  }
-
-  else {
-    throw 'API Rejection';
   }
 
   return response;
