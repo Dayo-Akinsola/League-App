@@ -1,10 +1,7 @@
 const express = require('express');
 const app = express();
 const Champion = require('./models/champion');
-const Match = require('./models/match');
 app.use(express.static('dist'));
-// const saveChampionsToDb = require('./storage');
-
 
 app.get('/champions', async (request, response) => {
   response.setHeader('Access-Control-Allow-Origin', '*');
@@ -23,10 +20,7 @@ app.get('/:championId', async (request, response) => {
   catch {
     response.status(404).send({ error: 'Champion does not exist'});
   }
- 
 });
-
-
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
