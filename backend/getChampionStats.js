@@ -2,8 +2,8 @@
 const Match = require('./models/match');
 const { default: axios } = require('axios');
 
-// Note: Champions are the characters you can play in a League of Legends match.
-// Role of this class is to take data from the matches db and analyse it so it can be used in the champions db.
+/* Note: Champions are the characters you can play in a League of Legends match. */
+/* Role of this class is to take data from the matches db and analyse it so it can be used in the champions db. */
 module.exports = class ChampionStats {
   constructor(championId) {
     this.championId = championId;
@@ -13,7 +13,7 @@ module.exports = class ChampionStats {
       matches: 0,
     }
     
-    // kda: Stands for Kills, Deaths, Assists
+    /* kda: Stands for Kills, Deaths, Assists */
     this.kda = {
       kills: 0,
       deaths: 0,
@@ -39,7 +39,7 @@ module.exports = class ChampionStats {
       },
     };
 
-    // Where on the map the champion is mostly played
+    /* Where on the map the champion is mostly played */
     this.lane = {
       TOP: 0,
       MIDDLE: 0,
@@ -48,9 +48,12 @@ module.exports = class ChampionStats {
       UTILITY: 0,
     };
 
+    /* 
+      Will contain arrays which have the items that a champion has bought by the end of a match.
+    */
     this.itemSets = {};
 
-    // Holds stats for how this champion performs against specific opposing champions in the same lane
+    /* Holds stats for how this champion performs against specific opposing champions in the same lane */
     this.statsAgainstEnemyChampions = {};
   }
 
@@ -95,13 +98,13 @@ module.exports = class ChampionStats {
     this.kda.assists += championStats.assists;
   }
   
-  // Calculates the number of kills, deaths and assits a champion has on average.
+  /* Calculates the number of kills, deaths and assits a champion has on average. */
   calculateChampionKdaRatio = () => {
-    //Calculates the kill, death, assist ratio
+    /* Calculates the kill, death, assist ratio */
     const kdaArray = Object.values(this.kda);
     const minValue = Math.min(...kdaArray);
 
-    // toFixed makes these values strings
+    /* toFixed makes these values strings */
     this.kda.kills  = (this.kda.kills/minValue).toFixed(2);  
     this.kda.deaths = (this.kda.deaths/minValue).toFixed(2); 
     this.kda.assists = (this.kda.assists/minValue).toFixed(2);
@@ -151,22 +154,22 @@ module.exports = class ChampionStats {
     return mostPopularLaneChoice;
   }
 
-  // Each item is uniquely identfied as a four digit int in the riot api
+  /* Each item is uniquely identfied as a four digit int in the riot api */
   recordItemSetChoice = (championStats) => {
     const itemSet = [];
 
     for (let i = 0; i < 7; i++) {
       itemSet.push(championStats[`item${i}`]);
     }
-    // Items array is sorted because two item sets can be identical, but in a different order
+    /* Items array is sorted because two item sets can be identical, but in a different order */
     const sortedItems = itemSet.sort((a, b) => a - b);
 
-    // Ignores sets where there is a no item slot and where there are starter items
+    /* Ignores sets where there is a no item slot and where there are starter items */
     if (sortedItems[0] !== 0 && sortedItems[0].toString()[0] !== '1' ) {
       
       /*
-      The number of different item sets across thousands of matches is vast so I turned each
-      item set into an array so it can be used and indentified as a key in the itemSets object.
+        The number of different item sets across thousands of matches is vast so I turned each
+        item set into an array so it can be used and indentified as a key in the itemSets object.
       */
       if (this.itemSets[sortedItems.toString()]){
         this.itemSets[sortedItems.toString()] += 1
@@ -192,10 +195,12 @@ module.exports = class ChampionStats {
   }
 
   recordStatsAgainstEnemyChampion = async (match, championStats, allChampionDetails) => {
+    /* championPosition is where the champion of this instance played for the match */
     const championPosition = championStats.teamPosition;
     const matchWon = championStats.win;
     const matchParticipants = match.matchData.info.participants;
 
+    /* The filter checks which champion had the same position as the instance champion on the enemy team */
     const enemyChampion = matchParticipants.filter(champion => {
       if (champion.teamPosition === championPosition && champion.championName !== this.championId) {
         return champion;
@@ -244,19 +249,26 @@ module.exports = class ChampionStats {
     }
   }
 
-  // Gets champions who this champion wins and losses the most to.
+  /* Gets champions who this champion wins and losses the most to. */
   getBestAndWorstMatchUps = () => {
     this.calculateWinRateAgainstEnemyChampions();
 
     const matchUpsArray = Object.entries(this.statsAgainstEnemyChampions);
 
-    // Remove matchups with too low a sample size
-    const filteredMatchUps = matchUpsArray.filter(matchUp => {
-      if (matchUp[1].matches >= 3) {
-        return matchUp
+    /* Remove matchups with too low a sample size */
+    let filteredMatchUpsTen = matchUpsArray.filter(matchUp => {
+      if (matchUp[1].matches >= 10) {
+        return matchUp;
       }
-    })
+    });
 
+    let filteredMatchUpsThree = matchUpsArray.filter(matchUp => {
+      if (matchUp[1].matches >= 3) {
+        return matchUp;
+      }
+    });
+
+    const filteredMatchUps = filteredMatchUpsTen.length >= 6 ? filteredMatchUpsTen : filteredMatchUpsThree;
     const matchUpsSortedByWinRate = filteredMatchUps.sort((a, b) => b[1].winRateAgainst - a[1].winRateAgainst);
     const bestMatchUps = [];
     const worstMatchUps = [];
