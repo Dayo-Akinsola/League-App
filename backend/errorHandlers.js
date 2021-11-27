@@ -8,20 +8,28 @@ const getSecondsToSleep = (retryAfter) => {
 }
 
 const fetchAndRetryIfNecessary = async (apiCall) => {
-  const response = await apiCall();
-  if (response.status === 429) {
-    console.log(response.status);
-    const retryAfter = response.headers['retry-after'];
-    const secondsToSleep = getSecondsToSleep(retryAfter);
-    await sleep(secondsToSleep);
-    return fetchAndRetryIfNecessary(apiCall);
+
+  try {
+    const data = await apiCall();
+    return data;
   }
 
-  else if (response.status === 404) {
-    throw 'Match does not exist';
+  catch(error) {
+    if (error.response.status === 429) {
+      console.log(error.response.statusText);
+      const retryAfter = error.response.headers['retry-after'];
+      const secondsToSleep = getSecondsToSleep(retryAfter);
+      await sleep(secondsToSleep);
+      return fetchAndRetryIfNecessary(apiCall);
+    }
+  
+    else if (error.response.status === 404) {
+      throw 'Match does not exist';
+    }
+  
   }
+  
 
-  return response;
 }
 
 module.exports = fetchAndRetryIfNecessary;
