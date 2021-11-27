@@ -1,4 +1,7 @@
 #!/app/.heroku/node/bin/node
+const express = require('express');
+const app = express();
+
 const Player = require('../models/player');
 const Match = require('../models/match');
 const Champion = require('../models/champion');
