@@ -165,10 +165,14 @@ const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
 
 const storageQueue = new Queue('storage', REDIS_URL);
 
-const job = await storageQueue.add(storeData);
+const job = storageQueue.add(storeData);
 
-storageQueue.process( async (job) => {
-  console.log(job);  
-})
+job
+  .then(() => {
+    storageQueue.process( async (job) => {
+      console.log(job);  
+    })
+  });
+
 
 
