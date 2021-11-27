@@ -9,6 +9,7 @@ const getUniqueId = require('../apiCalls/getUniqueId');
 const MatchInfo = require('../apiCalls/getMatchInfo');
 const { RateLimiter } = require('limiter');
 const fetchAndRetryIfNecessary = require('../errorHandlers');
+const Queue = require('bull');
 
 
 const Storage = () => {
@@ -157,6 +158,17 @@ async function storeData() {
   console.log('storage complete');
 };
 
-storeData()
-.then(() => process.exit());
+// storeData()
+// .then(() => process.exit());
+
+const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
+
+const storageQueue = new Queue('storage', REDIS_URL);
+
+const job = await storageQueue.add(storeData);
+
+storageQueue.process( async (job) => {
+  console.log(job);  
+})
+
 
