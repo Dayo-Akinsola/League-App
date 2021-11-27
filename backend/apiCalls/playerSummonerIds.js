@@ -8,7 +8,6 @@ const PlayerSummonerIds = (tier) => {
   const getSummonerIds = async () => { 
     try {
       let pageNum = 5;
-      console.log(process.env.API_KEY);
       const requestUrl = `https://euw1.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/${tier}/I?page=${pageNum}&api_key=${process.env.API_KEY}`;
       const response = await axios.get(requestUrl);
       const playerData = response.data;
