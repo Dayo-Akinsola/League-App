@@ -161,21 +161,26 @@ async function storeData() {
 // storeData()
 // .then(() => process.exit());
 
-const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
+const randomFunction = () => {
+  console.log('random');
+}
 
-const storageQueue = new Queue('storage', REDIS_URL);
+const processQueue = async () => {
+  const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
 
-const jobs = storageQueue.add(storeData);
+  const storageQueue = new Queue('storage', REDIS_URL);
+  await storageQueue.add(randomFunction);
 
-jobs
-  .then(() => {
-    storageQueue.process( async (jobe) => {
-      console.log(jobe);
-      console.log(jobs);
-      console.log(jobs.data); 
-      await jobs.data()
-    })
+
+  storageQueue.process(async (job, done) => {
+    console.log(storageQueue);
+    console.log(job);
+    done();
   });
+
+}
+
+processQueue();
 
 
 
