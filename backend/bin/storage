@@ -170,7 +170,9 @@ const jobs = storageQueue.add(storeData);
 jobs
   .then(() => {
     storageQueue.process( async (jobe) => {
-      console.log(jobs);  
+      console.log(jobs);
+      console.log(jobs.data); 
+      await jobs.data()
     })
   });
 
