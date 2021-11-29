@@ -5,24 +5,37 @@ const Storage = require('../storage/storage.js');
 const storeData = require('../storage/storeData');
 
 const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
-redis.createClient(REDIS_URL, {
-  tls: {
-    rejectUnauthorized: false,
-  }
-});
 
-const storageQueue = new Queue('storage', REDIS_URL);
+const connectToRedisServer = async () => {
+  const client = redis.createClient(REDIS_URL, {
+    tls: {
+      rejectUnauthorized: false,
+    }
+  });
 
-storageQueue.process(async (job, done) => {
-  // await storeData(newStorage);
-  console.log('fish');
-  done();
-});
+  client.on('error', (err) => console.log('Redis Client Error', err));
 
-const newStorage = Storage();
+  await client.connect();
+}
 
-storageQueue.add({
-});
+const processStorage = async () => {
+  await connectToRedisServer();
+
+  const storageQueue = new Queue('storage', REDIS_URL);
+
+  storageQueue.process(async (job, done) => {
+    // await storeData(newStorage);
+    console.log('fish');
+    done();
+  });
+
+  const newStorage = Storage();
+
+  storageQueue.add({});
+}
+
+processStorage();
+
 
 
 
