@@ -2,6 +2,8 @@
 // const { createClient } = require('redis');
 const Queue = require('bull');
 const Storage = require('../storage/storage.js');
+const dotenv = require('dotenv');
+dotenv.config();
 const storeData = require('../storage/storeData');
 
 const REDIS_URL = process.env.REDISTOGO_URL || 'redis://127.0.0.1:6379';
