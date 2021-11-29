@@ -20,7 +20,10 @@ const connectToRedisServer = async () => {
   }
 
   console.log(redis);
-  redis.on('error', (err) => console.log('Redis Client Error', err));
+  redis.on('error', (err) => {
+    redis.disconnect(true);
+    console.log('Redis Client Error', err)
+  });
 
   await redis.connect();
 }
