@@ -25,7 +25,8 @@
     "express": "^4.17.1",
     "limiter": "^2.1.0",
     "mongoose": "^6.0.12",
-    "node-cache": "^5.1.2"
+    "node-cache": "^5.1.2",
+    "redis": "^4.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"
