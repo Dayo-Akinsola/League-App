@@ -42,17 +42,17 @@ const processStorage = async () => {
     console.log(error.message);
   }
 
-  // const storageQueue = new Queue('storage');
-// 
-  // storageQueue.process(async (job, done) => {
-  //   // await storeData(newStorage);
-  //   console.log('fish');
-  //   done();
-  // });
-// 
-  // const newStorage = Storage();
-// 
-  // storageQueue.add({});
+  const storageQueue = new Queue('storage');
+
+  storageQueue.process(async (job, done) => {
+    // await storeData(newStorage);
+    console.log('fish');
+    done();
+  });
+
+  const newStorage = Storage();
+
+  storageQueue.add({});
 }
 
 processStorage();
