@@ -12,7 +12,7 @@ const connectToRedisServer = async () => {
   if (process.env.REDISTOGO_URL) {
     const rtg = new URL(process.env.REDISTOGO_URL);
     redis = require('redis').createClient(rtg.port, rtg.hostname);
-    redis.auth(rtg.password);
+    await redis.auth(rtg.password);
   }
 
   else {
