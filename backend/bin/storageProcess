@@ -12,7 +12,12 @@ const connectToRedisServer = async () => {
   if (process.env.REDISTOGO_URL) {
     const rtg = new URL(process.env.REDISTOGO_URL);
     redis = require('redis').createClient(process.env.REDISTOGO_URL);
-    await redis.auth(rtg.password);
+    try {
+      await redis.auth(rtg.password);
+    }
+    catch(error) {
+      console.log(error.message);
+    }
   }
 
   else {
@@ -28,19 +33,26 @@ const connectToRedisServer = async () => {
 }
 
 const processStorage = async () => {
-  await connectToRedisServer();
+  try {
+    await connectToRedisServer();
+    console.log('connected to server');
+  }
 
-  const storageQueue = new Queue('storage');
+  catch(error) {
+    console.log(error.message);
+  }
 
-  storageQueue.process(async (job, done) => {
-    // await storeData(newStorage);
-    console.log('fish');
-    done();
-  });
-
-  const newStorage = Storage();
-
-  storageQueue.add({});
+  // const storageQueue = new Queue('storage');
+// 
+  // storageQueue.process(async (job, done) => {
+  //   // await storeData(newStorage);
+  //   console.log('fish');
+  //   done();
+  // });
+// 
+  // const newStorage = Storage();
+// 
+  // storageQueue.add({});
 }
 
 processStorage();
