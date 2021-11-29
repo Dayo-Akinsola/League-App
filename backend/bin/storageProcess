@@ -7,7 +7,7 @@ const storeData = require('../storage/storeData');
 const REDIS_URL = process.env.REDIS_TLS_URL || 'redis://127.0.0.1:6379';
 
 const connectToRedisServer = async () => {
-  const client = createClient(url.parse(REDIS_URL), {
+  const client = createClient(REDIS_URL, {
     tls: {
       rejectUnauthorized: false,
     }
