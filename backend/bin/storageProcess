@@ -19,13 +19,12 @@ const connectToRedisServer = async () => {
     redis = require('redis').createClient();
   }
 
-  console.log(redis);
-  redis.on('error', (err) => {
-    redis.disconnect(true);
-    console.log('Redis Client Error', err)
-  });
+  //console.log(redis);
+  //redis.on('error', (err) => {
+  //  redis.disconnect(true);
+  //  console.log('Redis Client Error', err)
+  //});
 
-  await redis.connect();
 }
 
 const processStorage = async () => {
