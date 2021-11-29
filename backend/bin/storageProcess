@@ -12,13 +12,13 @@ const connectToRedisServer = async () => {
   if (process.env.REDISTOGO_URL) {
     const rtg = new URL(process.env.REDISTOGO_URL);
     redis = require('redis').createClient(process.env.REDISTOGO_URL);
-    try {
-      await redis.auth(rtg.password);
-    }
-    catch(error) {
-      console.log('error 1');
-      console.log(error.message);
-    }
+    // try {
+    //   await redis.auth(rtg.password);
+    // }
+    // catch(error) {
+    //   console.log('error 1');
+    //   console.log(error.message);
+    // }
   }
 
   else {
