@@ -26,7 +26,7 @@ const connectToRedisServer = async () => {
 const processStorage = async () => {
   await connectToRedisServer();
 
-  const storageQueue = new Queue('storage', REDIS_URL);
+  const storageQueue = new Queue('storage');
 
   storageQueue.process(async (job, done) => {
     // await storeData(newStorage);
