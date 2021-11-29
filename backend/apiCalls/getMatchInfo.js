@@ -1,9 +1,8 @@
 const axios = require('axios');
 const dotenv = require('dotenv');
 dotenv.config();
-// const fetchAndRetryIfPossible = require('../errorHandlers');
 
-const MatchInfo = (() => {
+module.exports = MatchInfo = (() => {
 
   /* Retrives match ids for a player */
   const getPlayerMatchIds = async (uniqueId) => {
@@ -14,11 +13,6 @@ const MatchInfo = (() => {
   const response = await axios.get(requestUrl);
   const matchIds = response.data;
   return matchIds;
-
-   // catch(error) {
-   //   await fetchAndRetryIfPossible(getPlayerMatchIds, uniqueId, error);
-   // }
-
   }
   
   /* Uses the match ids to get data about a given match */
@@ -26,11 +20,6 @@ const MatchInfo = (() => {
     const response = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${process.env.API_KEY}`);
     const matchData = response.data;
     return matchData;
-
-    // catch(error) {
-    //   await fetchAndRetryIfPossible(getMatchData, matchId, error);
-    // }
-
   }
 
   return {
@@ -40,4 +29,3 @@ const MatchInfo = (() => {
 
 })();
 
-module.exports = MatchInfo;

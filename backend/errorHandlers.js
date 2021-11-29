@@ -7,7 +7,7 @@ const getSecondsToSleep = (retryAfter) => {
   return secondsToSleep;
 }
 
-const fetchAndRetryIfNecessary = async (apiCall) => {
+ module.exports = fetchAndRetryIfNecessary = async (apiCall) => {
 
   try {
     const data = await apiCall();
@@ -31,5 +31,3 @@ const fetchAndRetryIfNecessary = async (apiCall) => {
   
 
 }
-
-module.exports = fetchAndRetryIfNecessary;

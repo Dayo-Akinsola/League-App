@@ -2,7 +2,7 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const PlayerSummonerIds = (tier) => {
+module.exports = PlayerSummonerIds = (tier) => {
 
   //Collects summoner ids for players in a given tier 
   const getSummonerIds = async () => { 
@@ -44,9 +44,6 @@ const PlayerSummonerIds = (tier) => {
     getEliteSummonerIds,
   }
 };
-
-
-module.exports = PlayerSummonerIds;
 
 
 
