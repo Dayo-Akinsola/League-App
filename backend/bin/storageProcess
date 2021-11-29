@@ -1,13 +1,13 @@
 #!/app/.heroku/node/bin/node
-const redis = require('redis');
+const { createClient } = require('redis');
 const Queue = require('bull');
 const Storage = require('../storage/storage.js');
 const storeData = require('../storage/storeData');
 
-const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
+const REDIS_URL = process.env.REDIS_TLS_URL || 'redis://127.0.0.1:6379';
 
 const connectToRedisServer = async () => {
-  const client = redis.createClient(REDIS_URL, {
+  const client = createClient(url.parse(REDIS_URL), {
     tls: {
       rejectUnauthorized: false,
     }
