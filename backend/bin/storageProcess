@@ -10,12 +10,14 @@ const connectToRedisServer = async () => {
   let client;
   console.log(REDIS_URL);
   if (process.env.REDIS_TLS_URL) {
+    console.log('production');
     client = createClient(REDIS_URL, {
       tls: {
         rejectUnauthorized: false,
       }
     });
   } else {
+    console.log('development');
     client = createClient();
   }
   
