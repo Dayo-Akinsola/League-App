@@ -1,29 +1,27 @@
 #!/app/.heroku/node/bin/node
-const { createClient } = require('redis');
+// const { createClient } = require('redis');
 const Queue = require('bull');
 const Storage = require('../storage/storage.js');
 const storeData = require('../storage/storeData');
 
-const REDIS_URL = process.env.REDIS_TLS_URL || 'redis://127.0.0.1:6379';
+const REDIS_URL = process.env.REDISTOGO_URL || 'redis://127.0.0.1:6379';
 
 const connectToRedisServer = async () => {
-  let client;
-  console.log(REDIS_URL);
-  if (process.env.REDIS_TLS_URL) {
-    console.log('production');
-    client = createClient(REDIS_URL, {
-      tls: {
-        rejectUnauthorized: false,
-      }
-    });
-  } else {
-    console.log('development');
-    client = createClient();
+  let redis;
+  if (process.env.REDISTOGO_URL) {
+    const rtg = URL.parse(process.env.REDISTOGO_URL);
+    redis = require('redis').createClient(rtg.port, rtg.hostname);
+    redis.auth(rtg.auth.split(":")[1]);
   }
-  
-  client.on('error', (err) => console.log('Redis Client Error', err));
 
-  await client.connect();
+  else {
+    redis = require('redis').createClient();
+  }
+
+  
+  redis.on('error', (err) => console.log('Redis Client Error', err));
+
+  await redis.connect();
 }
 
 const processStorage = async () => {
