@@ -1,50 +1,15 @@
 #!/app/.heroku/node/bin/node
-// const { createClient } = require('redis');
 const Queue = require('bull');
 const Storage = require('../storage/storage.js');
 const dotenv = require('dotenv');
 dotenv.config();
 const storeData = require('../storage/storeData');
 
-const REDIS_URL = process.env.REDISTOGO_URL || 'redis://127.0.0.1:6379';
-const connectToRedisServer = async () => {
-  let redis;
-  if (process.env.REDISTOGO_URL) {
-    const rtg = new URL(process.env.REDISTOGO_URL);
-    redis = require('redis').createClient(process.env.REDISTOGO_URL);
-    // try {
-    //   await redis.auth(rtg.password);
-    // }
-    // catch(error) {
-    //   console.log('error 1');
-    //   console.log(error.message);
-    // }
-  }
-
-  else {
-    redis = require('redis').createClient();
-  }
-
-  //console.log(redis);
-  //redis.on('error', (err) => {
-  //  redis.disconnect(true);
-  //  console.log('Redis Client Error', err)
-  //});
-
-}
-
+const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
+console.log(REDIS_URL);
 const processStorage = async () => {
-  try {
-    await connectToRedisServer();
-    console.log('connected to server');
-  }
 
-  catch(error) {
-    console.log('error 2');
-    console.log(error.message);
-  }
-
-  const storageQueue = new Queue('storage');
+  const storageQueue = new Queue('storage', REDIS_URL);
 
   storageQueue.process(async (job, done) => {
     // await storeData(newStorage);
@@ -54,7 +19,7 @@ const processStorage = async () => {
 
   const newStorage = Storage();
 
-  storageQueue.add({});
+  await storageQueue.add({});
 }
 
 processStorage();
