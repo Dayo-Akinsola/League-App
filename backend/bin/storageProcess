@@ -6,13 +6,13 @@ dotenv.config();
 const storeData = require('../storage/storeData');
 
 const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
-console.log(REDIS_URL);
+
 const processStorage = async () => {
 
   const storageQueue = new Queue('storage', REDIS_URL);
 
   storageQueue.process(async (job, done) => {
-    // await storeData(newStorage);
+    await storeData(newStorage);
     console.log('fish');
     done();
   });
