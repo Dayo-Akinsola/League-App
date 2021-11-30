@@ -1,14 +1,14 @@
-const Player = require('../models/player');
-const Match = require('../models/match');
-const Champion = require('../models/champion');
+const Player = require('../../models/player');
+const Match = require('../../models/match');
+const Champion = require('../../models/champion');
 const PlayerSummonerIds = require('../apiCalls/playerSummonerIds');
 const ChampionStats = require('../getChampionStats');
-const { default: axios } = require('axios');
 const getUniqueId = require('../apiCalls/getUniqueId');
 const MatchInfo = require('../apiCalls/getMatchInfo');
 const { RateLimiter } = require('limiter');
 const fetchAndRetryIfNecessary = require('../errorHandlers');
 const getRank = require('./getRank');
+const { default: axios } = require('axios');
 
 /* Responsible for calling the api endpoint modules and storing data from the calls in the player, match and champion databases */
 module.exports = Storage = () => {
