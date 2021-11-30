@@ -18,7 +18,7 @@ const getCurrentRank = (currentRank) => {
 
 const incrementCurrentRank = (index) => {
   index += 1;
-  fs.writeFile('./ranks.txt', index.toString(), (err) => {
+  fs.writeFile('./dataUpdate/storage/ranks.txt', index.toString(), (err) => {
     if (err) {
       console.log(err);
     } 
@@ -30,7 +30,7 @@ module.exports = getRank = async () => {
 
 
   const fileNum = new Promise((resolve, reject) => {
-    return fs.readFile('./ranks.txt', 'utf-8', (err, data) => {
+    return fs.readFile('./dataUpdate/storage/ranks.txt', 'utf-8', (err, data) => {
       let index = parseInt(data);
       const currentRank = selectCurrentRank(ranks, index);
       incrementCurrentRank(index);
