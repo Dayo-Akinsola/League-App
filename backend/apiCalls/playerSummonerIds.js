@@ -2,13 +2,19 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 dotenv.config();
 
-module.exports = PlayerSummonerIds = (tier) => {
+module.exports = PlayerSummonerIds = (tier, rank) => {
+
+  const getRandomInt = (max) => {
+    const randomInt = Math.floor(Math.random() * max);
+    return randomInt;
+  }
+
 
   //Collects summoner ids for players in a given tier 
   const getSummonerIds = async () => { 
     try {
-      let pageNum = 5;
-      const requestUrl = `https://euw1.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/${tier}/I?page=${pageNum}&api_key=${process.env.API_KEY}`;
+      const pageNum = getRandomInt(40);
+      const requestUrl = `https://euw1.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/${tier}/${rank}?page=${pageNum}&api_key=${process.env.API_KEY}`;
       const response = await axios.get(requestUrl);
       const playerData = response.data;
       const summonerIds = playerData.map(player => player.summonerId);

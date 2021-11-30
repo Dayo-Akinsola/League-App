@@ -8,14 +8,17 @@ const getUniqueId = require('../apiCalls/getUniqueId');
 const MatchInfo = require('../apiCalls/getMatchInfo');
 const { RateLimiter } = require('limiter');
 const fetchAndRetryIfNecessary = require('../errorHandlers');
+const getRank = require('./getRank');
 
+/* Responsible for calling the api endpoint modules and storing data from the calls in the player, match and champion databases */
 module.exports = Storage = () => {
 
   const collectSummonerIds = async () => {
-    const tiers = ['PLATINUM', 'DIAMOND', 'master', 'grandmaster', 'challenger'];
+    const tiers = ['IRON', 'BRONZE', 'SILVER', 'GOLD', 'PLATINUM', 'DIAMOND', 'master', 'grandmaster', 'challenger'];
+    const rank = await getRank();
     const pendingRequests = [];
     tiers.forEach((tier) => {
-      const playerSummonerIds = PlayerSummonerIds(tier);
+      const playerSummonerIds = PlayerSummonerIds(tier, rank);
       const summonerIds = tier.toUpperCase() === tier ? playerSummonerIds.getSummonerIds() : playerSummonerIds.getEliteSummonerIds();
       pendingRequests.push(summonerIds);
     });
