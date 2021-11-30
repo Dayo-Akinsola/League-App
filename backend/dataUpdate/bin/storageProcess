@@ -2,28 +2,39 @@
 
 /* This process is pinged once a day by heroku scheduler and gathers data for champion stats to be updated */
 const Queue = require('bull');
-const Storage = require('../storage/storage.js');
-const dotenv = require('dotenv');
-dotenv.config();
-const storeData = require('../storage/storeData');
+const throng = require('throng');
 
-const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
+const REDIS_URL = process.env.REDIS_URL || "redis://127.0.0.1:6379";
 
-const processStorage = async () => {
+const workers = 1;
 
+function processQueue() {
+  const Storage = require('../storage/storage.js');
+  const storeData = require('../storage/storeData');
   const storageQueue = new Queue('storage', REDIS_URL);
-
-  storageQueue.process(async (job, done) => {
-    await storeData(newStorage);
-    done();
-  });
 
   const newStorage = Storage();
 
-  await storageQueue.add({});
+  storageQueue.process(1, async (job, done) => {
+    await storeData(newStorage);
+    done();
+  });
 }
 
-processStorage();
+throng({
+  start: processQueue,
+  workers,
+  lifetime: Infinity,
+});
+
+
+
+
+
+
+
+
+
 
 
 
