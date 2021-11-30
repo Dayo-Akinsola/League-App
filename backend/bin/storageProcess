@@ -1,4 +1,6 @@
 #!/app/.heroku/node/bin/node
+
+/* This process is pinged once a day by heroku scheduler and gathers data for champion stats to be updated */
 const Queue = require('bull');
 const Storage = require('../storage/storage.js');
 const dotenv = require('dotenv');
@@ -13,7 +15,6 @@ const processStorage = async () => {
 
   storageQueue.process(async (job, done) => {
     await storeData(newStorage);
-    console.log('fish');
     done();
   });
 
