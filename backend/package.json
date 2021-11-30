@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node_modules/.bin/nodemon index.js",
-    "storage": "node ./dataUpdate/bin/storageProcess"
+    "dev": "node_modules/.bin/nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -26,7 +25,8 @@
     "express": "^4.17.1",
     "limiter": "^2.1.0",
     "mongoose": "^6.0.12",
-    "node-cache": "^5.1.2"
+    "node-cache": "^5.1.2",
+    "throng": "^5.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"
