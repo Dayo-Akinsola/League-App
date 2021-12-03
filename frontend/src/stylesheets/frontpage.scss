@@ -18,6 +18,25 @@
   position: absolute;
   width: 100%;
   z-index: -4;
+  font-family: "Barlow", sans-serif;
+
+  .app-name-container {
+    background-color: var(--dark-gold);
+    padding: 0.3em;
+    border-radius: 8px 0px 8px 0;
+    cursor: pointer;
+  }
+
+  .app-name {
+    font-weight: 900;
+    font-size: 2rem;
+    letter-spacing: 3px;
+  }
+
+  .app-name-container:hover {
+    color: var(--dark-gold);
+    background-color: white;
+  }
 
   .page-header {
     display: flex;
@@ -32,8 +51,29 @@
     align-items: center;
   }
 
-  .search-container {
-    display: none;
+  .app-name-display-container {
+    position: absolute;
+    top: 0;
+    letter-spacing: 3px;
+    background-color: #181a20b3;
+    padding: 0.2em;
+    border-radius: 11px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding-top: 6em;
+  }
+
+  .app-name-display {
+    font-size: 2em;
+    margin-bottom: 6px;
+    color: var(--light-gold);
+  }
+
+  .slogan-display {
+    color: white;
+    font-size: 1.2em;
+    margin-top: 2em;
   }
 
   .search {
@@ -44,7 +84,6 @@
     border-style: none;
     color: var(--rasin-black);
     font-weight: 600;
-    border-radius: 0.5em 0.5em;
     min-height: 2.6em;
     font-size: 1em;
 
@@ -84,16 +123,31 @@
     background-image: linear-gradient(90deg,#14181d,rgba(20,24,29,.985565) .97%,rgba(20,24,29,.945131) 2.07833%,rgba(20,24,29,.883007) 3.29667%,rgba(20,24,29,.803499) 4.60167%,rgba(20,24,29,.710915) 5.96667%,rgba(20,24,29,.609563) 7.365%,rgba(20,24,29,.50375) 8.77167%,rgba(20,24,29,.397784) 10.16%,rgba(20,24,29,.295973) 11.505%,rgba(20,24,29,.202624) 12.78%,rgba(20,24,29,.122044) 13.95833%,rgba(20,24,29,.0585423) 15.01667%,rgba(20,24,29,.0164249) 15.92833%,rgba(20,24,29,0) 16.66667%,rgba(20,24,29,0) 83.33333%,rgba(20,24,29,.0164249) 84.07167%,rgba(20,24,29,.0585423) 84.98333%,rgba(20,24,29,.122044) 86.04167%,rgba(20,24,29,.202624) 87.22%,rgba(20,24,29,.295973) 88.495%,rgba(20,24,29,.397784) 89.84%,rgba(20,24,29,.50375) 91.22833%,rgba(20,24,29,.609563) 92.635%,rgba(20,24,29,.710915) 94.03333%,rgba(20,24,29,.803499) 95.39833%,rgba(20,24,29,.883007) 96.70333%,rgba(20,24,29,.945131) 97.92167%,rgba(20,24,29,.985565) 99.03%,#14181d),linear-gradient(0deg,#14181d,#14181d 21.48148%,rgba(20,24,29,.985565) 23.63704%,rgba(20,24,29,.945131) 26.1%,rgba(20,24,29,.883007) 28.80741%,rgba(20,24,29,.803499) 31.70741%,rgba(20,24,29,.710915) 34.74074%,rgba(20,24,29,.609563) 37.84815%,rgba(20,24,29,.50375) 40.97407%,rgba(20,24,29,.397784) 44.05926%,rgba(20,24,29,.295973) 47.04815%,rgba(20,24,29,.202624) 49.88148%,rgba(20,24,29,.122044) 52.5%,rgba(20,24,29,.0585423) 54.85185%,rgba(20,24,29,.0164249) 56.87778%,rgba(20,24,29,0) 58.51852%);
   }
 
+  .backdrop .shown {
+    opacity: 0.7;
+    transition: opacity 0.6s ease-in;
+  }
+
+  .backdrop .hidden {
+    opacity: 0;
+    position: fixed;
+    transition: opacity 0.6s ease-in;
+  }
+
+  #tpa-backdrop.hidden{
+    transition: none;
+  }
+
   .slogan-container {
     display: flex;
     flex-direction: column;
     position: absolute;
-    margin-top: 17em;
+    top: 16em;
   }
 
   .slogan-1 {
     color: white;
-    font-size: 1.7rem;
+    font-size: 1.3rem;
     font-weight: 600;
     text-transform: uppercase;
     text-align: center;
@@ -102,7 +156,7 @@
 
   .slogan-2 {
     color: white;
-    font-size: 2.1rem;
+    font-size: 1.8rem;
     font-weight: 900;
     text-transform: uppercase;
     text-align: center;
@@ -115,6 +169,7 @@
     justify-content: space-evenly;
     margin-bottom: 2em;
     width: 100%;
+    padding-bottom: 2em;
   }
 
   .front-page-btn {
@@ -127,31 +182,27 @@
     border-style: none;
     background-color: var(--dark-gold);
   }
+
   .front-page-btn:hover {
     background-color: var(--light-gold);
   }
 
   .mobile-search-container {
-    margin-bottom: 3em;
-  }
+    position: relative;
+    display: block;
+    max-width: 100%;
+    margin: auto;
 
-  .mobile-search {
-    padding: 0.5em;
-    min-width: 18em;
-    background: #e2e4e9;
-    outline: none;
-    border-style: none;
-    color: var(--rasin-black);
-    font-weight: 600;
-    border-radius: 0.5em 0.5em;
-    min-height: 2.6em;
-    font-size: 1em;
+    .auto-complete-names {
+      max-height: 10rem;
+    }
   }
 
   .discover-btn-container {
     position: absolute;
     margin-bottom: 3em;
     display: none;
+    top: 21.5em;
   }
 
   .discover-btn {
@@ -159,9 +210,10 @@
     color: var(--rasin-black);
     border-color: var(--rasin-black);
     background-color: var(--dark-gold);
-    font-size: 1.2em;
-    border-radius: 75% 10% / 0% 75%;
+    font-size: 1.4em;
+    border-radius: 75% 10%/0% 75%;
     text-decoration: none;
+    padding: 0.5em;
   }
 
   .discover-btn:hover {
@@ -172,6 +224,56 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .desktop-search-container {
+    position: relative;
+    display: none;
+    max-width: 100%;
+  }
+
+  .auto-complete-names {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 4;
+    top: 100%;
+    width: 100%;
+    max-height: 14rem;
+    overflow: auto;
+    scroll-behavior: smooth; 
+    display: none;
+  }
+
+  .auto-complete-name-wrapper {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff; 
+    border-bottom: 1px solid #d4d4d4; 
+    color: var(--rasin-black);
+    font-weight: 600;
+    width: 100%;
+  }
+
+  .auto-complete-name-wrapper:hover {
+    background-color: var(--light-gold);
+  }
+
+  .auto-complete-name-wrapper:focus {
+    background-color: var(--light-gold);
+  }
+  
+  .search {
+    padding: 0.5em;
+    min-width: 18em;
+    background: #e2e4e9;
+    outline: none;
+    border-style: none;
+    color: var(--rasin-black);
+    font-weight: 600;
+    min-height: 2.6em;
+    font-size: 1em;
   }
 
   .legal-boilerplate {
@@ -186,13 +288,13 @@
     font-weight: 600;
   }
 
-  @media (min-width: 950px) {
+  @media (min-width: 700px) {
     .mobile-search-container {
       display: none;
     }
 
-    .search-container {
-      display: flex;
+    .desktop-search-container {
+      display: block;
     }
   }
 
@@ -208,6 +310,24 @@
     .legal-boilerplate {
       font-size: 1em;
       padding-top: 0.6em;
+    }
+
+    .slogan-container {
+      top: 30em;
+    }
+
+    .slogan-1 {
+      font-size: 1.8rem;
+    }
+
+    .slogan-2 {
+      font-size: 2.1rem;
+    }
+  }
+
+  @media (max-width: 1400px) {
+    .discover-btn-container {
+      top: 18em;
     }
   }
 }
