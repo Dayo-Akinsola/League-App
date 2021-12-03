@@ -17,6 +17,25 @@
   position: absolute;
   width: 100%;
   z-index: -4;
+  font-family: "Barlow", sans-serif;
+  
+  .app-name-container {
+    background-color: var(--dark-gold);
+    padding: 0.3em;
+    border-radius: 8px 0px 8px 0;
+  }
+
+  .app-name {
+    font-weight: 900;
+    font-size: 2rem;
+    letter-spacing: 3px;
+    cursor: pointer;
+  }
+
+  .app-name-container:hover {
+    color: var(--dark-gold);
+    background-color: white;
+  }
 
   .page-header {
     display: flex;
@@ -99,7 +118,19 @@
     cursor: pointer;
     max-width: 9rem;
     position: relative;
-    margin-top: 1.5em
+    margin-top: 1.5em;
+    opacity: 0.8;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .champion-container.shown:hover {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+
+  .champion-container.shown:focus {
+    transform: scale(1.05);
+    opacity: 1;
   }
 
   .champion-container.hidden {
@@ -110,6 +141,13 @@
     max-height: 100%;
     max-width: 100%;
     border-radius: 8%;
+  }
+
+  .champion-img:focus {
+    .champion-container.shown{
+      transform: scale(1.05);
+      opacity: 1;
+    }
   }
 
   .champion-name-wrapper {
@@ -127,6 +165,7 @@
     color: white;
     font-size: 1.2em;
     font-weight: 600;
+    font-family: "Barlow", sans-serif;
   }
   
   .filter-sort-section {
@@ -337,11 +376,29 @@
     .header-option {
       margin-right: 0.5em;
     }
+
+    .filter-sort-section {
+      width: 94%;
+    }
+
+    .search {
+      min-width: 16em;
+      min-height: 1.6em;
+      font-size: 0.95em;
+    }
   }
 
   @media (max-width: 500px) {
     .champions-section {
       grid-template-columns: repeat(2, 1fr);
+    }
+
+    .page-header {
+      flex-direction: column;
+    }
+
+    .app-name-container {
+      margin-bottom: 1em;
     }
   }
 
