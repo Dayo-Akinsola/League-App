@@ -234,9 +234,7 @@ module.exports = class ChampionStats {
     }
     catch(e) {
       console.log('Enemy Champion Not Specified');
-    }
-    
-    
+    }  
   }
 
   calculateWinRateAgainstEnemyChampions = () => {
@@ -285,7 +283,9 @@ module.exports = class ChampionStats {
 
   getChampionStats = async () => {
     const championMatches = await this.getAllChampionMatches();
-    const response = await axios.get('https://ddragon.leagueoflegends.com/cdn/11.22.1/data/en_US/champion.json');
+    const versions = await axios.get('https://ddragon.leagueoflegends.com/api/versions.json');
+    const latestVersion = versions.data[0];
+    const response = await axios.get(`https://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/champion.json`);
     const allChampionDetails = response.data.data;
 
     for (const match of championMatches) {
