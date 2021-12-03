@@ -14,6 +14,6 @@ const createChampionsPage = () => {
       ChampionsPageController.displayChampionModal(championId);
       localStorage.clear();
     }
-  }, 300);
+  }, 500);
 };
 createChampionsPage();
