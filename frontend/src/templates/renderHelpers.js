@@ -66,12 +66,12 @@ const renderDamageStats = (damageType, damageValue, damagePercentage) => {
   damagePercentageElement.textContent = `${damagePercentage}%`;
 };
 
-const renderMatchupsInfo = (matchupsElement, matchupsData) => {
+const renderMatchupsInfo = (matchupsElement, matchupsData, latestVersion) => {
   matchupsData.forEach((matchup) => {
     const matchupInfo = ElementCreation.createChildElementWithClass('div', 'matchup-info', matchupsElement);
     const enemyChampionName = matchup[1].name;
     const enemyChampionId = matchup[0];
-    const enemyChampionImgUrl = `https://ddragon.leagueoflegends.com/cdn/11.22.1/img/champion/${enemyChampionId}.png`;
+    const enemyChampionImgUrl = `https://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/champion/${enemyChampionId}.png`;
     ElementCreation.createChildImageElementWithClass(
       'enemy-champion-img', matchupInfo, enemyChampionImgUrl, `small-${enemyChampionId}`,
     );
