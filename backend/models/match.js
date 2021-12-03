@@ -12,9 +12,38 @@ mongoose.connect(dbUrl, {useNewUrlParser: "true", useUnifiedTopology: "true"})
     console.log('failed to connect to match mongoDB', error.message);
   });
 
+const participantsSchema = new mongoose.Schema({
+  championName: String,
+  assists: Number,
+  deaths: Number,
+  kills: Number,
+  item0: Number,
+  item1: Number,
+  item2: Number,
+  item3: Number,
+  item4: Number,
+  item5: Number,
+  item6: Number,
+  magicDamageDealtToChampions: Number,
+  physicalDamageDealtToChampions: Number,
+  trueDamageDealtToChampions: Number,
+  totalDamageDealtToChampions: Number,
+  teamPosition: String,
+  win: Boolean,
+})
+
+const infoSchema =  new mongoose.Schema({
+  gameCreation: String,
+  participants: [participantsSchema],
+})
+
+const matchDataSchema =  new mongoose.Schema({
+  info: infoSchema,
+})
+
 const matchSchema = new mongoose.Schema({
   matchId: String,
-  matchData: mongoose.Schema.Types.Mixed,
+  matchData: matchDataSchema,
 })
 
 matchSchema.set('toJSON', {
