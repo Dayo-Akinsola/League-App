@@ -1,5 +1,3 @@
-// Renders DOM elements that are repeated across templates
-
 import ElementCreation from '../helpers/elementCreation';
 
 const importAll = (r) => {
@@ -22,13 +20,13 @@ const renderHeaderDetails = (championData, modalContainer) => {
   championName.textContent = championData.name;
 };
 
-// Renders win or pick rate to the DOM
+/* Renders win or pick rate to the DOM */
 const renderStatOverview = (statsOverview, rateText, rateType) => {
   const championRate = document.createElement('div');
   const label = document.createElement('span');
   const rateValue = document.createElement('span');
 
-  // Turns 'Win Rate' into 'win-rate'
+  /* Turns 'Win Rate' into 'win-rate' */
   const lowerCaseText = rateText.replace(' ', '-').toLowerCase();
 
   championRate.className = lowerCaseText;
@@ -71,10 +69,11 @@ const renderDamageStats = (damageType, damageValue, damagePercentage) => {
 const renderMatchupsInfo = (matchupsElement, matchupsData) => {
   matchupsData.forEach((matchup) => {
     const matchupInfo = ElementCreation.createChildElementWithClass('div', 'matchup-info', matchupsElement);
-    const enemyChampionName = matchup[0];
-    const enemyChampionImgUrl = `https://ddragon.leagueoflegends.com/cdn/11.22.1/img/champion/${enemyChampionName}.png`;
+    const enemyChampionName = matchup[1].name;
+    const enemyChampionId = matchup[0];
+    const enemyChampionImgUrl = `https://ddragon.leagueoflegends.com/cdn/11.22.1/img/champion/${enemyChampionId}.png`;
     ElementCreation.createChildImageElementWithClass(
-      'enemy-champion-img', matchupInfo, enemyChampionImgUrl, `small-${enemyChampionName}.png`,
+      'enemy-champion-img', matchupInfo, enemyChampionImgUrl, `small-${enemyChampionId}`,
     );
 
     const matchupStats = ElementCreation.createChildElementWithClass('div', 'matchup-stats', matchupInfo);
@@ -96,10 +95,11 @@ const createChampionContainer = (champion, championsSection) => {
   const championId = champion.id ? champion.id : champion.championName;
   championContainer.dataset.id = championId;
   const championImgUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${championId}_0.jpg`;
-  ElementCreation.createChildImageElementWithClass(
-    'champion-img', championContainer, championImgUrl, championId,
+  const championImg = ElementCreation.createChildImageElementWithClass(
+    'champion-img', championContainer, championImgUrl, '',
   );
-
+  championImg.tabIndex = 0;
+  championContainer.tabIndex = 0;
   const championNameWrapper = ElementCreation.createChildElementWithClass('div', 'champion-name-wrapper', championContainer);
   const championName = ElementCreation.createChildElementWithClass('span', 'champion-name', championNameWrapper);
   championName.textContent = champion.name;
