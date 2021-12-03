@@ -20,7 +20,8 @@ const ChampionModalController = (() => {
   const changeModalTemplate = (clickedModalNavLink) => {
     const templates = document.querySelectorAll('.modal-template');
     templates.forEach((template) => {
-      if (template.id.substring(0, template.id.indexOf('-')) === clickedModalNavLink.id) {
+      const templateName = template.id.substring(0, template.id.indexOf('-'));
+      if (templateName === clickedModalNavLink.id) {
         const chosenTemplate = template;
         chosenTemplate.style.display = 'block';
       } else {
@@ -176,14 +177,28 @@ const ChampionModalController = (() => {
     }
   };
 
+  const modalArrowEvents = (event) => {
+    const skinsContainer = document.querySelector('#skins-container');
+    if (skinsContainer.style.display === 'block') {
+      if (event.key === 'ArrowRight') {
+        const rightArrow = document.querySelector('.right-arrow');
+        toggleSkinImages(Array.from(rightArrow.classList));
+      }
+
+      if (event.key === 'ArrowLeft') {
+        const leftArrow = document.querySelector('.left-arrow');
+        toggleSkinImages(Array.from(leftArrow.classList));
+      }
+    }
+  };
+
   const modalChangeListeners = () => {
     const modal = document.querySelector('.modal');
 
     modal.addEventListener('click', modalClickEvents);
-
     modal.addEventListener('mouseover', modalMouseoverEvents);
-
     modal.addEventListener('mouseout', modalMouseoutEvents);
+    document.addEventListener('keydown', modalArrowEvents);
   };
 
   return {
