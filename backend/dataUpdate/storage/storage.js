@@ -104,7 +104,7 @@ module.exports = Storage = () => {
             });
 
             const match = new Match({
-              matchId: match.matchId,
+              matchId: matchId,
               matchData: {
                 info: {
                   gameCreation: matchData.info.gameCreation,
