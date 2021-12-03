@@ -252,22 +252,11 @@ module.exports = class ChampionStats {
     this.calculateWinRateAgainstEnemyChampions();
 
     const matchUpsArray = Object.entries(this.statsAgainstEnemyChampions);
+    const matchUpsByFrequency = matchUpsArray.sort((a, b) => b[1].matches - a[1].matches);
+    const mostFrequentMatchUps = matchUpsByFrequency.length >= 10 ? 
+        matchUpsByFrequency.slice(0, 9) : matchUpsByFrequency.slice(0, matchUpsByFrequency.length - 1); 
 
-    /* Remove matchups with too low a sample size */
-    let filteredMatchUpsTen = matchUpsArray.filter(matchUp => {
-      if (matchUp[1].matches >= 10) {
-        return matchUp;
-      }
-    });
-
-    let filteredMatchUpsThree = matchUpsArray.filter(matchUp => {
-      if (matchUp[1].matches >= 3) {
-        return matchUp;
-      }
-    });
-
-    const filteredMatchUps = filteredMatchUpsTen.length >= 6 ? filteredMatchUpsTen : filteredMatchUpsThree;
-    const matchUpsSortedByWinRate = filteredMatchUps.sort((a, b) => b[1].winRateAgainst - a[1].winRateAgainst);
+    const matchUpsSortedByWinRate = mostFrequentMatchUps.sort((a, b) => b[1].winRateAgainst - a[1].winRateAgainst);
     const bestMatchUps = [];
     const worstMatchUps = [];
     for (let i = 0; i < 3; i++) {
