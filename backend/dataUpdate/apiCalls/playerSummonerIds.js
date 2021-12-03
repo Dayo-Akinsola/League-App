@@ -3,12 +3,10 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 module.exports = PlayerSummonerIds = (tier, rank) => {
-
   const getRandomInt = (max) => {
     const randomInt = Math.floor(Math.random() * max);
     return randomInt;
   }
-
 
   //Collects summoner ids for players in a given tier 
   const getSummonerIds = async () => { 
@@ -19,8 +17,7 @@ module.exports = PlayerSummonerIds = (tier, rank) => {
       const playerData = response.data;
       const summonerIds = playerData.map(player => player.summonerId);
       return summonerIds;
-    } 
-    
+    }  
     catch(error) {
       console.log(error.message);
       process.exit(1);
@@ -36,15 +33,11 @@ module.exports = PlayerSummonerIds = (tier, rank) => {
       const summonerIds = playerData.map(player => player.summonerId);
       return summonerIds;     
     }
-
     catch(error) {
       console.log(error.message);
       process.exit(1);
-    }
-    
+    } 
   }
-  
-
   return {
     getSummonerIds,
     getEliteSummonerIds,
