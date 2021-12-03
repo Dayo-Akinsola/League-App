@@ -142,6 +142,10 @@ const ChampionsPageController = (() => {
     dropdownOption.classList.add('active');
   };
 
+  const redirectToFrontPage = () => {
+    window.location.href = 'index.html';
+  };
+
   const championsPageClickEvents = async (event) => {
     /* Helper functions for click events */
     const checkOptions = async () => {
@@ -223,23 +227,29 @@ const ChampionsPageController = (() => {
       filterAndSortChampionsSection(600);
     }
 
-    if (event.target.className === 'auto-complete-name-wrapper') {
-      const autoCompleteName = event.target.firstChild;
-      displayChampionModal(autoCompleteName.dataset.championId);
-      const autoCompleteNames = document.querySelector('.auto-complete-names');
-      autoCompleteNames.style.display = 'none';
+    if (event.target.className === 'app-name') {
+      redirectToFrontPage();
     }
+  };
 
-    if (event.target.className === 'auto-complete-name') {
-      displayChampionModal(event.target.dataset.championId);
-      const autoCompleteNames = document.querySelector('.auto-complete-names');
-      autoCompleteNames.style.display = 'none';
+  const championsPageKeyEvents = (event) => {
+    const { activeElement } = document;
+
+    if (event.key === 'Enter') {
+      if (activeElement && activeElement.className === 'champion-container shown') {
+        displayChampionModal(activeElement.dataset.id);
+      }
+
+      if (activeElement && activeElement.className === 'champion-img') {
+        displayChampionModal(activeElement.parentElement.dataset.id);
+      }
     }
   };
 
   const championsPageListeners = () => {
     const championsPage = document.querySelector('#champions-page');
     championsPage.addEventListener('click', championsPageClickEvents);
+    championsPage.addEventListener('keydown', championsPageKeyEvents);
   };
 
   return {
