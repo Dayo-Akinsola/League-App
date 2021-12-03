@@ -33,7 +33,6 @@ module.exports = Storage = () => {
 
   const playerStorage = async () => {
     const summonerIds = await collectSummonerIds();
-    await Player.deleteMany({});
     for (let i = 0; i < summonerIds.length; i++) {
       await limiter.removeTokens(1);
       const uniqueId = await fetchAndRetryIfNecessary(() => getUniqueId(summonerIds[i]));
@@ -70,18 +69,58 @@ module.exports = Storage = () => {
         const isMatchInDb = await Match.exists({ matchId: matchId });
         if (!isMatchInDb) {
           try {
+            const { freeStorageSpace, capped, avgObjSize } = await Match.collection.stats({ scale: 1024 });
+            if ( freeStorageSpace <= avgObjSize + 1000 || capped) {
+              throw 'Collection at max capacity';
+            }
             await limiter.removeTokens(1);
             const matchData = await fetchAndRetryIfNecessary(() => MatchInfo.getMatchData(matchId));
 
+            const participants = matchData.info.participants;
+
+            /* Extracts relevant stats from match data */
+            const mappedParticipants = participants.map((participant) => {
+              const participantInfo = {
+                championName: participant.championName,
+                assists: participant.assists,
+                deaths: participant.deaths,
+                kills: participant.kills,
+                item0: participant.item0, 
+                item1: participant.item1, 
+                item2: participant.item2, 
+                item3: participant.item3, 
+                item4: participant.item4, 
+                item5: participant.item5, 
+                item6: participant.item6, 
+                magicDamageDealtToChampions: participant.magicDamageDealtToChampions,
+                physicalDamageDealtToChampions: participant.physicalDamageDealtToChampions,
+                trueDamageDealtToChampions: participant.trueDamageDealtToChampions,
+                totalDamageDealtToChampions: participant.totalDamageDealtToChampions,
+                teamPosition: participant.teamPosition,
+                win: participant.win,
+              }
+              
+              return participantInfo;
+            });
+
             const match = new Match({
-              matchId,
-              matchData,
+              matchId: match.matchId,
+              matchData: {
+                info: {
+                  gameCreation: matchData.info.gameCreation,
+                  participants: mappedParticipants,
+                }
+              }
             });
             await match.save();
             console.log('match saved');
           }
           catch (e) {
             console.log(e.message);
+
+            if (e.message === 'Collection at max capacity') {
+              return;
+            }
           }
         }
         else {
@@ -89,6 +128,7 @@ module.exports = Storage = () => {
         }
       }
     }
+    await Player.deleteMany({});
   };
 
   const championStorage = async () => {
