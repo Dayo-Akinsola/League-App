@@ -1,8 +1,5 @@
-// Fetches all the items a champion can buy in a match
-const fetchAllItems = async () => {
-  const versionResponse = await fetch('https://ddragon.leagueoflegends.com/api/versions.json', { mode: 'cors' });
-  const versions = await versionResponse.json();
-  const latestVersion = versions[0];
+/* Fetches all the items a champion can buy in a match */
+const fetchAllItems = async (latestVersion) => {
   const response = await fetch(`https://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/item.json`);
   const allItems = await response.json();
 
@@ -10,12 +7,8 @@ const fetchAllItems = async () => {
 };
 
 class ItemInfo {
-  constructor(itemId) {
-    this.itemId = itemId;
-  }
-
-  static async getAllItems() {
-    const allItems = fetchAllItems();
+  static async getAllItems(latestVersion) {
+    const allItems = fetchAllItems(latestVersion);
     return allItems;
   }
 
@@ -24,36 +17,42 @@ class ItemInfo {
     return itemDetails;
   }
 
-  getItemImage(allItems) {
-    const itemDetails = this.getItemDetails(allItems);
-    const itemImageId = itemDetails.image.full;
-    const imageUrl = `https://ddragon.leagueoflegends.com/cdn/11.22.1/img/item/${itemImageId}`;
+  constructor(itemId, allItems, latestVersion) {
+    this.itemId = itemId;
+    this.itemDetails = this.getItemDetails(allItems);
+    this.latestVersion = latestVersion;
+  }
+
+  getItemImage() {
+    const itemImageId = this.itemDetails.image.full;
+    const imageUrl = `https://ddragon.leagueoflegends.com/cdn/${this.latestVersion}/img/item/${itemImageId}`;
     return imageUrl;
   }
 
-  // gets info on the items used to create the instance item
-  getComponentItems(allItems) {
-    const itemDetails = this.getItemDetails(allItems);
-    const componentItemIds = itemDetails.from;
+  /* gets info on the items used to create the instance item */
+  async getComponentItems(allItems) {
+    const componentItemIds = this.itemDetails.from;
     if (componentItemIds === undefined) {
       return [];
     }
     const componentItemDetails = componentItemIds.map((itemId) => ({
       name: allItems[itemId].name,
-      imageUrl: `https://ddragon.leagueoflegends.com/cdn/11.22.1/img/item/${itemId}.png`,
+      imageUrl: `https://ddragon.leagueoflegends.com/cdn/${this.latestVersion}/img/item/${itemId}.png`,
       cost: allItems[itemId].gold.total,
     }));
     return componentItemDetails;
   }
 
   getItemInfo(allItems) {
-    const itemDetails = this.getItemDetails(allItems);
-    const { name } = itemDetails;
-    const { description } = itemDetails;
-    const cost = itemDetails.gold.total;
+    if (this.itemDetails === undefined) {
+      return false;
+    }
+    const { name } = this.itemDetails;
+    const { description } = this.itemDetails;
+    const cost = this.itemDetails.gold.total;
     const imageUrl = this.getItemImage(allItems);
     const componentItems = this.getComponentItems(allItems);
-    const { tags } = itemDetails;
+    const { tags } = this.itemDetails;
 
     return {
       name,
