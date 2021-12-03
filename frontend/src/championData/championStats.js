@@ -11,7 +11,6 @@ const fetchChampionStats = async (championId) => {
 
 const getChampionStats = async (championId) => {
   const championStats = await fetchChampionStats(championId);
-
   const winRate = championStats.winRate.toFixed(2);
   const pickRate = championStats.pickRate.toFixed(2);
   const lane = championStats.lane[0] + championStats.lane.substring(1).toLowerCase();
