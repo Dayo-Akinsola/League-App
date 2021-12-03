@@ -31,7 +31,20 @@ const createSearchDropdown = async () => {
   });
 };
 
+const displayNumberOfMatches = async () => {
+  const devUrl = 'http://127.0.0.1:5500/frontend/dist/';
+  const devUrl2 = 'http://127.0.0.1:5500/frontend/dist/index.html';
+  const response = (window.location.href === devUrl || devUrl2)
+    ? await fetch('http://localhost:3001/matches', { mode: 'cors' })
+    : await fetch('matches', { mode: 'cors' });
+
+  const matchCount = await response.json();
+  const sloganDisplay = document.querySelector('.slogan-display');
+  sloganDisplay.textContent = `Providing info and stats from ${Math.floor(matchCount)} League of Legends matches`;
+};
+
 const renderPage = async () => {
+  await displayNumberOfMatches();
   await createSearchDropdown();
   SearchbarController.searchContainerListeners();
 };
