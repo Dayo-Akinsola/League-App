@@ -1,17 +1,17 @@
-const fetchChampionDetails = async (championId) => {
-  const response = await fetch(`https://ddragon.leagueoflegends.com/cdn/11.20.1/data/en_US/champion/${championId}.json`, { mode: 'cors' });
+const fetchChampionDetails = async (championId, latestVersion) => {
+  const response = await fetch(`https://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/champion/${championId}.json`, { mode: 'cors' });
   const champions = await response.json();
   const championDetails = champions.data[championId];
 
   return championDetails;
 };
 
-const getChampionPassives = (championDetails) => {
+const getChampionPassives = (championDetails, latestVersion) => {
   const passiveData = championDetails.passive;
   const passiveName = passiveData.name;
   const passiveDescription = passiveData.description;
   const passiveId = passiveData.image.full;
-  const passiveImgUrl = `https://ddragon.leagueoflegends.com/cdn/11.21.1/img/passive/${passiveId}`;
+  const passiveImgUrl = `https://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/passive/${passiveId}`;
 
   return {
     passiveName,
@@ -20,7 +20,7 @@ const getChampionPassives = (championDetails) => {
   };
 };
 
-const getChampionSpells = (championDetails) => {
+const getChampionSpells = (championDetails, latestVersion) => {
   const spellsData = championDetails.spells;
   const spells = [];
 
@@ -32,7 +32,7 @@ const getChampionSpells = (championDetails) => {
       costBurn: spell.costBurn,
       costType: spell.costType,
       cooldown: spell.cooldownBurn,
-      imgUrl: `https://ddragon.leagueoflegends.com/cdn/11.21.1/img/spell/${spell.id}.png`,
+      imgUrl: `https://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/spell/${spell.id}.png`,
     };
     spells.push(spellObject);
   });
@@ -40,10 +40,10 @@ const getChampionSpells = (championDetails) => {
   return spells;
 };
 
-const getChampionDetails = async (championId) => {
-  const championDetails = await fetchChampionDetails(championId);
-  const championPassive = getChampionPassives(championDetails);
-  const spells = getChampionSpells(championDetails);
+const getChampionDetails = async (championId, latestVersion) => {
+  const championDetails = await fetchChampionDetails(championId, latestVersion);
+  const championPassive = getChampionPassives(championDetails, latestVersion);
+  const spells = getChampionSpells(championDetails, latestVersion);
 
   // Make first letter of the champion title a capital letter.
   const championTitle = championDetails.title.replace(
