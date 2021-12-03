@@ -1,28 +1,29 @@
 import ChampionsPageController from './championsPageController';
 
 const SearchbarController = (() => {
-  const showAutoCompleteNames = () => {
-    const autoCompleteNames = document.querySelector('.auto-complete-names');
+  const showAutoCompleteNames = (searchContainer) => {
+    const autoCompleteNames = searchContainer.querySelector('.auto-complete-names');
     autoCompleteNames.style.display = 'block';
   };
 
   const hideAutoCompleteNames = () => {
-    const autoCompleteNames = document.querySelector('.auto-complete-names');
-    autoCompleteNames.style.display = 'none';
+    const autoCompleteNameElements = document.querySelectorAll('.auto-complete-names');
+    autoCompleteNameElements.forEach((autoCompleteNameElement) => {
+      const autoCompleteNames = autoCompleteNameElement;
+      autoCompleteNames.style.display = 'none';
+    });
   };
 
   const searchbarFocusInEvent = (event) => {
     if (event.target.className === 'search') {
-      showAutoCompleteNames();
+      const searchContainer = event.target.parentElement;
+      showAutoCompleteNames(searchContainer);
       event.target.focus();
-      // const autoCompleteNames = document.querySelector('.auto-complete-names');
-      // autoCompleteNames.firstElementChild.focus();
     }
   };
 
   const searchbarFocusoutEvent = (event) => {
     if (!event.relatedTarget || (event.relatedTarget.className !== 'auto-complete-name-wrapper' && event.relatedTarget.className !== 'search')) {
-      console.log(event.target);
       hideAutoCompleteNames();
     }
   };
@@ -42,10 +43,11 @@ const SearchbarController = (() => {
     }
   };
 
-  const searchbarKeydownEvents = (event) => {
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-      event.preventDefault();
+  const searchbarKeydownEvents = async (event) => {
+    if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && event.target !== document.querySelector('body')) {
       let { activeElement } = document;
+      event.preventDefault();
+
       let goToStart;
       const action = {
         ArrowUp: 'previous', ArrowDown: 'next',
@@ -63,35 +65,84 @@ const SearchbarController = (() => {
         while (activeElement && activeElement.style.display === 'none') {
           activeElement = activeElement[`${action[event.key]}ElementSibling`];
         }
-        if (!activeElement) {
+        /* Checks which search bar dropdown is currently displayed */
+        const autoCompleteNameElements = document.querySelectorAll('.auto-complete-names');
+        const autoCompleteNames = Array.from(autoCompleteNameElements).filter(
+          (autoCompleteNameElement) => {
+            const isShowing = autoCompleteNameElement.style.display === 'block';
+            return isShowing;
+          },
+        );
+        if (autoCompleteNames[0] !== undefined && !activeElement) {
+          /* Returns to the start or the end of the dropdown when an arrow key is pressed */
           goToStart = action[event.key] === 'next' || event.key === 'Home';
-          const autoCompleteNames = document.querySelector('.auto-complete-names');
-          activeElement = autoCompleteNames.children[
-            goToStart ? 0 : autoCompleteNames.children.length - 1
+          activeElement = autoCompleteNames[0].children[
+            goToStart ? 0 : autoCompleteNames[0].children.length - 1
           ];
           while (activeElement && activeElement.style.display === 'none') {
             activeElement = activeElement[`${action[event.key]}ElementSibling`];
           }
         }
-        activeElement.focus();
+        if (activeElement) {
+          activeElement.focus();
+        }
       }
     }
 
     if (event.key === 'Enter') {
       const { activeElement } = document;
       if (activeElement && activeElement.className === 'auto-complete-name-wrapper') {
+        const searchContainerClassName = activeElement.parentElement.parentElement.classList[1];
         const autoCompleteName = activeElement.firstElementChild;
-        ChampionsPageController.displayChampionModal(autoCompleteName.dataset.championId);
+
+        /* Checks which page the search bar is on */
+        if (searchContainerClassName === 'desktop-search-container'
+            || searchContainerClassName === 'mobile-search-container') {
+          localStorage.setItem('championId', autoCompleteName.dataset.championId);
+          window.location.href = 'champions.html';
+        } else {
+          await ChampionsPageController.displayChampionModal(autoCompleteName.dataset.championId);
+        }
       }
     }
   };
 
+  const searchbarClickEvents = async (event) => {
+    const clickAutoCompleteName = async (searchContainerClassName, autoCompleteName) => {
+      if (searchContainerClassName === 'desktop-search-container'
+      || searchContainerClassName === 'mobile-search-container') {
+        localStorage.setItem('championId', autoCompleteName.dataset.championId);
+        window.location.href = 'champions.html';
+      } else {
+        await ChampionsPageController.displayChampionModal(autoCompleteName.dataset.championId);
+        const autoCompleteNameElements = document.querySelectorAll('.auto-complete-names');
+        autoCompleteNameElements.forEach((autoCompleteNameElement) => {
+          const autoCompleteNames = autoCompleteNameElement;
+          autoCompleteNames.style.display = 'none';
+        });
+      }
+    };
+    const searchContainer = event.target.parentElement.parentElement;
+    if (event.target.className === 'auto-complete-name-wrapper') {
+      const searchContainerClassName = searchContainer.classList[1];
+      const autoCompleteName = event.target.firstChild;
+      clickAutoCompleteName(searchContainerClassName, autoCompleteName);
+    }
+
+    if (event.target.className === 'auto-complete-name') {
+      const searchContainerClassName = searchContainer.parentElement.classList[1];
+      const autoCompleteName = event.target;
+      clickAutoCompleteName(searchContainerClassName, autoCompleteName);
+    }
+  };
+
   const searchContainerListeners = () => {
-    const searchContainer = document.querySelector('.search-container');
-    searchContainer.addEventListener('focusin', searchbarFocusInEvent);
+    // const searchContainer = document.querySelector('.search-container');
+    document.addEventListener('focusin', searchbarFocusInEvent);
     document.addEventListener('focusout', searchbarFocusoutEvent);
-    searchContainer.addEventListener('input', searchBarInputEvent);
-    searchContainer.addEventListener('keydown', searchbarKeydownEvents);
+    document.addEventListener('input', searchBarInputEvent);
+    document.addEventListener('keydown', searchbarKeydownEvents);
+    document.addEventListener('click', searchbarClickEvents);
   };
 
   return {
