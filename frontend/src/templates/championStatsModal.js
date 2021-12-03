@@ -8,7 +8,7 @@ import {
 } from './renderHelpers';
 import ElementCreation from '../helpers/elementCreation';
 
-const championStatsModal = async (championData, championStats) => {
+const championStatsModal = async (championData, championStats, latestVersion) => {
   renderHeaderDetails(championData, 'stats');
 
   const statsOverview = document.querySelector('.champion-stats-overview');
@@ -45,7 +45,7 @@ const championStatsModal = async (championData, championStats) => {
 
   /* Renders the item builds section of the stats modal */
   const { itemSets } = championStats;
-  const allItems = await ItemInfo.getAllItems();
+  const allItems = await ItemInfo.getAllItems(latestVersion);
   const championItemBuilds = document.querySelector('.champion-item-builds');
   const itemSetsContainer = ElementCreation.createChildElementWithClass('div', 'item-sets-container', championItemBuilds);
 
@@ -53,9 +53,9 @@ const championStatsModal = async (championData, championStats) => {
     const itemSetContainer = ElementCreation.createChildElementWithClass('div', 'item-set-container', itemSetsContainer);
 
     itemSet.forEach((itemId) => {
-      const item = new ItemInfo(itemId);
+      const item = new ItemInfo(itemId, allItems, latestVersion);
       const itemInfo = item.getItemInfo(allItems);
-      if (!itemInfo.tags.includes('Trinket') && !itemInfo.tags.includes('Consumable')) {
+      if (itemInfo && !itemInfo.tags.includes('Trinket') && !itemInfo.tags.includes('Consumable')) {
         const mainComponentContainer = document.createElement('div');
         mainComponentContainer.className = 'main-component-container';
         itemSetContainer.appendChild(mainComponentContainer);
@@ -78,24 +78,26 @@ const championStatsModal = async (championData, championStats) => {
 
         /* The component items are the smaller items that appear below the main item */
         const { componentItems } = itemInfo;
-        const componentItemsContainer = ElementCreation.createChildElementWithClass('div', 'component-items-container', mainComponentContainer);
+        Promise.resolve(componentItems)
+          .then((items) => {
+            const componentItemsContainer = ElementCreation.createChildElementWithClass('div', 'component-items-container', mainComponentContainer);
+            items.forEach((componentItem) => {
+              const componentItemElement = ElementCreation.createChildElementWithClass('div', 'component-item', componentItemsContainer);
+              ElementCreation.createChildImageElementWithClass(
+                'component-item-img', componentItemElement, componentItem.imageUrl, `${componentItem.name}`,
+              );
 
-        componentItems.forEach((componentItem) => {
-          const componentItemElement = ElementCreation.createChildElementWithClass('div', 'component-item', componentItemsContainer);
-          ElementCreation.createChildImageElementWithClass(
-            'component-item-img', componentItemElement, componentItem.imageUrl, `${componentItem.name}`,
-          );
+              const componentItemDetailsContainer = ElementCreation.createChildElementWithClass('div', 'component-item-details-container', componentItemElement);
 
-          const componentItemDetailsContainer = ElementCreation.createChildElementWithClass('div', 'component-item-details-container', componentItemElement);
-
-          const componentItemName = ElementCreation.createChildElementWithClass('span', 'component-item-name', componentItemDetailsContainer);
-          componentItemName.textContent = componentItem.name;
-          const componentItemCost = ElementCreation.createChildElementWithClass('div', 'component-item-cost', componentItemDetailsContainer);
-          const componentItemCostLabel = ElementCreation.createChildElementWithClass('span', 'component-item-cost-label', componentItemCost);
-          componentItemCostLabel.textContent = 'Gold: ';
-          const componentItemAmount = ElementCreation.createChildElementWithClass('span', 'component-item-amount', componentItemCost);
-          componentItemAmount.textContent = componentItem.cost;
-        });
+              const componentItemName = ElementCreation.createChildElementWithClass('span', 'component-item-name', componentItemDetailsContainer);
+              componentItemName.textContent = componentItem.name;
+              const componentItemCost = ElementCreation.createChildElementWithClass('div', 'component-item-cost', componentItemDetailsContainer);
+              const componentItemCostLabel = ElementCreation.createChildElementWithClass('span', 'component-item-cost-label', componentItemCost);
+              componentItemCostLabel.textContent = 'Gold: ';
+              const componentItemAmount = ElementCreation.createChildElementWithClass('span', 'component-item-amount', componentItemCost);
+              componentItemAmount.textContent = componentItem.cost;
+            });
+          });
       }
     });
   });
@@ -103,12 +105,12 @@ const championStatsModal = async (championData, championStats) => {
   const bestMatchupsSection = document.querySelector('.best-matchups-section');
   const bestMatchupsElement = ElementCreation.createChildElementWithClass('div', 'best-matchups matchups', bestMatchupsSection);
   const bestMatchupsData = championStats.bestMatchUps;
-  renderMatchupsInfo(bestMatchupsElement, bestMatchupsData);
+  renderMatchupsInfo(bestMatchupsElement, bestMatchupsData, latestVersion);
 
   const worstMatchupsSection = document.querySelector('.worst-matchups-section');
   const worstMatchupsElement = ElementCreation.createChildElementWithClass('div', 'worst-matchups matchups', worstMatchupsSection);
   const worstMatchupsData = championStats.worstMatchUps;
-  renderMatchupsInfo(worstMatchupsElement, worstMatchupsData);
+  renderMatchupsInfo(worstMatchupsElement, worstMatchupsData, latestVersion);
 };
 
 export default championStatsModal;
