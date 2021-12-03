@@ -7,6 +7,7 @@ import ChampionModalController from './championModalController';
 import ChampionFilter from './filterChampions';
 import SortChampions from './sortChampions';
 import { getAllChampionDetails, getAllChampionStats } from '../championData/getAllChampions';
+import getLatestVersion from '../championData/getLatestVersion';
 
 const ChampionsPageController = (() => {
   const displayDropdownOptions = (dropdownOptions) => {
@@ -36,7 +37,8 @@ const ChampionsPageController = (() => {
 
   const displayChampionModal = async (championId) => {
     const modal = document.querySelector('.modal');
-    const championDetails = await getChampionDetails(championId);
+    const latestVersion = await getLatestVersion();
+    const championDetails = await getChampionDetails(championId, latestVersion);
 
     const championStats = await getChampionStats(championId);
 
@@ -47,7 +49,7 @@ const ChampionsPageController = (() => {
     */
     if (!skinImagesContainer) {
       championDetailsModal(championDetails);
-      championStatsModal(championDetails, championStats);
+      championStatsModal(championDetails, championStats, latestVersion);
       championSkinsModal(championDetails);
     }
 
