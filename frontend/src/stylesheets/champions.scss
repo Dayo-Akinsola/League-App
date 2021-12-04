@@ -116,7 +116,7 @@
     flex-direction: column;
     margin: 0 auto;
     cursor: pointer;
-    // max-width: 9rem;
+    max-width: 9rem;
     position: relative;
     margin-top: 1.5em;
     opacity: 0.8;
@@ -328,9 +328,9 @@
       grid-template-columns: repeat(4, 1fr);
     }
 
-    // .champion-container.shown {
-    //   max-width: 10rem;
-    // }
+    .champion-container.shown {
+      max-width: 10rem;
+    }
 
     .lane-filter-header {
       width: 54%;
@@ -367,9 +367,9 @@
       grid-template-columns: repeat(6, 1fr);
     }
 
-    // .champion-container.shown {
-    //   max-width: 12rem;
-    // }
+    .champion-container.shown {
+      max-width: 12rem;
+    }
   }
 
   @media (max-width: 700px) {
