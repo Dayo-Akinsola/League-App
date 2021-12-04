@@ -1,9 +1,10 @@
 module.exports = storeData = async (newStorage) => {
-  await newStorage.playerStorage();  
-  console.log('moving to match storage');
-  await newStorage.matchStorage();
-  console.log('moving to champion storage');
-  await newStorage.championStorage();
+  if (new Date().getDay() % 2 === 0) {
+    await newStorage.championStorage();
+    await newStorage.playerStorage();  
+  } else {
+    await newStorage.matchStorage();
+  }
   console.log('storage complete');
 };
 
