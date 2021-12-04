@@ -1,6 +1,6 @@
 # Champs
 
-[Live site here](champs-gaming.herokuapp.com/)
+[Live site here](https://champs-gaming.herokuapp.com/)
 
 Champs is an app that provides information about champions (playable characters) from the online game League of Legends. 
 
