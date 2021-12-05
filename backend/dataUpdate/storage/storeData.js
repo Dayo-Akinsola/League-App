@@ -6,6 +6,7 @@ module.exports = storeData = async (newStorage) => {
     await newStorage.matchStorage();
   }
   console.log('storage complete');
+  process.exit(0);
 };
 
 
