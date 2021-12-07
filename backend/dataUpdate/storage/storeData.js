@@ -1,5 +1,5 @@
 module.exports = storeData = async (newStorage) => {
-  if (new Date().getDay() % 2 === 0) {
+  if (new Date().getDay() % 2 === 1) {
     await newStorage.championStorage();
     await newStorage.playerStorage();  
   } else {
