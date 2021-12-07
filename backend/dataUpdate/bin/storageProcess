@@ -2,11 +2,8 @@
 
 /* This process is pinged once a day by heroku scheduler and gathers data for champion stats to be updated */
 const Queue = require('bull');
-const throng = require('throng');
 
 const REDIS_URL = process.env.REDIS_URL || "redis://127.0.0.1:6379";
-
-const workers = 1;
 
 function processQueue() {
   const Storage = require('../storage/storage.js');
@@ -23,11 +20,7 @@ function processQueue() {
   storageQueue.add({});
 }
 
-throng({
-  start: processQueue,
-  workers,
-  lifetime: Infinity,
-});
+processQueue();
 
 
 
