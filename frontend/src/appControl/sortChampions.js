@@ -1,4 +1,3 @@
-// import { getAllChampionStats } from '../championData/getAllChampions';
 import { createChampionContainer } from '../templates/renderHelpers';
 
 const SortChampions = (() => {
@@ -16,7 +15,6 @@ const SortChampions = (() => {
   };
 
   const filterChampions = (allChampionStats) => {
-    // const allChampionStats = await getAllChampionStats();
     const filteredChampionStats = allChampionStats.filter((championStats) => {
       const championElement = document.querySelector(`[data-id=${championStats.id}]`);
       return championElement.className === 'champion-container shown';
@@ -53,7 +51,6 @@ const SortChampions = (() => {
   };
 
   const sortByDefaultOrder = (allChampionStats) => {
-    // const allChampionStats = await getAllChampionStats();
     const filteredChampionStats = allChampionStats.filter((championStats) => {
       const championElement = document.querySelector(`[data-id=${championStats.id}]`);
       if (championElement === null) {
