@@ -2,7 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
 }
 
 :root {
@@ -62,6 +61,10 @@
     height: 100%;
     text-align: center;
     padding-top: 6em;
+
+    @media (max-width: 550px) {
+      padding-top: 2em;
+    }
   }
 
   .app-name-display {
@@ -70,10 +73,15 @@
     color: var(--light-gold);
   }
 
-  .slogan-display {
+  .tagline-container {
     color: white;
     font-size: 1.2em;
     margin-top: 2em;
+  }
+
+  .tagline-match-count {
+    font-weight: 600;
+    font-size: 1.3em;
   }
 
   .search {
@@ -86,7 +94,6 @@
     font-weight: 600;
     min-height: 2.6em;
     font-size: 1em;
-
   }
 
   .splash-section {
@@ -109,8 +116,9 @@
     z-index: -2;
     position: relative;
     width: 100%;
+    min-height: 32em;
   }
-  
+
   .backdrop::after {
     content: "";
     display: block;
@@ -120,7 +128,58 @@
     width: 100%;
     height: 100%;
     background-repeat: no-repeat;
-    background-image: linear-gradient(90deg,#14181d,rgba(20,24,29,.985565) .97%,rgba(20,24,29,.945131) 2.07833%,rgba(20,24,29,.883007) 3.29667%,rgba(20,24,29,.803499) 4.60167%,rgba(20,24,29,.710915) 5.96667%,rgba(20,24,29,.609563) 7.365%,rgba(20,24,29,.50375) 8.77167%,rgba(20,24,29,.397784) 10.16%,rgba(20,24,29,.295973) 11.505%,rgba(20,24,29,.202624) 12.78%,rgba(20,24,29,.122044) 13.95833%,rgba(20,24,29,.0585423) 15.01667%,rgba(20,24,29,.0164249) 15.92833%,rgba(20,24,29,0) 16.66667%,rgba(20,24,29,0) 83.33333%,rgba(20,24,29,.0164249) 84.07167%,rgba(20,24,29,.0585423) 84.98333%,rgba(20,24,29,.122044) 86.04167%,rgba(20,24,29,.202624) 87.22%,rgba(20,24,29,.295973) 88.495%,rgba(20,24,29,.397784) 89.84%,rgba(20,24,29,.50375) 91.22833%,rgba(20,24,29,.609563) 92.635%,rgba(20,24,29,.710915) 94.03333%,rgba(20,24,29,.803499) 95.39833%,rgba(20,24,29,.883007) 96.70333%,rgba(20,24,29,.945131) 97.92167%,rgba(20,24,29,.985565) 99.03%,#14181d),linear-gradient(0deg,#14181d,#14181d 21.48148%,rgba(20,24,29,.985565) 23.63704%,rgba(20,24,29,.945131) 26.1%,rgba(20,24,29,.883007) 28.80741%,rgba(20,24,29,.803499) 31.70741%,rgba(20,24,29,.710915) 34.74074%,rgba(20,24,29,.609563) 37.84815%,rgba(20,24,29,.50375) 40.97407%,rgba(20,24,29,.397784) 44.05926%,rgba(20,24,29,.295973) 47.04815%,rgba(20,24,29,.202624) 49.88148%,rgba(20,24,29,.122044) 52.5%,rgba(20,24,29,.0585423) 54.85185%,rgba(20,24,29,.0164249) 56.87778%,rgba(20,24,29,0) 58.51852%);
+    background-image: linear-gradient(
+        90deg,
+        #14181d,
+        rgba(20, 24, 29, 0.985565) 0.97%,
+        rgba(20, 24, 29, 0.945131) 2.07833%,
+        rgba(20, 24, 29, 0.883007) 3.29667%,
+        rgba(20, 24, 29, 0.803499) 4.60167%,
+        rgba(20, 24, 29, 0.710915) 5.96667%,
+        rgba(20, 24, 29, 0.609563) 7.365%,
+        rgba(20, 24, 29, 0.50375) 8.77167%,
+        rgba(20, 24, 29, 0.397784) 10.16%,
+        rgba(20, 24, 29, 0.295973) 11.505%,
+        rgba(20, 24, 29, 0.202624) 12.78%,
+        rgba(20, 24, 29, 0.122044) 13.95833%,
+        rgba(20, 24, 29, 0.0585423) 15.01667%,
+        rgba(20, 24, 29, 0.0164249) 15.92833%,
+        rgba(20, 24, 29, 0) 16.66667%,
+        rgba(20, 24, 29, 0) 83.33333%,
+        rgba(20, 24, 29, 0.0164249) 84.07167%,
+        rgba(20, 24, 29, 0.0585423) 84.98333%,
+        rgba(20, 24, 29, 0.122044) 86.04167%,
+        rgba(20, 24, 29, 0.202624) 87.22%,
+        rgba(20, 24, 29, 0.295973) 88.495%,
+        rgba(20, 24, 29, 0.397784) 89.84%,
+        rgba(20, 24, 29, 0.50375) 91.22833%,
+        rgba(20, 24, 29, 0.609563) 92.635%,
+        rgba(20, 24, 29, 0.710915) 94.03333%,
+        rgba(20, 24, 29, 0.803499) 95.39833%,
+        rgba(20, 24, 29, 0.883007) 96.70333%,
+        rgba(20, 24, 29, 0.945131) 97.92167%,
+        rgba(20, 24, 29, 0.985565) 99.03%,
+        #14181d
+      ),
+      linear-gradient(
+        0deg,
+        #14181d,
+        #14181d 21.48148%,
+        rgba(20, 24, 29, 0.985565) 23.63704%,
+        rgba(20, 24, 29, 0.945131) 26.1%,
+        rgba(20, 24, 29, 0.883007) 28.80741%,
+        rgba(20, 24, 29, 0.803499) 31.70741%,
+        rgba(20, 24, 29, 0.710915) 34.74074%,
+        rgba(20, 24, 29, 0.609563) 37.84815%,
+        rgba(20, 24, 29, 0.50375) 40.97407%,
+        rgba(20, 24, 29, 0.397784) 44.05926%,
+        rgba(20, 24, 29, 0.295973) 47.04815%,
+        rgba(20, 24, 29, 0.202624) 49.88148%,
+        rgba(20, 24, 29, 0.122044) 52.5%,
+        rgba(20, 24, 29, 0.0585423) 54.85185%,
+        rgba(20, 24, 29, 0.0164249) 56.87778%,
+        rgba(20, 24, 29, 0) 58.51852%
+      );
   }
 
   .backdrop .shown {
@@ -134,7 +193,7 @@
     transition: opacity 0.6s ease-in;
   }
 
-  #tpa-backdrop.hidden{
+  #tpa-backdrop.hidden {
     transition: none;
   }
 
@@ -143,33 +202,48 @@
     flex-direction: column;
     position: absolute;
     top: 16em;
-  }
 
-  .slogan-1 {
-    color: white;
-    font-size: 1.3rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    text-align: center;
-    font-family: 'Barlow', sans-serif;  
-  }
+    .slogan-1 {
+      color: white;
+      font-size: 1.3rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      text-align: center;
+      font-family: "Barlow", sans-serif;
+    }
 
-  .slogan-2 {
-    color: white;
-    font-size: 1.8rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    text-align: center;
-    font-family: 'Barlow', sans-serif;  
+    .slogan-2 {
+      color: white;
+      font-size: 1.8rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-align: center;
+      font-family: "Barlow", sans-serif;
+    }
+
+    @media (max-width: 550px) {
+      top: 12em;
+    }
   }
 
   .mobile-discover-btn-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    margin-bottom: 2em;
-    width: 100%;
-    padding-bottom: 2em;
+    border-style: solid;
+    color: var(--rasin-black);
+    border-color: var(--rasin-black);
+    background-color: var(--dark-gold);
+    border-radius: 75% 10%/0% 75%;
+    text-decoration: none;
+    position: relative;
+    bottom: 10em;
+
+    @media (max-width: 550px) {
+      margin-bottom: 1em;
+      bottom: 5em;
+    }
+  }
+
+  .mobile-discover-btn-container:hover {
+    background-color: var(--light-gold);
   }
 
   .front-page-btn {
@@ -187,17 +261,6 @@
     background-color: var(--light-gold);
   }
 
-  .mobile-search-container {
-    position: relative;
-    display: block;
-    max-width: 100%;
-    margin: auto;
-
-    .auto-complete-names {
-      max-height: 10rem;
-    }
-  }
-
   .discover-btn-container {
     position: absolute;
     margin-bottom: 3em;
@@ -206,18 +269,18 @@
   }
 
   .discover-btn {
-    border-style: solid;
+    border: solid;
     color: var(--rasin-black);
     border-color: var(--rasin-black);
     background-color: var(--dark-gold);
-    font-size: 1.4em;
+    font-size: 1.2em;
     border-radius: 75% 10%/0% 75%;
     text-decoration: none;
     padding: 0.5em;
   }
 
   .discover-btn:hover {
-    background-color: var(--light-gold)
+    background-color: var(--light-gold);
   }
 
   .navigation-section {
@@ -242,15 +305,15 @@
     width: 100%;
     max-height: 14rem;
     overflow: auto;
-    scroll-behavior: smooth; 
+    scroll-behavior: smooth;
     display: none;
   }
 
   .auto-complete-name-wrapper {
     padding: 10px;
     cursor: pointer;
-    background-color: #fff; 
-    border-bottom: 1px solid #d4d4d4; 
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
     color: var(--rasin-black);
     font-weight: 600;
     width: 100%;
@@ -263,7 +326,7 @@
   .auto-complete-name-wrapper:focus {
     background-color: var(--light-gold);
   }
-  
+
   .search {
     padding: 0.5em;
     min-width: 18em;
@@ -276,7 +339,10 @@
     font-size: 1em;
   }
 
-  .legal-boilerplate {
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     color: white;
     font-size: 0.8em;
     position: absolute;
@@ -288,11 +354,45 @@
     font-weight: 600;
   }
 
-  @media (min-width: 700px) {
-    .mobile-search-container {
-      display: none;
-    }
+  .footer-links {
+    display: flex;
+  }
 
+  .github-link {
+    margin-bottom: 0.2em;
+    padding-top: 0.4em;
+    margin-right: 1em;
+  }
+
+  .github-icon {
+    width: 2.5em;
+    transition: fill 0.2s ease-in-out;
+  }
+
+  .github-link:hover {
+    .github-icon {
+      fill: var(--rasin-black);
+    }
+  }
+
+  .linkedin-link {
+    margin-bottom: 0.2em;
+    padding-top: 0.4em;
+    margin-left: 1em;
+  }
+
+  .linkedin-icon {
+    width: 2.5em;
+    transition: fill 0.2s ease-in-out;
+  }
+
+  .linkedin-link:hover {
+    .linkedin-icon {
+      fill: var(--rasin-black);
+    }
+  }
+
+  @media (min-width: 700px) {
     .desktop-search-container {
       display: block;
     }
@@ -328,6 +428,21 @@
   @media (max-width: 1400px) {
     .discover-btn-container {
       top: 18em;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .app-name-display-container {
+      padding-top: 4em;
+    }
+
+    .slogan-container {
+      top: 13em;
+    }
+
+    .mobile-discover-btn-container {
+      position: absolute;
+      bottom: 10em;
     }
   }
 }

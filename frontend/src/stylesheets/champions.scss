@@ -1,7 +1,7 @@
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
@@ -18,7 +18,7 @@
   width: 100%;
   z-index: -4;
   font-family: "Barlow", sans-serif;
-  
+
   .app-name-container {
     background-color: var(--dark-gold);
     padding: 0.3em;
@@ -67,15 +67,15 @@
     width: 100%;
     max-height: 14rem;
     overflow: auto;
-    scroll-behavior: smooth; 
+    scroll-behavior: smooth;
     display: none;
   }
 
   .auto-complete-name-wrapper {
     padding: 10px;
     cursor: pointer;
-    background-color: #fff; 
-    border-bottom: 1px solid #d4d4d4; 
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
     color: var(--rasin-black);
     font-weight: 600;
     width: 100%;
@@ -88,7 +88,7 @@
   .auto-complete-name-wrapper:focus {
     background-color: var(--light-gold);
   }
-  
+
   .search {
     padding: 0.5em;
     min-width: 18em;
@@ -109,6 +109,7 @@
     max-width: 80%;
     margin: auto;
     margin-top: 2em;
+    margin-bottom: 11em;
   }
 
   .champion-container.shown {
@@ -144,7 +145,7 @@
   }
 
   .champion-img:focus {
-    .champion-container.shown{
+    .champion-container.shown {
       transform: scale(1.05);
       opacity: 1;
     }
@@ -167,14 +168,14 @@
     font-weight: 600;
     font-family: "Barlow", sans-serif;
   }
-  
+
   .filter-sort-section {
     display: flex;
     width: 57%;
-  
+
     margin: 1em auto 3em auto;
   }
-  
+
   .lane-filter-header {
     display: flex;
     justify-content: center;
@@ -229,14 +230,14 @@
 
   .dropdown-options {
     flex-direction: column;
-    display: none; 
+    display: none;
     position: absolute;
     width: 100%;
     z-index: 2;
   }
-  
+
   .dropdown-option {
-    color: var(--rasin-black); 
+    color: var(--rasin-black);
     font-weight: 600;
     background-color: #f8f8f8;
     cursor: pointer;
@@ -262,11 +263,19 @@
     height: 11em;
     border-radius: 50%;
     background: #2e3436;
-    background: -moz-linear-gradient(left, #2e3436 10%, rgba(143,89,2, 0) 42%);
-    background: -webkit-linear-gradient(left, #2e3436 10%, rgba(143,89,2, 0) 42%);
-    background: -o-linear-gradient(left, #2e3436 10%, rgba(143,89,2, 0) 42%);
-    background: -ms-linear-gradient(left, #2e3436 10%, rgba(143,89,2, 0) 42%);
-    background: linear-gradient(to right, #2e3436 10%, rgba(143,89,2, 0) 42%);
+    background: -moz-linear-gradient(
+      left,
+      #2e3436 10%,
+      rgba(143, 89, 2, 0) 42%
+    );
+    background: -webkit-linear-gradient(
+      left,
+      #2e3436 10%,
+      rgba(143, 89, 2, 0) 42%
+    );
+    background: -o-linear-gradient(left, #2e3436 10%, rgba(143, 89, 2, 0) 42%);
+    background: -ms-linear-gradient(left, #2e3436 10%, rgba(143, 89, 2, 0) 42%);
+    background: linear-gradient(to right, #2e3436 10%, rgba(143, 89, 2, 0) 42%);
     position: relative;
     -webkit-animation: load3 1.4s infinite linear;
     animation: load3 1.4s infinite linear;
@@ -286,14 +295,14 @@
     position: absolute;
     top: 0;
     left: 0;
-    content: '';
+    content: "";
   }
   .loader:after {
     background: var(--rasin-black);
     width: 75%;
     height: 75%;
     border-radius: 50%;
-    content: '';
+    content: "";
     margin: auto;
     position: absolute;
     top: 0;
@@ -321,7 +330,59 @@
       transform: rotate(360deg);
     }
   }
-  
+
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-size: 0.8em;
+    position: absolute;
+    bottom: 0;
+    padding: 0 1.3em 0.6em 1.3em;
+    text-align: center;
+    background-color: var(--dark-gold);
+    width: 100%;
+    font-weight: 600;
+  }
+
+  .footer-links {
+    display: flex;
+  }
+
+  .github-link {
+    margin-bottom: 0.2em;
+    padding-top: 0.4em;
+    margin-right: 1em;
+  }
+
+  .github-icon {
+    width: 2.5em;
+    transition: fill 0.2s ease-in-out;
+  }
+
+  .github-link:hover {
+    .github-icon {
+      fill: var(--rasin-black);
+    }
+  }
+
+  .linkedin-link {
+    margin-bottom: 0.2em;
+    padding-top: 0.4em;
+    margin-left: 1em;
+  }
+
+  .linkedin-icon {
+    width: 2.5em;
+    transition: fill 0.2s ease-in-out;
+  }
+
+  .linkedin-link:hover {
+    .linkedin-icon {
+      fill: var(--rasin-black);
+    }
+  }
 
   @media (min-width: 850px) {
     .champions-section {
@@ -338,7 +399,6 @@
   }
 
   @media (min-width: 1000px) {
-
     .dropdown {
       grid-row-start: 2;
     }
@@ -407,4 +467,4 @@
       font-size: 1em;
     }
   }
- }
+}
