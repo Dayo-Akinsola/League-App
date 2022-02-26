@@ -37,10 +37,15 @@ const displayNumberOfMatches = async () => {
   const response = (window.location.href === devUrl || devUrl2)
     ? await fetch('http://localhost:3001/matches', { mode: 'cors' })
     : await fetch('matches', { mode: 'cors' });
-
   const matchCount = await response.json();
-  const sloganDisplay = document.querySelector('.slogan-display');
-  sloganDisplay.textContent = `Providing info and stats from ${Math.floor(matchCount)} League of Legends matches`;
+  const appNameContainer = document.querySelector('.app-name-display-container');
+  const taglineContainer = ElementCreation.createChildElementWithClass('div', 'tagline-container', appNameContainer);
+  const taglineStart = ElementCreation.createChildElementWithClass('span', 'tagline-start', taglineContainer);
+  taglineStart.textContent = 'Providing info and stats from ';
+  const taglineMatchCount = ElementCreation.createChildElementWithClass('span', 'tagline-match-count', taglineContainer);
+  taglineMatchCount.textContent = `${Math.floor(matchCount)}`;
+  const taglineEnd = ElementCreation.createChildElementWithClass('span', 'tagline-end', taglineContainer);
+  taglineEnd.textContent = ' League of Legends matches';
 };
 
 const renderPage = async () => {
