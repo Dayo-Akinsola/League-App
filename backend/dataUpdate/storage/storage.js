@@ -69,9 +69,8 @@ module.exports = Storage = () => {
         const isMatchInDb = await Match.exists({ matchId: matchId });
         if (!isMatchInDb) {
           try {
-            
-            const { freeStorageSize, capped, avgObjSize } = await Match.collection.stats({ scale: 1024 });
-            if ( freeStorageSize <= avgObjSize + 1000 || capped) {
+            const { capped } = await Match.collection.stats({ scale: 1024 });
+            if (capped) {
               throw 'Collection at max capacity';
             }
             await limiter.removeTokens(1);
@@ -117,8 +116,7 @@ module.exports = Storage = () => {
             console.log('match saved');
           }
           catch (e) {
-            console.log(e.message);
-
+            console.log(e);
             if (e.message === 'Collection at max capacity') {
               return;
             }
