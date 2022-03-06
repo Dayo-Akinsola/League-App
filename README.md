@@ -1,4 +1,4 @@
-# Champs - Automated champion statiscal analysis app
+# Champs - Automated champion statistical analysis app
 
 ## [Live site here](https://champs-gaming.herokuapp.com/)
 
