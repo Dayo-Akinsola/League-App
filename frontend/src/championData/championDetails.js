@@ -55,7 +55,7 @@ const getChampionDetails = async (championId, latestVersion) => {
   }
 
   if (championDetails.id === 'Akshan') {
-    championDetails.allytips[0] = 'You can’t use consumables like potions during your Comeuppance, make sure to use them before channeling.';
+    championDetails.allytips[0] = 'You cannot use consumables like potions during your Comeuppance, make sure to use them before channeling.';
   }
 
   if (championDetails.id === 'Vex') {
