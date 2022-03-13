@@ -101,6 +101,13 @@
     font-size: 1em;
   }
 
+  .no-champions-match-message {
+    display: none;
+    color: white;
+    text-align: center;
+    font-size: 1.3em;
+  }
+
   .champions-section {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

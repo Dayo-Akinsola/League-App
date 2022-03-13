@@ -189,7 +189,18 @@ const ChampionsPageController = (() => {
       loader.style.display = 'none';
     };
 
+    const showNoChampionMessage = () => {
+      const noChampionMatchesMessage = document.querySelector('.no-champions-match-message');
+      noChampionMatchesMessage.style.display = 'block';
+    };
+
+    const hideNoChampionMessage = () => {
+      const noChampionMatchesMessage = document.querySelector('.no-champions-match-message');
+      noChampionMatchesMessage.style.display = 'none';
+    };
+
     const filterAndSortChampionsSection = async (waitTime) => {
+      hideNoChampionMessage();
       hideChampionsSection();
       showLoader();
       removeChampionsPageListener();
@@ -199,6 +210,11 @@ const ChampionsPageController = (() => {
         hideLoader();
       }, waitTime);
       addChampionsPageListener();
+      const championContainers = document.querySelectorAll('.champion-container');
+      const championContainersHidden = Array.from(championContainers).every((championContainer) => championContainer.classList[1] === 'hidden');
+      if (championContainersHidden) {
+        showNoChampionMessage();
+      }
     };
 
     /* click event responses */
