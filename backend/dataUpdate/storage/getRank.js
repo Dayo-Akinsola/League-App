@@ -28,7 +28,6 @@ const incrementCurrentRank = (index) => {
 module.exports = getRank = async () => {
   const ranks = ['I', 'II', 'III', 'IV'];
 
-
   const fileNum = new Promise((resolve, reject) => {
     return fs.readFile('./dataUpdate/storage/ranks.txt', 'utf-8', (err, data) => {
       let index = parseInt(data);
