@@ -1,4 +1,3 @@
-//const Champion = require('./models/champion');
 const Match = require('../models/match');
 const { default: axios } = require('axios');
 
@@ -64,15 +63,13 @@ module.exports = class ChampionStats {
     return championMatches;
   }
 
-  getChampionSingleMatchStats = (match) => {
-    const matchParticipants = match.matchData.info.participants;
-    const championStats = matchParticipants.filter(participant => participant.championName === this.championId);
-
+  getChampionSingleMatchStats = (participants) => {
+    const championStats = participants.filter(participant => participant.championName === this.championId);
     return championStats[0];
   }
 
-  recordMatchresult = (championStats) => {
-    if (championStats.win) {
+  recordMatchresult = (win) => {
+    if (win) {
       this.matchResults.win += 1;
     }
     else {
@@ -92,10 +89,10 @@ module.exports = class ChampionStats {
     return pickRate;
   }
 
-  recordMatchKda = (championStats) => {
-    this.kda.kills += championStats.kills;
-    this.kda.deaths += championStats.deaths;
-    this.kda.assists += championStats.assists;
+  recordMatchKda = (kills, deaths, assists) => {
+    this.kda.kills += kills;
+    this.kda.deaths += deaths;
+    this.kda.assists += assists;
   }
   
   /* Calculates the number of kills, deaths and assits a champion has on average. */
@@ -112,15 +109,14 @@ module.exports = class ChampionStats {
     return this.kda;
   }
 
-  recordMatchDamage = (championStats) => {
-    this.championDamage.physicalDamage.value += championStats.physicalDamageDealtToChampions;
-    this.championDamage.magicDamage.value += championStats.magicDamageDealtToChampions;
-    this.championDamage.trueDamage.value += championStats.trueDamageDealtToChampions;
-    this.championDamage.totalDamage.value += championStats.totalDamageDealtToChampions;
+  recordMatchDamage = (physicalDamageDealtToChampions, magicDamageDealtToChampions, trueDamageDealtToChampions, totalDamageDealtToChampions) => {
+    this.championDamage.physicalDamage.value += physicalDamageDealtToChampions;
+    this.championDamage.magicDamage.value += magicDamageDealtToChampions;
+    this.championDamage.trueDamage.value += trueDamageDealtToChampions;
+    this.championDamage.totalDamage.value += totalDamageDealtToChampions;
   }
 
-  calculateAverageMatchDamage = (championMatches) => {
-    const championMatchCount = championMatches.length;
+  calculateAverageMatchDamage = (championMatchCount) => {
     const championDamageArray = Object.keys(this.championDamage);
 
     championDamageArray.forEach(key => {
@@ -134,8 +130,8 @@ module.exports = class ChampionStats {
     return this.championDamage;
   }
 
-  recordLaneChoice = (championStats) => {
-    const laneChoice = championStats.teamPosition;
+  recordLaneChoice = (teamPosition) => {
+    const laneChoice = teamPosition;
     this.lane[laneChoice] += 1;
   }
 
@@ -155,12 +151,9 @@ module.exports = class ChampionStats {
   }
 
   /* Each item is uniquely identfied as a four digit int in the riot api */
-  recordItemSetChoice = (championStats) => {
-    const itemSet = [];
+  recordItemSetChoice = (item0, item1, item2, item3, item4, item5, item6) => {
+    const itemSet = [item0, item1, item2, item3, item4, item5, item6];
 
-    for (let i = 0; i < 7; i++) {
-      itemSet.push(championStats[`item${i}`]);
-    }
     /* Items array is sorted because two item sets can be identical, but in a different order */
     const sortedItems = itemSet.sort((a, b) => a - b);
 
@@ -194,15 +187,11 @@ module.exports = class ChampionStats {
     return popularItemChoices;
   }
 
-  recordStatsAgainstEnemyChampion = async (match, championStats, allChampionDetails) => {
-    /* championPosition is where the champion of this instance played for the match */
-    const championPosition = championStats.teamPosition;
-    const matchWon = championStats.win;
-    const matchParticipants = match.matchData.info.participants;
+  recordStatsAgainstEnemyChampion = async (participants, teamPosition, win, allChampionDetails) => {
 
-    /* The filter checks which champion had the same position as the instance champion on the enemy team */
-    const enemyChampion = matchParticipants.filter(champion => {
-      if (champion.teamPosition === championPosition && champion.championName !== this.championId) {
+    /* The filter checks which enemy had the same position as the champion whos data is currently being analysed */
+    const enemyChampion = participants.filter(champion => {
+      if (champion.teamPosition === teamPosition && champion.championName !== this.championId) {
         return champion;
       }
     });
@@ -216,7 +205,7 @@ module.exports = class ChampionStats {
         const matchUpStats = this.statsAgainstEnemyChampions[enemyChampion[0].championName];
         matchUpStats.matches += 1;
   
-        if (matchWon) matchUpStats.winsAgainst += 1;
+        if (win) matchUpStats.winsAgainst += 1;
         else matchUpStats.lossesAgainst += 1;
       }
       else {
@@ -228,7 +217,7 @@ module.exports = class ChampionStats {
           matches: 1,
         };
   
-        if (matchWon) matchUpStats.winsAgainst += 1;
+        if (win) matchUpStats.winsAgainst += 1;
         else matchUpStats.lossesAgainst += 1;
       }
     }
@@ -247,7 +236,7 @@ module.exports = class ChampionStats {
     }
   }
 
-  /* Gets champions who this champion wins and losses the most to. */
+  /* Gets champions who the analysed champion wins and looses the most to. */
   getBestAndWorstMatchUps = () => {
     this.calculateWinRateAgainstEnemyChampions();
 
@@ -276,22 +265,39 @@ module.exports = class ChampionStats {
     const latestVersion = versions.data[0];
     const response = await axios.get(`https://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/champion.json`);
     const allChampionDetails = response.data.data;
+    const championMatchCount = championMatches.length;
 
-    for (const match of championMatches) {
-      const championStats = await this.getChampionSingleMatchStats(match);
-      this.recordMatchresult(championStats);
-      this.recordMatchKda(championStats);
-      this.recordMatchDamage(championStats);
-      this.recordLaneChoice(championStats);
-      this.recordItemSetChoice(championStats);
-      this.recordStatsAgainstEnemyChampion(match, championStats, allChampionDetails);
+    for (let match of championMatches) {
+      const { participants } = match.matchData.info;
+      let championStats = await this.getChampionSingleMatchStats(participants);
+      const { 
+        win, 
+        kills, 
+        deaths, 
+        assists, 
+        physicalDamageDealtToChampions, 
+        magicDamageDealtToChampions, 
+        trueDamageDealtToChampions, 
+        totalDamageDealtToChampions,
+        teamPosition,
+        item0, item1, item2, item3, item4, item5, item6,
+      } = championStats;
+      this.recordMatchresult(win);
+      this.recordMatchKda(kills, deaths, assists);
+      this.recordMatchDamage(physicalDamageDealtToChampions, magicDamageDealtToChampions, trueDamageDealtToChampions, totalDamageDealtToChampions);
+      this.recordLaneChoice(teamPosition);
+      this.recordItemSetChoice(item0, item1, item2, item3, item4, item5, item6);
+      this.recordStatsAgainstEnemyChampion(participants, teamPosition, win, allChampionDetails);
+
+      match = null;
+      championStats = null;
     }
 
     const championId = this.getChampionId();
     const winRate = this.calculateWinRate();
     const pickRate = await this.calculatePickRate();
     const kdaRatio = this.calculateChampionKdaRatio();
-    const damagePerMatch = this.calculateAverageMatchDamage(championMatches);
+    const damagePerMatch = this.calculateAverageMatchDamage(championMatchCount);
     const lane = this.getMostPopularLaneChoice();
     const itemChoices = this.getMostPopularItemChoices();
     const matchUps = this.getBestAndWorstMatchUps();
