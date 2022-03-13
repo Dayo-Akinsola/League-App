@@ -31,13 +31,19 @@ export default async () => {
 
   /* Load all champions and render them to the champions page */
   const championsPage = document.querySelector('#champions-page');
-  ElementCreation.createChildElementWithClass('div', 'loader', championsPage);
+  const loader = ElementCreation.createChildElementWithClass('div', 'loader', championsPage);
   const championsSection = ElementCreation.createChildElementWithClass('div', 'champions-section', championsPage);
   const allChampions = await getAllChampionDetails();
   const allChampionsArray = Object.values(allChampions);
+  championsSection.style.visibility = 'hidden';
+  loader.style.display = 'block';
   allChampionsArray.forEach((champion) => {
     createChampionContainer(champion, championsSection);
   });
+  setTimeout(() => {
+    loader.style.display = 'none';
+    championsSection.style.visibility = 'visible';
+  }, (3000));
 
   /* Creates autocomplete div for the search bar */
   const searchContainer = document.querySelector('.search-container');
