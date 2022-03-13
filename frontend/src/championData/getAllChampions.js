@@ -9,7 +9,7 @@ const getAllChampionDetails = async () => {
 };
 
 const getAllChampionStats = async () => {
-  const devUrl = 'http://127.0.0.1:5500/frontend/dist/champions.html';
+  const devUrl = 'http://127.0.0.1:5500/dist/champions.html';
   const response = window.location.href === devUrl
     ? await fetch('http://localhost:3001/champions', { mode: 'cors' })
     : await fetch('champions', { mode: 'cors' });

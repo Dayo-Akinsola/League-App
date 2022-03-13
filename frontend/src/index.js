@@ -30,10 +30,9 @@ const createSearchDropdown = async () => {
     });
   });
 };
-
 const displayNumberOfMatches = async () => {
-  const devUrl = 'http://127.0.0.1:5500/frontend/dist/';
-  const devUrl2 = 'http://127.0.0.1:5500/frontend/dist/index.html';
+  const devUrl = 'http://127.0.0.1:5500/dist/';
+  const devUrl2 = 'http://127.0.0.1:5500/dist/index.html';
   const response = (window.location.href === devUrl || window.location.href === devUrl2)
     ? await fetch('http://localhost:3001/matches', { mode: 'cors' })
     : await fetch('matches', { mode: 'cors' });

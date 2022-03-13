@@ -1,6 +1,6 @@
 const fetchChampionStats = async (championId) => {
   /* Relative urls are used for when the app is in production and localhost url for development */
-  const devUrl = 'http://127.0.0.1:5500/frontend/dist/champions.html';
+  const devUrl = 'http://127.0.0.1:5500/dist/champions.html';
   const response = window.location.href === devUrl
     ? await fetch(`http://localhost:3001/${championId}`, { mode: 'cors' })
     : await fetch(`${championId}`, { mode: 'cors' });
